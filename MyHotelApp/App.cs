@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Autofac;
 using System.ComponentModel.DataAnnotations;
 using MyHotelApp.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyHotelApp
 {

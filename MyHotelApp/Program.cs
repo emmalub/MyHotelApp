@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace MyHotelApp
 {
