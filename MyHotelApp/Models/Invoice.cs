@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyHotelApp.Invoices
+namespace MyHotelApp.Models
 {
     public class Invoice
     {
@@ -12,7 +12,7 @@ namespace MyHotelApp.Invoices
         public int BookingId { get; set; }
         public decimal Amount { get; set; }
         public DateTime IssueDate { get; set; }
-        public bool IsPaid {  get; set; }
+        public bool IsPaid { get; set; }
         public bool IsCanceled { get; set; }
     }
 }

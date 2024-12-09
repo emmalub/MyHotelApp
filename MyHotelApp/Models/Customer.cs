@@ -5,12 +5,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace MyHotelApp.Customers
+namespace MyHotelApp.Models
 {
     public class Customer
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int CustomerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string Region { get; set; }
@@ -20,11 +21,7 @@ namespace MyHotelApp.Customers
         public string Email { get; set; }
         public bool IsActive { get; set; }
 
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
 
-        public bool IsValidEmail(string email)
-        {
-            var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            return regex.IsMatch(email);
-        }
     }
 }

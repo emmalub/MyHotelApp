@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyHotelApp.Models;
 
-namespace MyHotelApp.Rooms
+namespace MyHotelApp.Services
 {
     public class RoomService
     {

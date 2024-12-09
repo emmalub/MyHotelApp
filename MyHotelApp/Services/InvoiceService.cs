@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyHotelApp.Models;
 
-namespace MyHotelApp.Invoices
+namespace MyHotelApp.Services
 {
     public class InvoiceService
     {
@@ -24,9 +25,9 @@ namespace MyHotelApp.Invoices
             _invoices.Add(newInvoice);
             return newInvoice;
         }
-        public List<Invoice> GetInvoiceList() 
-        { 
-            return _invoices; 
+        public List<Invoice> GetInvoiceList()
+        {
+            return _invoices;
         }
 
         public Invoice GetInvoiceById(int id)
