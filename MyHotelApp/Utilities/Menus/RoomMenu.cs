@@ -1,28 +1,27 @@
-﻿using MyHotelApp.Graphics;
+﻿using MyHotelApp.Utilities.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyHotelApp.Menus
+namespace MyHotelApp.Utilities.Menus
 {
-    public class CustomerMenu : MenuBase
+    public class RoomMenu : MenuBase
     {
         protected override string[] MenuOptions =>
         [
-            "VISA KUND",
-            "VISA ALLA KUNDER",
-            "VISA BORTTAGNA KUNDER",
-            "LÄGG TILL KUND",
-            "TA BORT KUND",
-            "ÄNDRA KUNDUPPGIFTER",
+            "VISA ALLA AKTIVA RUM",
+            "VISA EJ AKTIVA RUM",
+            "LÄGG TILL RUM",
+            "AVAKTIVERA RUM",
+            "ÅTERAKTIVERA RUM",
+            "REDIGERA RUM",
             "Tillbaka till huvudmenyn" ];
-
 
         protected override void DisplayMenuHeader()
         {
-            MenuHeader.CustomerMenuHeader();
+            MenuHeader.RoomMenuHeader();
         }
 
         protected override void HandleUserSelection()
@@ -58,20 +57,17 @@ namespace MyHotelApp.Menus
                     break;
 
                 default:
+                    Console.WriteLine("Gör ett val för att fortsätta");
                     break;
-
             }
         }
     }
 }
-
-//public static void ShowCustomerMenu()
+//public static void ShowRoomMenu()
 //{
 
 //    int currentOption = 0; // Håller reda på vilket alternativ som är markerat
 //    bool menuActive = true;
-
-//    //string[] menuOptions = { "VISA KUND", "VISA ALLA KUNDER", "VISA BORTTAGNA KUNDER", "LÄGG TILL KUND", "TA BORT KUND", "ÄNDRA KUNDUPPGIFTER", "Tillbaka till huvudmenyn" };
 
 //    while (menuActive)
 //    {
@@ -127,5 +123,7 @@ namespace MyHotelApp.Menus
 //        }
 //        else if (key.Key == ConsoleKey.Enter)
 //        {
+// Om användaren trycker på Enter, välj alternativet
 
-// När menyn avslutas, återställ färger
+
+

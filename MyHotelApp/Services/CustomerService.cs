@@ -37,12 +37,13 @@ namespace MyHotelApp.Services
                         .Select(i => i.ProductName));
 
                     table.AddRow(
-                        order.OrderId.ToString(),
+                        customer.CustomerId.ToString(),
                         customer.GetFullName(),
-                        order.OrderDate.ToString("yyyy-MM-dd"),
-                        productNames,
-                        $"{order.CalculateTotal()} kr",
-                        order.Invoice.DueDate.ToString("yyyy-MM-dd")
+                        booking.CheckIn.ToString("yyyy-MM-dd"),
+                        booking.CheckOut.ToString("yyyy-MM-dd"),
+                        room.RoomID,
+                        $"{invoice.Amount} kr",
+                        invoice.DueDate.ToString("yyyy-MM-dd")
                     );
                 }
             }

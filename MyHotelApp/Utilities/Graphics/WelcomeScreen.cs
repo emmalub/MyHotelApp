@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace MyHotelApp.Graphics
+namespace MyHotelApp.Utilities.Graphics
 {
     internal class WelcomeScreen
     {
@@ -37,7 +37,7 @@ Yb, `88       88                I8             IP'`Yb IP'`Yb
                                            888     888  888   888   888 . 888    .o  888   888  
                                           o888o   o888o `Y8bod8P'  ''888''`Y8bod8P' o888o o888o 
 ");
-            }
+        }
         public static void PrintStartScreenHotel3()
         {
             Console.WriteLine(@"

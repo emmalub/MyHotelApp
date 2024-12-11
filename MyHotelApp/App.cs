@@ -1,5 +1,4 @@
-﻿using MyHotelApp.Graphics;
-using MyHotelApp.Menus;
+﻿using MyHotelApp.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using Autofac;
 using System.ComponentModel.DataAnnotations;
 using MyHotelApp.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using MyHotelApp.Utilities.Graphics;
 
 namespace MyHotelApp
 {

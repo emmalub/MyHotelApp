@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyHotelApp.Menus
+namespace MyHotelApp.Utilities.Menus
 {
     public abstract class MenuBase
     {
@@ -26,7 +26,7 @@ namespace MyHotelApp.Menus
                 {
                     string optionText = MenuOptions[i];
                     int optionLength = optionText.Length;
-                    int optionX = centerX - (optionLength / 2);
+                    int optionX = centerX - optionLength / 2;
                     int optionY = 10 + i * 2;
 
                     Console.SetCursorPosition(optionX, optionY);

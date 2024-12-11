@@ -19,6 +19,7 @@ namespace MyHotelApp.Models
         public string Country { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public bool IsVip { get; set; }
         public bool IsActive { get; set; }
 
         public List<Booking> Bookings { get; set; } = new List<Booking>();
