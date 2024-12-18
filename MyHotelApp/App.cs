@@ -1,4 +1,4 @@
-﻿using MyHotelApp.Menus;
+﻿using MyHotelApp.Utilities.Menus;
 using System;
 using System.Collections.Generic;
 using System.Linq;

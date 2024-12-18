@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualBasic;
-using MyHotelApp.Menus;
+using MyHotelApp.Utilities.Menus;
 using MyHotelApp.Services;
 using MyHotelApp.Utilities.Graphics;
 using System;

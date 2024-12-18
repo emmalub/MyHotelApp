@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using MyHotelApp.Models;
 
 namespace MyHotelApp.Services
@@ -16,40 +17,53 @@ namespace MyHotelApp.Services
             return regex.IsMatch(email);
         }
 
-        // KOD FRÅN RICHARD
-        public static void ShowAllCustomersSpectre(List<Customer> myCustomers)
+        public void ReadCustomers()
         {
-            var table = new Spectre.Console.Table();
-            table.Border = Spectre.Console.TableBorder.Double; //man kan också använda rounded
-            table.AddColumn("[bold white on green]Ordernummer[/]");
-            table.AddColumn("[blue]Namn[/]");
-            table.AddColumn("[blue]Datum[/]");
-            table.AddColumn("[blue]Produkter[/]");
-            table.AddColumn("[blue]Total kostnad[/]");
-            table.AddColumn("[blue]Förfallodatum[/]");
-
-            foreach (var customer in myCustomers)
-            {
-                foreach (var order in customer.Bookings)
-                {
-                    var productNames = string
-                        .Join(", ", order.Items
-                        .Select(i => i.ProductName));
-
-                    table.AddRow(
-                        customer.CustomerId.ToString(),
-                        customer.GetFullName(),
-                        booking.CheckIn.ToString("yyyy-MM-dd"),
-                        booking.CheckOut.ToString("yyyy-MM-dd"),
-                        room.RoomID,
-                        $"{invoice.Amount} kr",
-                        invoice.DueDate.ToString("yyyy-MM-dd")
-                    );
-                }
-            }
-
-            Spectre.Console.AnsiConsole.Write(table);
+            //using (var dbContext = new HotelDbContext(options.Options))
+            //{
+            //    foreach (var customer in dbContext.Customers)
+            //    {
+            //        Console.WriteLine($"Namn: {customer.Name}");
+            //        Console.WriteLine($"Ålder {customer.Name}");
+            //        Console.WriteLine($"=====================");
+            //    }
+            //}
         }
+
+        // KOD FRÅN RICHARD
+        //public static void ShowAllCustomersSpectre(List<Customer> myCustomers)
+        //{
+        //    var table = new Spectre.Console.Table();
+        //    table.Border = Spectre.Console.TableBorder.Double; //man kan också använda rounded
+        //    table.AddColumn("[bold white on green]Ordernummer[/]");
+        //    table.AddColumn("[blue]Namn[/]");
+        //    table.AddColumn("[blue]Datum[/]");
+        //    table.AddColumn("[blue]Produkter[/]");
+        //    table.AddColumn("[blue]Total kostnad[/]");
+        //    table.AddColumn("[blue]Förfallodatum[/]");
+
+        //    foreach (var customer in myCustomers)
+        //    {
+        //        foreach (var order in customer.Bookings)
+        //        {
+        //            var productNames = string
+        //                .Join(", ", order.Items
+        //                .Select(i => i.ProductName));
+
+        //            table.AddRow(
+        //                customer.CustomerId.ToString(),
+        //                customer.GetFullName(),
+        //                booking.CheckIn.ToString("yyyy-MM-dd"),
+        //                booking.CheckOut.ToString("yyyy-MM-dd"),
+        //                room.RoomID,
+        //                $"{invoice.Amount} kr",
+        //                invoice.DueDate.ToString("yyyy-MM-dd")
+        //            );
+        //        }
+        //    }
+
+        //    Spectre.Console.AnsiConsole.Write(table);
+        //}
 
     }
 }

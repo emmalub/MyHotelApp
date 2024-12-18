@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyHotelApp.Data.Context;
+using MyHotelApp.Models;
 
 
 namespace MyHotelApp.Data.Repositories
@@ -16,14 +18,19 @@ namespace MyHotelApp.Data.Repositories
             _context = context;
         }
 
-        public Customer GetCustomerById(int id)
-        {
-            return _context.Customers.First(c => c.Id == id);
-        }
+        //public Customer GetCustomerById(int id)
+        //{
+        //  return _context.Customer.First(c => c.Id == id);
+        //}
 
-        public List<Customer> GetAllCustomers()
-        {
-            return _context.Customers.ToList();
+        //public List<Customer> GetAllCustomers()
+        //{
+        //    return _context.Customer.ToList();
+        //}
+
+        public void GetCustomerInfo()
+        { 
+        /// SKRIV KOD FÖR ATT HÄMTA KUNDINFO
         }
     }
 }

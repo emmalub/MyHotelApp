@@ -8,6 +8,6 @@ namespace MyHotelApp.Services.SpecialOffers.Interfaces
 {
     public interface IUpdateSpecialOffer
     {
-        void Update(int offerId, string newDescription, decimal newDiscountPercentage) );
+        void Update(int offerId, string newDescription, decimal newDiscountPercentage);
     }
 }

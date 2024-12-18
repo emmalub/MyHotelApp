@@ -8,6 +8,6 @@ namespace MyHotelApp.Services.SpecialOffers.Interfaces
 {
     public interface ICreateSpecialOffer
     {
-        void Create(string offerName, int offerId, string offerType, DateTime validFrom, DateTime validTo, decimal discountAmount)
+        void Create(string offerName, int offerId, string offerType, DateTime validFrom, DateTime validTo, decimal discountAmount);
     }
 }

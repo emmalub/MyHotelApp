@@ -36,7 +36,17 @@ namespace MyHotelApp.Services
 
             foreach (var booking in bookings)
             {
-                Console.WriteLine($"| {booking.BookingId,-11} | {booking.GuestId,-7} | {booking.Room,-4} | {booking.CheckInDate:yyy-MM-dd} | {booking.CheckOutDate:yyyy-MM-dd} | {booking.Price,-6:C} | {(booking.IsPaid ? "J" : "N"),-6} | {(string.IsNullOrEmpty(booking.Conditions) ? "Inga" : booking.Conditions),-8} |");
+                Console.WriteLine($"| {
+                    booking.BookingId,-11} | {
+                    booking.GuestId,-7} | {
+                    booking.Room,-4} | {
+                    booking.CheckInDate:yyy-MM-dd} | {
+                    booking.CheckOutDate:yyyy-MM-dd} | {
+                    booking.Price,-6:C} | {
+                    (booking.IsPaid ? "J" : "N"),-6} | {(string
+                    .IsNullOrEmpty(
+                        booking.Conditions) ? "Inga" : 
+                        booking.Conditions),-8} |");
             }
         }
     }

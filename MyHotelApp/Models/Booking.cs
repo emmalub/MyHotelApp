@@ -14,7 +14,7 @@ namespace MyHotelApp.Models
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
         public Invoice Price { get; set; }
-        public Invoice IsPaid { get; set; }
+        public bool IsPaid { get; set; }
         public string Conditions { get; set; }
 
 
