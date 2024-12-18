@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyHotelApp.Data.Context
+namespace MyHotelApp.Services.Interfaces
 {
-    public class HotelDbContext
+    public class IBookingService
     {
     }
 }

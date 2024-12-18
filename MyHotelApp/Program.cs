@@ -1,8 +1,9 @@
 ﻿using Autofac;
-using MyHotelApp.Interfaces;
+using MyHotelApp.Models;
+using MyHotelApp.Data;
 using MyHotelApp.Services;
+using MyHotelApp.Utilities.Menus;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace MyHotelApp
 {
@@ -10,14 +11,8 @@ namespace MyHotelApp
     {
         static void Main(string[] args)
         {
-            var builder = new ContainerBuilder();
-            builder
-                .RegisterType<EmailMessageService>()
-                .As<IMessageService>();
-            var container = builder.Build();
-
-            var messageService = container.Resolve<IMessageService>();
-            messageService = container.Resolve<IMessageService>();
+            var container = ContainerConfig.Configure();
+            var hotelApp = container.Resolve<App>();
 
             App.Run();
         }
