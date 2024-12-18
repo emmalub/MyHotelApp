@@ -2,6 +2,8 @@
 using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MyHotelApp.Data;
 
 
 namespace MyHotelApp
@@ -10,15 +12,6 @@ namespace MyHotelApp
     {
         static void Main(string[] args)
         {
-            var builder = new ContainerBuilder();
-            builder
-                .RegisterType<EmailMessageService>()
-                .As<IMessageService>();
-            var container = builder.Build();
-
-            var messageService = container.Resolve<IMessageService>();
-            messageService = container.Resolve<IMessageService>();
-
             App.Run();
         }
     }

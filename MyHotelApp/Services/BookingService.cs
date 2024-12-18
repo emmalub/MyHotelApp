@@ -1,4 +1,5 @@
-﻿using MyHotelApp.Interfaces;
+﻿using MyHotelApp.Data;
+using MyHotelApp.Interfaces;
 using MyHotelApp.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,13 @@ namespace MyHotelApp.Services
 {
     internal class BookingService : IBookingService
     {
+        private readonly HotelDbContext _context;
+
+        public BookingService(HotelDbContext context)
+        {
+            _context = context;
+        }
+
         private readonly IMessageService _messageService;
 
         public BookingService(IMessageService messageService)
@@ -37,7 +45,7 @@ namespace MyHotelApp.Services
             foreach (var booking in bookings)
             {
                 Console.WriteLine($"| {
-                    booking.BookingId,-11} | {
+                    booking.Id,-11} | {
                     booking.GuestId,-7} | {
                     booking.Room,-4} | {
                     booking.CheckInDate:yyy-MM-dd} | {

@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyHotelApp.Data;
 using MyHotelApp.Models;
 
 namespace MyHotelApp.Services
 {
     public class InvoiceService
     {
-        private readonly List<Invoice> _invoices = new();
+            private readonly HotelDbContext _context;
+
+            public InvoiceService(HotelDbContext context)
+            {
+                _context = context;
+            }
+
+            private readonly List<Invoice> _invoices = new();
 
         public Invoice CreateInvoice(int bookingId, decimal amount)
         {

@@ -5,30 +5,57 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using MyHotelApp.Data;
 using MyHotelApp.Models;
 
 namespace MyHotelApp.Services
 {
-    internal class CustomerService
+    internal class CustomerService //: ICustomerService
     {
+        private readonly HotelDbContext _context;
+
+        public CustomerService(HotelDbContext context)
+        {
+            _context = context;
+        }
+
+        public void CreateCustomer(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+        }
+
+        public Customer GetCustomerById(int id)
+        {
+            return _context.Customers.FirstOrDefault(c => c.Id == id);
+        }
+        public void ReadCustomers()
+        {
+                foreach (var customer in _context.Customers.Where(c => c.IsActive))
+                {
+                    Console.WriteLine($"Namn: {customer.Name}");
+                    Console.WriteLine($"Ålder: {customer.Name}");
+                    Console.WriteLine($"=====================");
+                }
+        }
+
+        public async void DeleteCustomerAsync(int cusstomerId)
+        {
+            var customer = await _context.Customers.FindAsync(cusstomerId);
+            if (customer != null)
+            {
+                customer.IsActive = false;
+                _context.Customers.Update(customer);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public bool IsValidEmail(string email)
         {
             var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             return regex.IsMatch(email);
         }
 
-        public void ReadCustomers()
-        {
-            //using (var dbContext = new HotelDbContext(options.Options))
-            //{
-            //    foreach (var customer in dbContext.Customers)
-            //    {
-            //        Console.WriteLine($"Namn: {customer.Name}");
-            //        Console.WriteLine($"Ålder {customer.Name}");
-            //        Console.WriteLine($"=====================");
-            //    }
-            //}
-        }
 
         // KOD FRÅN RICHARD
         //public static void ShowAllCustomersSpectre(List<Customer> myCustomers)
