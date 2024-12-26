@@ -12,6 +12,7 @@ using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
 using MyHotelApp.Utilities.Menus;
 using MyHotelApp.Utilities.Graphics;
+using MyHotelApp.Models;
 
 namespace MyHotelApp
 {
@@ -21,20 +22,14 @@ namespace MyHotelApp
         public App() 
         {
             var builder = new ContainerBuilder();
-            
-            builder
-               .RegisterType<EmailMessageService>()
-               .As<IMessageService>();
 
-            builder
-                .RegisterType<HotelDbContext>()
-                .AsSelf();
+            ContainerConfig.Configure();
 
             _container = builder.Build();
 
         }
 
-        public static void Run()
+        public static void Start()
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile($"appsettings.json", true, true);
@@ -48,19 +43,26 @@ namespace MyHotelApp
             {
                 dbContext.Database.Migrate();
             }
+        }
 
-            //var welcomeScreen = new WelcomeScreen();
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.SetCursorPosition(20, 16);
-            WelcomeScreen.PrintStartScreenViking1();
-            Console.ForegroundColor= ConsoleColor.DarkYellow;
-            Console.SetCursorPosition(20, 10);
-            WelcomeScreen.PrintStartScreenHotel4();
-            Console.ResetColor();
-            Console.ReadKey();
+        public static void Run()
+        {
 
-            var mainMenu = new MainMenu();
-            mainMenu.ShowMenu();
+            var container = ContainerConfig.Configure();
+            using (var scope = container.BeginLifetimeScope())
+            {
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.SetCursorPosition(20, 16);
+                WelcomeScreen.PrintStartScreenViking1();
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.SetCursorPosition(20, 10);
+                WelcomeScreen.PrintStartScreenHotel4();
+                Console.ResetColor();
+                Console.ReadKey();
+
+                var mainMenu = scope.Resolve<MainMenu>();
+                mainMenu.ShowMenu();
+            }
         }
     }
 }

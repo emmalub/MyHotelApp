@@ -1,14 +1,18 @@
-﻿using MyHotelApp.Utilities.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyHotelApp.Services;
+using MyHotelApp.Utilities.Graphics;
+using MyHotelApp.Models;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class RoomMenu : MenuBase
     {
+        private readonly RoomService _roomService;
+
+        public RoomMenu(RoomService roomService)
+        {
+            _roomService = roomService;
+        }
+
         protected override string[] MenuOptions =>
         [
             "VISA ALLA AKTIVA RUM",
@@ -17,7 +21,8 @@ namespace MyHotelApp.Utilities.Menus
             "AVAKTIVERA RUM",
             "ÅTERAKTIVERA RUM",
             "REDIGERA RUM",
-            "Tillbaka till huvudmenyn" ];
+            "Tillbaka till huvudmenyn"
+            ];
 
         protected override void DisplayMenuHeader()
         {
@@ -26,18 +31,29 @@ namespace MyHotelApp.Utilities.Menus
 
         protected override void HandleUserSelection()
         {
+            //////////////////////// TEST
+            //if (_roomService == null)
+            //{
+            //    Console.WriteLine("RoomService is null!");
+            //    return;
+            //}
+
+            //Console.WriteLine($"Current option selected: {currentOption}"); // Debugging
+
+
+            ///////////////////////// TEST
+
             switch (currentOption)
             {
                 case 0:
-
+                    _roomService.DisplayActiveRooms();
                     break;
 
                 case 1:
-
                     break;
 
                 case 2:
-
+                    _roomService.CreateRoom();
                     break;
 
                 case 3:
@@ -49,11 +65,12 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case 5:
+                    
                     break;
 
                 case 6: // Avsluta
-                    var mainMenu = new MainMenu();
-                    mainMenu.ShowMenu();
+                    //var mainMenu = new MainMenu();
+                    //mainMenu.ShowMenu();
                     break;
 
                 default:
@@ -63,67 +80,5 @@ namespace MyHotelApp.Utilities.Menus
         }
     }
 }
-//public static void ShowRoomMenu()
-//{
-
-//    int currentOption = 0; // Håller reda på vilket alternativ som är markerat
-//    bool menuActive = true;
-
-//    while (menuActive)
-//    {
-//        Console.Clear();
-//        Console.ForegroundColor = ConsoleColor.DarkYellow;
-//        MenuHeader.MainMenuHeader();
-
-//        int centerX = (Console.WindowWidth / 2);
-
-//        // Skriv menyalternativen med markering på det valda alternativet
-//        for (int i = 0; i < menuOptions.Length; i++)
-//        {
-//            string optionText = menuOptions[i];
-//            int optionLength = optionText.Length;
-//            int optionX = centerX - (optionLength / 2);
-//            int optionY = 10 + i * 2;
-
-//            Console.SetCursorPosition(optionX, optionY);
-
-//            // Om det här alternativet är valt, markera det med en annan färg
-//            if (i == currentOption)
-//            {
-//                Console.BackgroundColor = ConsoleColor.DarkGray;
-//                Console.ForegroundColor = ConsoleColor.White;
-//            }
-//            else
-//            {
-//                Console.BackgroundColor = ConsoleColor.Black;
-//                Console.ForegroundColor = ConsoleColor.White;
-//            }
-//            Console.WriteLine(optionText);
-//            Console.ResetColor(); // Återställ färger efter varje alternativ
-//        }
-
-//        // Läsa in användarens tangenttryckning
-//        var key = Console.ReadKey(true);
-
-//        if (key.Key == ConsoleKey.UpArrow)
-//        {
-//            // Om användaren trycker på upppilen, gå upp i listan (om vi inte är längst upp)
-//            if (currentOption > 0)
-//            {
-//                currentOption--;
-//            }
-//        }
-//        else if (key.Key == ConsoleKey.DownArrow)
-//        {
-//            // Om användaren trycker på nedpilen, gå ner i listan (om vi inte är längst ner)
-//            if (currentOption < menuOptions.Length - 1)
-//            {
-//                currentOption++;
-//            }
-//        }
-//        else if (key.Key == ConsoleKey.Enter)
-//        {
-// Om användaren trycker på Enter, välj alternativet
-
 
 

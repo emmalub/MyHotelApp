@@ -45,12 +45,13 @@ namespace MyHotelApp.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.;Database=Invoice12345;Trusted_Connection=True;TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=HotelViking;Trusted_Connection=True;TrustServerCertificate=true;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Guest)
                 .WithMany(c => c.Bookings)
@@ -63,7 +64,22 @@ namespace MyHotelApp.Data
                 .HasForeignKey(b => b.RoomId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Room>()
+                .HasDiscriminator<string>("RoomType")
+                .HasValue<SingleRoom>("Enkelrum")
+                .HasValue<DoubleRoom>("Dubbelrum");
+
+            modelBuilder.Entity<DoubleRoom>()
+           .Property(d => d.ExtraBeds)
+           .HasColumnName("ExtraBeds");
+
+            modelBuilder.Entity<DoubleRoom>()
+                .Property(d => d.Size)
+                .HasColumnName("Size");
+
             base.OnModelCreating(modelBuilder);
+
+
         }
     }
 }
