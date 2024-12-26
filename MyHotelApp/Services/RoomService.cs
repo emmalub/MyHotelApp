@@ -34,7 +34,7 @@ public class RoomService : Interfaces.RoomService
 
         Room newRoom = choice switch
         {
-            1 => new SingleRoom { Price = 600 },
+            1 => new SingleRoom { Price = 600, IsActive = true },
             2 => CreateDoubleRoom(),
             _ => throw new ArgumentException("Ogiltigt val")
         };
@@ -54,6 +54,7 @@ public class RoomService : Interfaces.RoomService
             Price = 1000,
             Size = size,
             ExtraBeds = extrabeds,
+            IsActive = true
         };
     }
 
@@ -107,6 +108,19 @@ public class RoomService : Interfaces.RoomService
         if (activeRooms.Any())
         {
             Console.WriteLine("Aktiva rum: ");
+            foreach (var room in activeRooms)
+            {
+                Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt, {room.IsActive}");
+            }
+        }
+    }
+    public void DisplayInactiveRooms()
+    {
+        var activeRooms = GetInactiveRoom();
+
+        if (activeRooms.Any())
+        {
+            Console.WriteLine("Inaktiva rum: ");
             foreach (var room in activeRooms)
             {
                 Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt, {room.IsActive}");

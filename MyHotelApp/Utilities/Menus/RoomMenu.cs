@@ -50,6 +50,7 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case 1:
+                    _roomService.DisplayInactiveRooms();
                     break;
 
                 case 2:

@@ -171,11 +171,16 @@ namespace MyHotelApp.Migrations
 
                     b.Property<string>("RoomType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Rooms");
+
+                    b.HasDiscriminator<string>("RoomType").HasValue("Room");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("MyHotelApp.Models.SpecialOffer", b =>
@@ -186,8 +191,15 @@ namespace MyHotelApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("DiscountAmount")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OfferId")
+                        .HasColumnType("int");
 
                     b.Property<string>("OfferName")
                         .IsRequired()
@@ -206,6 +218,28 @@ namespace MyHotelApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SpecialOffer");
+                });
+
+            modelBuilder.Entity("MyHotelApp.Models.DoubleRoom", b =>
+                {
+                    b.HasBaseType("MyHotelApp.Models.Room");
+
+                    b.Property<int>("ExtraBeds")
+                        .HasColumnType("int")
+                        .HasColumnName("ExtraBeds");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float")
+                        .HasColumnName("Size");
+
+                    b.HasDiscriminator().HasValue("Dubbelrum");
+                });
+
+            modelBuilder.Entity("MyHotelApp.Models.SingleRoom", b =>
+                {
+                    b.HasBaseType("MyHotelApp.Models.Room");
+
+                    b.HasDiscriminator().HasValue("Enkelrum");
                 });
 
             modelBuilder.Entity("MyHotelApp.Models.Booking", b =>
