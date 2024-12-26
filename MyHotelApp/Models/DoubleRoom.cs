@@ -10,9 +10,6 @@
             RoomType = "Dubbelrum";
         }
 
-        public override string GetRoomDescription()
-        {
-            return base.GetRoomDescription() + $", Extrasängar: {ExtraBeds}";
-        }
+        public override string GetRoomDescription() => $"Rum: {Id}, Typ: {RoomType}, Pris: {Price}, Status: {IsActive}, Extrasängar: {ExtraBeds}";
     }
 }

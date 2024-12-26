@@ -65,6 +65,16 @@ namespace MyHotelApp.Data
                 .HasValue<SingleRoom>("Enkelrum")
                 .HasValue<DoubleRoom>("Dubbelrum");
 
+            modelBuilder.Entity<DoubleRoom>()
+           .Property(d => d.ExtraBeds)
+           .HasColumnName("ExtraBeds");
+
+            modelBuilder.Entity<DoubleRoom>()
+                .Property(d => d.Size)
+                .HasColumnName("Size");
+
+            base.OnModelCreating(modelBuilder);
+
 
         }
     }

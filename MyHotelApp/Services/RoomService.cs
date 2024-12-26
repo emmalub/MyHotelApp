@@ -13,13 +13,11 @@ public class RoomService : Interfaces.RoomService
         _context = context;
     }
 
-    private List<Room> rooms = new List<Room>();
-
-    public List<Room> GetActiveRoom() => rooms
+    public List<Room> GetActiveRoom() => _context.Rooms
         .Where(r => r.IsActive)
         .ToList();
 
-    public List<Room> GetInactiveRoom() => rooms
+    public List<Room> GetInactiveRoom() => _context.Rooms
         .Where(r => !r.IsActive)
         .ToList();
 
@@ -41,14 +39,7 @@ public class RoomService : Interfaces.RoomService
             _ => throw new ArgumentException("Ogiltigt val")
         };
 
-        var room = new Room()
-        {
-            RoomType = newRoom.RoomType,
-            IsActive = true,
-            Price = newRoom.Price
-        };
-            
-        AddRoom(room);
+        AddRoom(newRoom);
     }
 
     private DoubleRoom CreateDoubleRoom()
@@ -75,6 +66,7 @@ public class RoomService : Interfaces.RoomService
             if (existingRoom is DoubleRoom doubleroom && room is DoubleRoom updatedDoubleRoom)
             {
                 doubleroom.ExtraBeds = updatedDoubleRoom.ExtraBeds;
+                doubleroom.Size = updatedDoubleRoom.Size;
             }
             _context.SaveChanges();
         }
@@ -89,12 +81,14 @@ public class RoomService : Interfaces.RoomService
             _context.SaveChanges();
         }
     }
+
     public List<Room> GetAllRooms(bool includeInactive = false)
     {
         return includeInactive
             ? _context.Rooms.ToList()
             : _context.Rooms.Where(r => r.IsActive).ToList();
     }
+
     public bool IsRoomAvalible(int roomId, DateTime checkInDate, DateTime checkOutDate)
     {
         if (checkInDate >= checkOutDate)

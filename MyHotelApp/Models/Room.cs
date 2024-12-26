@@ -15,9 +15,6 @@ namespace MyHotelApp.Models
 
         public List<Booking> Bookings { get; set; } = new List<Booking>();
 
-        public virtual string GetRoomDescription()
-        {
-            return $"Rum: {Id}, Typ: {RoomType}, Pris: {Price}, Status: {IsActive}";
-        }
+        public virtual string GetRoomDescription() => $"Rum: {Id}, Typ: {RoomType}, Pris: {Price}, Status: {IsActive}";
     }
 }
