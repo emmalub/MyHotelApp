@@ -13,44 +13,49 @@ using MyHotelApp.Services;
 using MyHotelApp.Utilities.Menus;
 using MyHotelApp.Utilities.Graphics;
 using MyHotelApp.Models;
+using MyHotelApp.Services.Interfaces;
 
 namespace MyHotelApp
 {
     internal class App
     {
-        private readonly IContainer _container;
-        public App() 
+        private readonly IRoomService _roomService;
+        private readonly MainMenu _mainMenu;
+        public App(IRoomService roomService, MainMenu mainMenu)
         {
-            var builder = new ContainerBuilder();
-
-            ContainerConfig.Configure();
-
-            _container = builder.Build();
-
+            _roomService = roomService;
+            _mainMenu = mainMenu;
         }
 
         public static void Start()
         {
-            var builder = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.json", true, true);
-            var config = builder.Build();
-            var connectionString = config.GetConnectionString("DefaultConnection");
-
-            var options = new DbContextOptionsBuilder<HotelDbContext>()
-                .UseSqlServer(connectionString);
-
-            using (var dbContext = new HotelDbContext(options.Options))
+            using (var scope = ContainerConfig.Configure().BeginLifetimeScope())
             {
+                var dbContext = scope.Resolve<HotelDbContext>();
                 dbContext.Database.Migrate();
             }
+           
+            //var builder = new ConfigurationBuilder()
+            //    .AddJsonFile($"appsettings.json", true, true);
+            //var config = builder.Build();
+            //var connectionString = config.GetConnectionString("DefaultConnection");
+
+            //var options = new DbContextOptionsBuilder<HotelDbContext>()
+            //    .UseSqlServer(connectionString);
+
+            //using (var dbContext = new HotelDbContext(options.Options))
+            //{
+            //    dbContext.Database.Migrate();
+            //}
         }
 
-        public static void Run()
+        public void Run()
         {
+            //using (var scope = _container.BeginLifetimeScope())
+            //{
+            //    var roomService = scope.Resolve<RoomService>();
+                _roomService.SeedRooms();
 
-            var container = ContainerConfig.Configure();
-            using (var scope = container.BeginLifetimeScope())
-            {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.SetCursorPosition(20, 16);
                 WelcomeScreen.PrintStartScreenViking1();
@@ -60,9 +65,9 @@ namespace MyHotelApp
                 Console.ResetColor();
                 Console.ReadKey();
 
-                var mainMenu = scope.Resolve<MainMenu>();
-                mainMenu.ShowMenu();
-            }
+                //var mainMenu = scope.Resolve<MainMenu>();
+                _mainMenu.ShowMenu();
+            //}
         }
     }
 }

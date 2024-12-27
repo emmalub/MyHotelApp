@@ -1,10 +1,10 @@
 ﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
-using MyHotelApp.Services.Interfaces;
+using MyHotelApp.Interfaces;
 
 namespace MyHotelApp.Services;
 
-public class RoomService : Interfaces.RoomService
+public class RoomService : IRoomService
 {
     private readonly HotelDbContext _context;
 
@@ -73,7 +73,7 @@ public class RoomService : Interfaces.RoomService
         }
     }
 
-    public void SoftDeleteRoom(int roomId)
+    public void DeleteRoom(int roomId)
     {
         var room = _context.Rooms.Find(roomId);
         if (room != null)
@@ -113,6 +113,10 @@ public class RoomService : Interfaces.RoomService
                 Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt, {room.IsActive}");
             }
         }
+        else
+        {
+            Console.WriteLine("Inga aktiva rum hittades");
+        }
     }
     public void DisplayInactiveRooms()
     {
@@ -126,5 +130,30 @@ public class RoomService : Interfaces.RoomService
                 Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt, {room.IsActive}");
             }
         }
+        else
+        {
+            Console.WriteLine("Inga inaktiva rum hittades");
+        }
+    }
+
+    public void SeedRooms()
+    {
+        if (!_context.Rooms.Any())
+        {
+            var rooms = new List<Room>
+        {
+            new SingleRoom { Price = 600, IsActive = true },
+            new DoubleRoom { Price = 1000, Size = 30, ExtraBeds = 1, IsActive = true },
+            new SingleRoom { Price = 500, IsActive = false },
+            new DoubleRoom { Price = 1000, Size = 45, ExtraBeds = 2, IsActive = true }
+        };
+
+            _context.Rooms.AddRange(rooms);
+            _context.SaveChanges();
+        }
+    }
+    public Room GetRoomById(int roomId)
+    {
+        return _context.Rooms.Find(roomId);
     }
 }

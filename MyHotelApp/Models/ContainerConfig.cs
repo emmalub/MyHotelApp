@@ -11,6 +11,8 @@ using MyHotelApp.Utilities.Menus;
 using MyHotelApp.Interfaces;
 using MyHotelApp.Utilities.Graphics;
 using MyHotelApp.Data;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyHotelApp.Models
 {
@@ -20,24 +22,37 @@ namespace MyHotelApp.Models
         {
             var builder = new ContainerBuilder();
 
+            var config = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+               .Build();
+
+            var connectionString = config.GetConnectionString("DefaultConnection");
+
+            builder.Register(c =>
+            {
+                var optionsBuilder = new DbContextOptionsBuilder<HotelDbContext>();
+                optionsBuilder.UseSqlServer(connectionString);
+                return new HotelDbContext(optionsBuilder.Options);
+            }).AsSelf().InstancePerLifetimeScope();
+
+            builder.Register(c => c.Resolve<IContainer>()).As<IContainer>();
+
             builder.RegisterType<CreateSpecialOffer>().As<ICreateSpecialOffer>();
             builder.RegisterType<ReadSpecialOffer>().As<IReadSpecialOffer>();
             builder.RegisterType<UpdateSpecialOffer>().As<IUpdateSpecialOffer>();
             builder.RegisterType<DeleteSpecialOffer>().As<IDeleteSpecialOffer>();
 
-            builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
+            //builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<RoomService>().As<RoomService>().InstancePerLifetimeScope();
             builder.RegisterType<RoomMenu>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<MainMenu>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<EmailMessageService>().As<IMessageService>();
-            builder.RegisterType<Services.RoomService>().As<Services.RoomService>();
-            builder.RegisterType<MainMenu>().AsSelf().InstancePerDependency();
-
             builder.RegisterType<WelcomeScreen>().AsSelf();
+            //builder.RegisterType<Services.RoomService>().As<Services.RoomService>();
+            //builder.RegisterType<MainMenu>().AsSelf().InstancePerDependency();
 
-
-            builder.RegisterType<App>().AsSelf();
+            builder.RegisterType<App>().AsSelf().InstancePerLifetimeScope();
             return builder.Build();
         }
 
