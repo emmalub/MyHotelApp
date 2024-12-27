@@ -11,9 +11,13 @@ namespace MyHotelApp.Interfaces
     {
         void SeedRooms();
         void AddRoom(Room room);
+        void CreateRoom();
         Room GetRoomById(int id);
         List<Room> GetAllRooms(bool includeInactive = false);
         void UpdateRoom(Room room);
         void DeleteRoom(int id);
+        void ActivateRoom(int id);
+        void DisplayActiveRooms();
+        void DisplayInactiveRooms();
     }
 }

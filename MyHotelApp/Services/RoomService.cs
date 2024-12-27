@@ -83,6 +83,16 @@ public class RoomService : IRoomService
         }
     }
 
+    public void ActivateRoom(int roomId)
+    {
+        var room = _context.Rooms.Find(roomId);
+        if (room != null)
+        {
+            room.IsActive = true;
+            _context.SaveChanges();
+        }
+    }
+
     public List<Room> GetAllRooms(bool includeInactive = false)
     {
         return includeInactive

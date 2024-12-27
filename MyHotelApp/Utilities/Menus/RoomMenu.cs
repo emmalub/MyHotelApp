@@ -1,12 +1,13 @@
 ﻿using MyHotelApp.Services;
 using MyHotelApp.Utilities.Graphics;
 using MyHotelApp.Models;
+using MyHotelApp.Interfaces;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class RoomMenu : MenuBase
     {
-        private readonly RoomService _roomService;
+        private readonly IRoomService _roomService;
 
         public RoomMenu(RoomService roomService)
         {
@@ -46,6 +47,7 @@ namespace MyHotelApp.Utilities.Menus
             switch (currentOption)
             {
                 case 0:
+                    Console.Clear();
                     _roomService.DisplayActiveRooms();
                     break;
 
@@ -58,11 +60,11 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case 3:
-
+                    _roomService.DeleteRoom();
                     break;
 
                 case 4:
-
+                    _roomService.ActivateRoom();
                     break;
 
                 case 5:
