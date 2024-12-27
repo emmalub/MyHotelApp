@@ -35,7 +35,7 @@ namespace MyHotelApp.Models
                 return new HotelDbContext(optionsBuilder.Options);
             }).AsSelf().InstancePerLifetimeScope();
 
-            builder.Register(c => c.Resolve<IContainer>()).As<IContainer>();
+            //builder.Register(c => c.Resolve<IContainer>()).As<IContainer>();
 
             builder.RegisterType<CreateSpecialOffer>().As<ICreateSpecialOffer>();
             builder.RegisterType<ReadSpecialOffer>().As<IReadSpecialOffer>();
@@ -43,10 +43,11 @@ namespace MyHotelApp.Models
             builder.RegisterType<DeleteSpecialOffer>().As<IDeleteSpecialOffer>();
 
             //builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<RoomService>().As<RoomService>().InstancePerLifetimeScope();
+            builder.RegisterType<RoomService>().As<IRoomService>().InstancePerLifetimeScope();
             builder.RegisterType<RoomMenu>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<MainMenu>().AsSelf().InstancePerLifetimeScope();
 
+            builder.RegisterType<InputService>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<EmailMessageService>().As<IMessageService>();
             builder.RegisterType<WelcomeScreen>().AsSelf();
             //builder.RegisterType<Services.RoomService>().As<Services.RoomService>();

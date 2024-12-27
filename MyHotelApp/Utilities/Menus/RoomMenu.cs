@@ -1,83 +1,73 @@
-﻿using MyHotelApp.Services;
+﻿using MyHotelApp.Interfaces;
+using MyHotelApp.Services;
 using MyHotelApp.Utilities.Graphics;
-using MyHotelApp.Models;
-using MyHotelApp.Interfaces;
+using Spectre.Console;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class RoomMenu : MenuBase
     {
         private readonly IRoomService _roomService;
+        private readonly InputService _inputService;
 
-        public RoomMenu(RoomService roomService)
+        public RoomMenu(RoomService roomService, InputService inputService)
         {
             _roomService = roomService;
+            _inputService = inputService;
         }
-
         protected override string[] MenuOptions =>
-        [
-            "VISA ALLA AKTIVA RUM",
-            "VISA EJ AKTIVA RUM",
-            "LÄGG TILL RUM",
-            "AVAKTIVERA RUM",
-            "ÅTERAKTIVERA RUM",
-            "REDIGERA RUM",
-            "Tillbaka till huvudmenyn"
-            ];
-
+       [
+        "VISA ALLA AKTIVA RUM",
+        "VISA EJ AKTIVA RUM",
+        "LÄGG TILL RUM",
+        "AVAKTIVERA RUM",
+        "ÅTERAKTIVERA RUM",
+        "REDIGERA RUM",
+        "Tillbaka till huvudmenyn"
+       ];
         protected override void DisplayMenuHeader()
         {
             MenuHeader.RoomMenuHeader();
         }
 
-        protected override void HandleUserSelection()
+        protected override void HandleUserSelection(string selectedOption)
         {
-            //////////////////////// TEST
-            //if (_roomService == null)
-            //{
-            //    Console.WriteLine("RoomService is null!");
-            //    return;
-            //}
-
-            //Console.WriteLine($"Current option selected: {currentOption}"); // Debugging
-
-
-            ///////////////////////// TEST
-
-            switch (currentOption)
+            switch (selectedOption)
             {
-                case 0:
+                case "VISA ALLA AKTIVA RUM":
                     Console.Clear();
                     _roomService.DisplayActiveRooms();
                     break;
 
-                case 1:
+                case "VISA EJ AKTIVA RUM":
                     _roomService.DisplayInactiveRooms();
                     break;
 
-                case 2:
+                case "LÄGG TILL RUM":
                     _roomService.CreateRoom();
                     break;
 
-                case 3:
-                    _roomService.DeleteRoom();
+                case "AVAKTIVERA RUM":
+                    int deactivateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att avaktivera rummet:");
+                    _roomService.DeleteRoom(deactivateRoomId);
                     break;
 
-                case 4:
-                    _roomService.ActivateRoom();
+                case "AKTIVERA RUM":
+                    int activateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
+                    _roomService.ActivateRoom(activateRoomId);
                     break;
 
-                case 5:
-                    
+                case "REDIGERA RUM":
+
                     break;
 
-                case 6: // Avsluta
+                case "Tillbaka till huvudmenyn":
                     //var mainMenu = new MainMenu();
                     //mainMenu.ShowMenu();
                     break;
 
                 default:
-                    Console.WriteLine("Gör ett val för att fortsätta");
+                    AnsiConsole.MarkupLine("[red]Ogiltigt val. Försök igen.[/]");
                     break;
             }
         }

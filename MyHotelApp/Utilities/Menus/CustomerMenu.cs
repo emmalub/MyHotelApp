@@ -25,34 +25,34 @@ namespace MyHotelApp.Utilities.Menus
             MenuHeader.CustomerMenuHeader();
         }
 
-        protected override void HandleUserSelection()
+        protected override void HandleUserSelection(string selectedOption)
         {
-            switch (currentOption)
+            switch (selectedOption)
             {
-                case 0:
+                case "VISA KUND":
 
                     break;
 
-                case 1:
+                case "VISA ALLA KUNDER":
 
                     break;
 
-                case 2:
+                case "VISA BORTTAGNA KUNDER":
 
                     break;
 
-                case 3:
+                case "LÄGG TILL KUND":
 
                     break;
 
-                case 4:
+                case "TA BORT KUND":
 
                     break;
 
-                case 5:
+                case "ÄNDRA KUNDUPPGIFTER":
                     break;
 
-                case 6: // Avsluta
+                case "Tillbaka till huvudmenyn":
                     //var mainMenu = new MainMenu();
                     //mainMenu.ShowMenu();
                     break;

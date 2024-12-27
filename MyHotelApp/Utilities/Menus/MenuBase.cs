@@ -1,10 +1,11 @@
-﻿namespace MyHotelApp.Utilities.Menus
+﻿using Spectre.Console;
+
+namespace MyHotelApp.Utilities.Menus
 {
     public abstract class MenuBase
     {
-        protected int currentOption = 0;
+        protected int selectedOption = 0;
         protected bool menuActive = true;
-
         protected abstract string[] MenuOptions { get; }
 
         public void ShowMenu()
@@ -14,59 +15,30 @@
                 Console.Clear();
                 DisplayMenuHeader();
 
-                int centerX = Console.WindowWidth / 2;
-
-                for (int i = 0; i < MenuOptions.Length; i++)
+                try
                 {
-                    string optionText = MenuOptions[i];
-                    int optionLength = optionText.Length;
-                    int optionX = centerX - optionLength / 2;
-                    int optionY = 10 + i * 2;
+                    var selectedOption = AnsiConsole.Prompt(
+                        new SelectionPrompt<string>()
+                            .PageSize(10)
+                            .AddChoices(MenuOptions)
+                        );
 
-                    Console.SetCursorPosition(optionX, optionY);
-
-                    SetMenuOptionColors(i);
-                    Console.WriteLine(optionText);
-                    Console.ResetColor();
+                    HandleUserSelection(selectedOption);
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.MarkupLine($"[bold red]Ett fel uppstod: {ex.Message}[/]");
+                    AnsiConsole.WriteLine("Försök igen.");
                 }
 
-                var key = Console.ReadKey(true);
-
-                HandleKeyPress(key);
-
-                if (key.Key == ConsoleKey.Enter)
+                if (AnsiConsole.Confirm("Vill du lämna menyn?"))
                 {
-                    HandleUserSelection();
+                    menuActive = true;
                 }
             }
         }
-        protected void HandleKeyPress(ConsoleKeyInfo key)
-        {
-            if (key.Key == ConsoleKey.UpArrow && currentOption > 0)
-            {
-                currentOption--;
-            }
-            else if (key.Key == ConsoleKey.DownArrow && currentOption < MenuOptions.Length - 1)
-            {
-                currentOption++;
-            }
-        }
-
-        protected void SetMenuOptionColors(int i)
-        {
-            if (i == currentOption)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkGray;
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            else
-            {
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-        }
-
         protected abstract void DisplayMenuHeader();
-        protected abstract void HandleUserSelection();
+        protected abstract void HandleUserSelection(string selectedOption);
+
     }
 }

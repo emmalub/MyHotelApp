@@ -1,68 +1,65 @@
-﻿using Microsoft.VisualBasic;
-using MyHotelApp.Utilities.Menus;
+﻿using Microsoft.EntityFrameworkCore;
+using MyHotelApp.Data;
+using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
 using MyHotelApp.Utilities.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+using Spectre.Console;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class MainMenu : MenuBase
     {
-        private RoomService _roomService;
+        private readonly InputService _inputService;
 
-        public MainMenu(RoomService roomService)
+        public MainMenu(InputService inputService)
         {
-            _roomService = roomService;
+            _inputService = inputService;
         }
-        protected override string[] MenuOptions => new[]
-        {
-            "BOKA RUM",
-            "HANTERA BOKNING",
-            "HANTERA KUND",
-            "HANTERA RUM",
-            "FAKTUROR",
-            "STATISTIK",
-            "Logga ut"
-        };
-
+        protected override string[] MenuOptions =>
+        [
+        "BOKA RUM",
+        "HANTERA BOKNING",
+        "HANTERA KUND",
+        "HANTERA RUM",
+        "FAKTUROR",
+        "STATISTIK",
+        "Logga ut"
+        ];
         protected override void DisplayMenuHeader()
         {
             MenuHeader.MainMenuHeader();
         }
-        protected override void HandleUserSelection()
+        protected override void HandleUserSelection(string selectedOption)
         {
-            switch (currentOption)
+            switch (selectedOption)
             {
-                case 0:
+                case "BOKA RUM":
 
                     break;
 
-                case 1:
+                case "HANTERA BOKNING":
 
                     break;
 
-                case 2:
+                case "HANTERA KUND":
                     var customerMenu = new CustomerMenu();
                     customerMenu.ShowMenu();
                     break;
 
-                case 3:
-                    var roomMenu = new RoomMenu(_roomService); 
+                case "HANTERA RUM":
+                    var dbContext = new HotelDbContext();
+                    var roomService = new RoomService(dbContext);
+                    var roomMenu = new RoomMenu(roomService, _inputService);
                     roomMenu.ShowMenu();
                     break;
 
-                case 4:
+                case "FAKTUROR":
                     break;
 
-                case 5:
+                case "STATISTIK":
                     break;
 
-                case 6: // Avsluta
+                case "Logga ut": // Avsluta
                     Console.SetCursorPosition(0, 40);
                     Console.WriteLine("Avslutar...");
                     break;

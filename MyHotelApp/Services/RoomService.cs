@@ -1,6 +1,8 @@
 ﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using MyHotelApp.Interfaces;
+using MyHotelApp.Services.Interfaces;
+using Spectre.Console;
 
 namespace MyHotelApp.Services;
 
@@ -85,11 +87,21 @@ public class RoomService : IRoomService
 
     public void ActivateRoom(int roomId)
     {
-        var room = _context.Rooms.Find(roomId);
+        int id = AnsiConsole.Prompt(
+        new TextPrompt<int>("Ange [green]rumID[/] för att återaktivera rummet:")
+            .PromptStyle("green")
+            .Validate(value => value > 0 ? ValidationResult.Success() : ValidationResult.Error("Ange ett giltigt rumID"))
+    );
+
+        var room = _context.Rooms.Find(id);
         if (room != null)
         {
             room.IsActive = true;
             _context.SaveChanges();
+        }
+        else
+        {
+            AnsiConsole.MarkupLine("[red]Ingen åtgärd utfördes.[/]");
         }
     }
 
