@@ -123,6 +123,20 @@ public class RoomService : IRoomService
             b.CheckInDate <= checkOutDate && b.CheckOutDate >= checkInDate);
     }
 
+    public List<Room> GetAvailableRooms(DateTime checkInDate, DateTime checkOutDate)
+    {
+        var allRooms = _context.Rooms.ToList();
+        var availableRooms = new List<Room>();
+        foreach (var room in allRooms)
+        {
+            if (IsRoomAvalible(room.Id, checkInDate, checkOutDate))
+            {
+                availableRooms.Add(room);
+            }
+        }
+        return availableRooms;
+    }
+
     public void DisplayActiveRooms()
     {
         var activeRooms = GetActiveRoom();

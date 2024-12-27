@@ -2,7 +2,7 @@
 
 namespace MyHotelApp.Services.Interfaces
 {
-    public interface RoomService
+    public interface IRoomService
     {
         List<Room> GetActiveRoom();
         List<Room> GetInactiveRoom();

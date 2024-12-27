@@ -9,20 +9,38 @@ using System.Threading.Tasks;
 
 namespace MyHotelApp.Services
 {
-    internal class BookingService : IBookingService
+    public class BookingService 
     {
         private readonly HotelDbContext _context;
+        private readonly IMessageService _messageService;
+        
 
         public BookingService(HotelDbContext context)
         {
             _context = context;
         }
 
-        private readonly IMessageService _messageService;
+        //public MessageService(IMessageService messageService)
+        //{ 
+        //    _messageService = messageService; 
+        //}
 
-        public BookingService(IMessageService messageService)
-        { 
-            _messageService = messageService; 
+
+        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate)
+        {
+            var booking = new Booking
+            {
+                GuestId = guestId,
+                RoomId = roomId,
+                CheckInDate = checkInDate,
+                CheckOutDate = checkOutDate,
+                IsPaid = false
+            };
+
+            _context.Bookings.Add(booking);
+            _context.SaveChanges();
+
+            Console.WriteLine("Bokning gjord!");
         }
 
         public void ConfirmBooking(string customerName, string roomType, DateTime bookingDate)

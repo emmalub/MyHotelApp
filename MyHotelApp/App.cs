@@ -36,7 +36,9 @@ namespace MyHotelApp
             Console.SetCursorPosition(20, 10);
             WelcomeScreen.PrintStartScreenHotel4();
             Console.ResetColor();
-            Console.ReadKey();
+
+            Thread.Sleep(1000);
+            //Console.ReadKey();
 
             _roomService.SeedRooms();
             _mainMenu.ShowMenu();

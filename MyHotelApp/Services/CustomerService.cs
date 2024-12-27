@@ -10,7 +10,7 @@ using MyHotelApp.Models;
 
 namespace MyHotelApp.Services
 {
-    internal class CustomerService //: ICustomerService
+    public class CustomerService 
     {
         private readonly HotelDbContext _context;
 
@@ -18,13 +18,17 @@ namespace MyHotelApp.Services
         {
             _context = context;
         }
-
         public void CreateCustomer(Customer customer)
         {
             _context.Customers.Add(customer);
             _context.SaveChanges();
         }
 
+        public List<Customer> GetCustomers()
+        {
+
+            return _context.Customers.ToList();
+        }
         public Customer GetCustomerById(int id)
         {
             return _context.Customers.FirstOrDefault(c => c.Id == id);
@@ -38,7 +42,6 @@ namespace MyHotelApp.Services
                     Console.WriteLine($"=====================");
                 }
         }
-
         public async void DeleteCustomerAsync(int cusstomerId)
         {
             var customer = await _context.Customers.FindAsync(cusstomerId);
@@ -49,7 +52,6 @@ namespace MyHotelApp.Services
                 await _context.SaveChangesAsync();
             }
         }
-
         public bool IsValidEmail(string email)
         {
             var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
