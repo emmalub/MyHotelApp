@@ -39,6 +39,8 @@ namespace MyHotelApp.Services
 
             _context.Customers.Add(customer);
             _context.SaveChanges();
+            Console.WriteLine("Ny kund sparad!");
+            Console.ReadKey();
         }
 
         public List<Customer> GetCustomers()
@@ -132,6 +134,8 @@ namespace MyHotelApp.Services
            
             _context.Customers.Update(customer);
             _context.SaveChanges();
+            Console.WriteLine("Ändringar har sparats!");
+            Console.ReadKey();
         }
 
         private string GetUpdatedValue(string fieldName, string currentValue)
