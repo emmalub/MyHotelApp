@@ -47,6 +47,7 @@ namespace MyHotelApp.Models
             builder.RegisterType<RoomMenu>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<MainMenu>().AsSelf().InstancePerLifetimeScope();
 
+            builder.RegisterType<BookingCalendar>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<InputService>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<EmailMessageService>().As<IMessageService>();
             builder.RegisterType<WelcomeScreen>().AsSelf();

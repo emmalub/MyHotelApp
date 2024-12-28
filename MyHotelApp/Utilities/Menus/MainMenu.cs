@@ -1,19 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyHotelApp.Data;
-using MyHotelApp.Interfaces;
+﻿using MyHotelApp.Data;
 using MyHotelApp.Services;
 using MyHotelApp.Utilities.Graphics;
-using Spectre.Console;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class MainMenu : MenuBase
     {
         private readonly InputService _inputService;
+        private readonly BookingCalendar _bookingCalendar;
 
-        public MainMenu(InputService inputService)
+        public MainMenu(InputService inputService, BookingCalendar bookingCalendar)
         {
             _inputService = inputService;
+            _bookingCalendar = bookingCalendar;
         }
         protected override string[] MenuOptions =>
         [
@@ -34,7 +33,7 @@ namespace MyHotelApp.Utilities.Menus
             switch (selectedOption)
             {
                 case "BOKA RUM":
-
+                    _bookingCalendar.Show("Bokningskalender");
                     break;
 
                 case "HANTERA BOKNING":

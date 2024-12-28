@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace MyHotelApp.Services
 {
-    public class BookingService 
+    public class BookingService
     {
         private readonly HotelDbContext _context;
         private readonly IMessageService _messageService;
-        
+
 
         public BookingService(HotelDbContext context)
         {
@@ -45,10 +45,7 @@ namespace MyHotelApp.Services
 
         public void ConfirmBooking(string customerName, string roomType, DateTime bookingDate)
         {
-            string confirmationMessage = $"Bokningsbekräftelse!\nKund: {
-                customerName}\nRum: {
-                roomType}\nDatum: {
-                bookingDate
+            string confirmationMessage = $"Bokningsbekräftelse!\nKund: {customerName}\nRum: {roomType}\nDatum: {bookingDate
                 .ToShortDateString()}";
 
             _messageService.SendMessage(customerName, confirmationMessage);
@@ -62,18 +59,31 @@ namespace MyHotelApp.Services
 
             foreach (var booking in bookings)
             {
-                Console.WriteLine($"| {
-                    booking.Id,-11} | {
-                    booking.GuestId,-7} | {
-                    booking.Room,-4} | {
-                    booking.CheckInDate:yyy-MM-dd} | {
-                    booking.CheckOutDate:yyyy-MM-dd} | {
-                    booking.Price,-6:C} | {
-                    (booking.IsPaid ? "J" : "N"),-6} | {(string
+                Console.WriteLine($"| {booking.Id,-11} | {booking.GuestId,-7} | {booking.Room,-4} | {booking.CheckInDate:yyy-MM-dd} | {booking.CheckOutDate:yyyy-MM-dd} | {booking.Price,-6:C} | {(booking.IsPaid ? "J" : "N"),-6} | {(string
                     .IsNullOrEmpty(
-                        booking.Conditions) ? "Inga" : 
+                        booking.Conditions) ? "Inga" :
                         booking.Conditions),-8} |");
             }
+        }
+
+        public List<DateTime> GetBookedDatesForRoom(int roomId)
+        {
+            var bookings = _context.Bookings
+                .Where(b => b.RoomId == roomId && b.IsActive)
+                .ToList();
+
+            var bookedDates = new List<DateTime>();
+            foreach (var booking in bookings)
+            {
+                for (var date = booking
+                    .CheckInDate; date <= booking
+                    .CheckOutDate; date = date
+                    .AddDays(1))
+                {
+                    bookedDates.Add(date);
+                }
+            }
+            return bookedDates;
         }
     }
 }
