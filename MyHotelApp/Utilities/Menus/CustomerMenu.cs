@@ -21,7 +21,7 @@ namespace MyHotelApp.Utilities.Menus
 
         protected override string[] MenuOptions =>
         [
-            "VISA KUND",
+            "VISA KUNDUPPGIFTER",
             "VISA ALLA KUNDER",
             "VISA BORTTAGNA KUNDER",
             "LÄGG TILL KUND",
@@ -40,9 +40,9 @@ namespace MyHotelApp.Utilities.Menus
             int customerId = 0;
             switch (selectedOption)
             {
-                case "VISA KUND":
-                    customerId = _inputService.GetId("Ange kundID för att visa kund: ");
-                    var customer = _customerService.GetCustomerById(customerId);
+                case "VISA KUNDUPPGIFTER":
+                    _customerService.ShowAllCustomers(_customerService.GetCustomers());
+                    _customerService.ShowCustomer();
                     break;
 
                 case "VISA ALLA KUNDER":

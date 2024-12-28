@@ -119,16 +119,6 @@ namespace MyHotelApp.Services
                 return;
             }
             Console.Clear();
-            //Console.WriteLine("Uppdatera kund: ");
-            //Console.WriteLine($"Förnamn: {customer.FirstName}");
-            //Console.WriteLine($"Efternamn: {customer.LastName}");
-            //Console.WriteLine($"Adress: {customer.Address}");
-            //Console.WriteLine($"Stad: {customer.City}");
-            //Console.WriteLine($"Postnummer: {customer.PostalCode}");
-            //Console.WriteLine($"Telefonnummer: {customer.Phone}");
-            //Console.WriteLine($"E-postadress: {customer.Email}");
-            //Console.WriteLine($"Är kunden VIP? {customer.IsVip}");
-            //Console.WriteLine($"Är kunden aktiv? {customer.IsActive}");
             Console.WriteLine();
             customer.FirstName = GetUpdatedValue("Förnamn ", customer.FirstName);
             customer.LastName = GetUpdatedValue("Efternamn ", customer.LastName);
@@ -161,8 +151,52 @@ namespace MyHotelApp.Services
             }
         }
 
+        public void ShowCustomer()
+        {
+            int id = _inputservice.GetId("Ange kundID på kunden för att visa alla uppgifter: ");
 
-        // KOD FRÅN RICHARD
+            if (id == 0)
+            {
+                Console.WriteLine("Ogiltigt ID.");
+                return;
+            }
+
+            var customer = GetCustomerById(id);
+
+            if (customer == null)
+            {
+                Console.WriteLine("Kunden finns inte.");
+                return;
+            }
+
+            Console.Clear();
+            var table = new Spectre.Console.Table();
+            table.Border = Spectre.Console.TableBorder.Rounded;
+
+            table.AddColumn("[bold white]Kunduppgifter[/]");
+            table.AddColumn("[blue]Värde[/]");
+
+            table.AddRow("Förnamn", customer.FirstName);
+            table.AddRow("Efternamn", customer.LastName);
+            table.AddRow("Adress", $"{customer.Address}, {customer.City}, {customer.PostalCode}");
+            table.AddRow("Telefonnummer", customer.Phone);
+            table.AddRow("E-postadress", customer.Email);
+            table.AddRow("VIP", customer.IsVip ? "Ja" : "Nej");
+            table.AddRow("Aktiv", customer.IsActive ? "Ja" : "Nej");
+
+            Spectre.Console.AnsiConsole.Write(table);
+
+            //Console.WriteLine($"Förnamn: {customer.FirstName}");
+            //Console.WriteLine($"Efternamn: {customer.LastName}");
+            //Console.WriteLine($"Adress: {customer.Address}");
+            //Console.WriteLine($"Stad: {customer.City}");
+            //Console.WriteLine($"Postnummer: {customer.PostalCode}");
+            //Console.WriteLine($"Telefonnummer: {customer.Phone}");
+            //Console.WriteLine($"E-postadress: {customer.Email}");
+            //Console.WriteLine($"Är kunden VIP? {customer.IsVip}");
+            //Console.WriteLine($"Är kunden aktiv? {customer.IsActive}");
+        }
+
         public void ShowAllCustomers(List<Customer> myCustomers)
         {
             var table = new Spectre.Console.Table();

@@ -16,7 +16,7 @@ namespace MyHotelApp.Services
             }
             else
             {
-                Console.WriteLine("Ogiltigt ID. Försäk igen.");
+                Console.WriteLine("Ogiltigt ID. Försök igen.");
                 return 0;
             }
         }
