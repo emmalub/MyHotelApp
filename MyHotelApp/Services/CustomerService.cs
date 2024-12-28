@@ -147,11 +147,39 @@ namespace MyHotelApp.Services
 
         public void ShowDeletedCustomers()
         {
+            var table = new Table();
+
+            table.AddColumn("Kund ID");
+            table.AddColumn("Namn");
+            table.AddColumn("Återaktivera");
+
             foreach (var customer in _context.Customers.Where(c => !c.IsActive))
             {
-                Console.WriteLine($"Namn: {customer.Name}");
-                Console.WriteLine($"ID: {customer.Id}");
-                Console.WriteLine($"=====================");
+                var restoreOption = "[bold green]Återaktivera[/]";
+                table.AddRow(customer.Id.ToString(), customer.Name, restoreOption);
+            }
+            AnsiConsole.Write(table);
+
+            var customerIdInput = AnsiConsole.Ask<int>("Ange ID på kund att återaktivera (eller 0 för att avbryta): ");
+            if (customerIdInput == 0)
+            {
+                AnsiConsole.MarkupLine("[bold red]Återaktivering avbruten![/]");
+            }
+                ActivateCustomer(customerIdInput);
+        }
+
+        private void ActivateCustomer(int customerIdInput)
+        {
+            var customerToRestore = _context.Customers.FirstOrDefault(c => c.Id == customerIdInput);
+            if (customerToRestore != null && !customerToRestore.IsActive)
+            {
+                customerToRestore.IsActive = true;
+                _context.SaveChanges();
+                AnsiConsole.MarkupLine($"[bold green]Kunden {customerToRestore.Name} har återaktiverats![/]");
+            }
+            else
+            {
+                Console.WriteLine("Kunden finns inte eller är redan aktiv.");
             }
         }
 
