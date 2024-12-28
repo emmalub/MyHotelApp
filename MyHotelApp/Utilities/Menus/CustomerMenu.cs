@@ -59,11 +59,12 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "TA BORT KUND":
-                    _inputService.GetId("Ange kundID för att visa kund: ");
+                    _customerService.ShowAllCustomers(_customerService.GetCustomers());
                     _customerService.DeleteCustomer(customerId);
                     break;
 
                 case "ÄNDRA KUNDUPPGIFTER":
+                    _customerService.ShowAllCustomers(_customerService.GetCustomers());
                     _customerService.UpdateCustomer(customerId);
                     break;
 

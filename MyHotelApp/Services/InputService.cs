@@ -7,16 +7,17 @@ namespace MyHotelApp.Services
         public int GetId(string prompt)
         {
             Console.WriteLine(prompt);
-            while(true)
+            string input = Console.ReadLine();
+            int customerId;
+
+            if (int.TryParse(input, out customerId))
             {
-                if (int.TryParse(Console.ReadLine(), out int id) && id > 0)
-                {
-                    return id;
-                }
-                else
-                {
-                    Console.WriteLine("Felaktig inmatning. Försök igen.");
-                }
+                return customerId;
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt ID. Försäk igen.");
+                return 0;
             }
         }
         public DateTime GetDate(string prompt)
@@ -25,15 +26,24 @@ namespace MyHotelApp.Services
         }
         public string GetString(string prompt)
         {
-            Console.Write(prompt);
-            string? input = Console.ReadLine();
-            while (string.IsNullOrWhiteSpace(input))
+            while(true)
             {
-                Console.WriteLine("Felaktig inmatning. Försök igen.");
                 Console.Write(prompt);
-                input = Console.ReadLine();
+                string input = Console.ReadLine();
+                if (!string.IsNullOrWhiteSpace(input))
+                {
+                    return input;
+                }
+                else
+                {
+                    Console.WriteLine("Fältet får inte lämnas tomt. Försök igen.");
+                }
             }
-            return input;
+        }
+        public string GetOptionalString(string prompt)
+        {
+            Console.Write(prompt);
+            return Console.ReadLine();
         }
         public bool GetBool(string prompt)
         {

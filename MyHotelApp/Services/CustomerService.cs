@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MyHotelApp.Data;
 using MyHotelApp.Models;
@@ -30,7 +31,6 @@ namespace MyHotelApp.Services
                 Address = _inputservice.GetString("Adress: "),
                 City = _inputservice.GetString("Stad: "),
                 PostalCode = _inputservice.GetString("Postnummer: "),
-                Country = _inputservice.GetString("Land: "),
                 Phone = _inputservice.GetString("Telefonnummer: "),
                 Email = _inputservice.GetString("E-postadress: "),
                 IsVip = _inputservice.GetBool("Är kunden VIP? (Ja/Nej): "),
@@ -58,14 +58,41 @@ namespace MyHotelApp.Services
                 Console.WriteLine($"=====================");
             }
         }
-        public async void DeleteCustomer(int customerId)
+        public void DeleteCustomer(int customerId)
         {
-            var customer = await _context.Customers.FindAsync(customerId);
+            int id = _inputservice.GetId("Ange kundID för att ta bort kund: ");
+
+            if (id == 0)
+            {
+                Console.WriteLine("Ogiltigt ID.");
+                return;
+            }
+            var customer = _context.Customers
+                .Include(c => c.Bookings)
+                .First(c => c.Id == id);
+
             if (customer != null)
             {
+                if (customer.Bookings != null && customer.Bookings.Any())
+                {
+                    Console.WriteLine("Kunden har aktiva bokningar och kan inte tas bort.");
+                    return;
+                }
                 customer.IsActive = false;
                 _context.Customers.Update(customer);
-                await _context.SaveChangesAsync();
+                try
+                { 
+                    _context.SaveChanges();
+                    Console.WriteLine("Kund har inaktiverats!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ett error uppsotd: {ex.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Kunden finns inte.");
             }
         }
         public bool IsValidEmail(string email)
@@ -76,35 +103,52 @@ namespace MyHotelApp.Services
 
         public void UpdateCustomer(int customerId)
         {
-            var customer = GetCustomerById(customerId);
+            int id = _inputservice.GetId("Ange kundID på kund du vill redigera: ");
+
+            if (id == 0)
+            {
+                Console.WriteLine("Ogiltigt ID.");
+                return;
+            }
+
+
+            var customer = GetCustomerById(id);
             if (customer == null)
             {
                 Console.WriteLine("Kunden finns inte.");
                 return;
             }
-            Console.WriteLine("Uppdatera kund: ");
-            Console.WriteLine($"Förnamn: {customer.FirstName}");
-            Console.WriteLine($"Efternamn: {customer.LastName}");
-            Console.WriteLine($"Adress: {customer.Address}");
-            Console.WriteLine($"Stad: {customer.City}");
-            Console.WriteLine($"Postnummer: {customer.PostalCode}");
-            Console.WriteLine($"Land: {customer.Country}");
-            Console.WriteLine($"Telefonnummer: {customer.Phone}");
-            Console.WriteLine($"E-postadress: {customer.Email}");
-            Console.WriteLine($"Är kunden VIP? {customer.IsVip}");
-            Console.WriteLine($"Är kunden aktiv? {customer.IsActive}");
-            customer.FirstName = _inputservice.GetString("Förnamn: ");
-            customer.LastName = _inputservice.GetString("Efternamn: ");
-            customer.Address = _inputservice.GetString("Adress: ");
-            customer.City = _inputservice.GetString("Stad: ");
-            customer.PostalCode = _inputservice.GetString("Postnummer: ");
-            customer.Country = _inputservice.GetString("Land: ");
-            customer.Phone = _inputservice.GetString("Telefonnummer: ");
-            customer.Email = _inputservice.GetString("E-postadress: ");
-            customer.IsVip = _inputservice.GetBool("Är kunden VIP? (Ja/Nej): ");
-            customer.IsActive = _inputservice.GetBool("Är kunden aktiv? (Ja/Nej): ");
+            Console.Clear();
+            //Console.WriteLine("Uppdatera kund: ");
+            //Console.WriteLine($"Förnamn: {customer.FirstName}");
+            //Console.WriteLine($"Efternamn: {customer.LastName}");
+            //Console.WriteLine($"Adress: {customer.Address}");
+            //Console.WriteLine($"Stad: {customer.City}");
+            //Console.WriteLine($"Postnummer: {customer.PostalCode}");
+            //Console.WriteLine($"Telefonnummer: {customer.Phone}");
+            //Console.WriteLine($"E-postadress: {customer.Email}");
+            //Console.WriteLine($"Är kunden VIP? {customer.IsVip}");
+            //Console.WriteLine($"Är kunden aktiv? {customer.IsActive}");
+            Console.WriteLine();
+            customer.FirstName = GetUpdatedValue("Förnamn ", customer.FirstName);
+            customer.LastName = GetUpdatedValue("Efternamn ", customer.LastName);
+            customer.Address = GetUpdatedValue("Adress ", customer.Address);
+            customer.City = GetUpdatedValue("Stad ", customer.City);
+            customer.PostalCode = GetUpdatedValue("Postnummer ", customer.PostalCode);
+            customer.Phone = GetUpdatedValue("Telefonnummer ", customer.Phone);
+            customer.Email = GetUpdatedValue("E-postadress ", customer.Email);
+            customer.IsVip = _inputservice.GetBool($"Är kunden VIP? ({(customer.IsVip ? "Ja" : "Nej")})");
+            customer.IsActive = _inputservice.GetBool($"Är kunden aktiv? ({(customer.IsActive ? "Ja" : "Nej")})");
+           
             _context.Customers.Update(customer);
             _context.SaveChanges();
+        }
+
+        private string GetUpdatedValue(string fieldName, string currentValue)
+        {
+            //Console.WriteLine($"{fieldName}: {currentValue}");
+            string newValue = _inputservice.GetOptionalString($"Uppdatera {fieldName} (Tryck ENTER för att behålla '{currentValue}': ");
+            return string.IsNullOrWhiteSpace(newValue) ? currentValue : newValue;
         }
 
         public void ShowDeletedCustomers()
@@ -112,7 +156,7 @@ namespace MyHotelApp.Services
             foreach (var customer in _context.Customers.Where(c => !c.IsActive))
             {
                 Console.WriteLine($"Namn: {customer.Name}");
-                Console.WriteLine($"Ålder: {customer.Name}");
+                Console.WriteLine($"ID: {customer.Id}");
                 Console.WriteLine($"=====================");
             }
         }
@@ -136,7 +180,7 @@ namespace MyHotelApp.Services
                 table.AddRow(
                         customer.Id.ToString(),
                         $"{customer.FirstName} {customer.LastName}",
-                        $"{customer.Address}, {customer.City}, {customer.Country}",
+                        $"{customer.Address}, {customer.City}",
                         customer.Phone,
                         customer.IsVip ? "[bold yellow]Ja[/]" : "Nej",
                         customer.IsActive ? "[bold green]Aktiv[/]" : "[bold red]Inaktiv[/]"
