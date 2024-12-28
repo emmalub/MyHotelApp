@@ -7,12 +7,12 @@ namespace MyHotelApp.Utilities.Menus
     public class MainMenu : MenuBase
     {
         private readonly InputService _inputService;
-        private readonly BookingCalendar _bookingCalendar;
+        private readonly BookingMenu _bookingMenu;
 
-        public MainMenu(InputService inputService, BookingCalendar bookingCalendar)
+        public MainMenu(InputService inputService, BookingMenu bookingMenu)
         {
             _inputService = inputService;
-            _bookingCalendar = bookingCalendar;
+            _bookingMenu = bookingMenu;
         }
         protected override string[] MenuOptions =>
         [
@@ -33,7 +33,7 @@ namespace MyHotelApp.Utilities.Menus
             switch (selectedOption)
             {
                 case "BOKA RUM":
-                    _bookingCalendar.Show("Bokningskalender");
+                    _bookingMenu.Booking();
                     break;
 
                 case "HANTERA BOKNING":

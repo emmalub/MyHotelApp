@@ -58,6 +58,7 @@ namespace MyHotelApp.Services
             return regex.IsMatch(email);
         }
 
+      
 
         // KOD FRÅN RICHARD
         //public static void ShowAllCustomersSpectre(List<Customer> myCustomers)

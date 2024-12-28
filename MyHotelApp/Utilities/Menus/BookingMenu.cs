@@ -18,7 +18,16 @@ namespace MyHotelApp.Utilities.Menus
         private BookingCalendar _bookingCalendar;
         // private readonly IMessageService _messageService;
 
-        public BookingMenu(BookingService bookingService, InputService inputService, CustomerService customerService, RoomService roomService, BookingCalendar bookingCalendar)
+        public BookingMenu()
+        {
+            _inputService = new InputService();
+        }
+        public BookingMenu(
+            BookingService bookingService, 
+            InputService inputService, 
+            CustomerService customerService, 
+            RoomService roomService, 
+            BookingCalendar bookingCalendar)
         {
             _bookingService = bookingService;
             _inputService = inputService;

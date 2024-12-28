@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MyHotelApp.Data;
 using MyHotelApp.Interfaces;
 using MyHotelApp.Models;
+using MyHotelApp.Services;
 using MyHotelApp.Utilities.Graphics;
 using MyHotelApp.Utilities.Menus;
 

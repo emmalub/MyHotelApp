@@ -15,6 +15,11 @@ namespace MyHotelApp.Services
         private List<DateTime> _bookedDates;
         private string _calendarMessage;
 
+        public BookingCalendar() 
+        {
+            _bookedDates = new List<DateTime>();
+        }
+
         public BookingCalendar(List<DateTime> bookedDates)
         {
             _currentDate = DateTime.Today;

@@ -42,9 +42,16 @@ namespace MyHotelApp.Models
             builder.RegisterType<UpdateSpecialOffer>().As<IUpdateSpecialOffer>();
             builder.RegisterType<DeleteSpecialOffer>().As<IDeleteSpecialOffer>();
 
-            //builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<RoomService>().As<IRoomService>().InstancePerLifetimeScope();
             builder.RegisterType<RoomMenu>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<BookingService>().As<BookingService>().InstancePerLifetimeScope();
+            builder.RegisterType<BookingMenu>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerMenu>().AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterType<MainMenu>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<BookingCalendar>().AsSelf().InstancePerLifetimeScope();
