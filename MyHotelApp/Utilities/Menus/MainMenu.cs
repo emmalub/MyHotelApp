@@ -8,11 +8,13 @@ namespace MyHotelApp.Utilities.Menus
     {
         private readonly InputService _inputService;
         private readonly BookingMenu _bookingMenu;
+        private readonly CustomerMenu _customerMenu;
 
-        public MainMenu(InputService inputService, BookingMenu bookingMenu)
+        public MainMenu(InputService inputService, BookingMenu bookingMenu, CustomerMenu customerMenu)
         {
             _inputService = inputService;
             _bookingMenu = bookingMenu;
+            _customerMenu = customerMenu;
         }
         protected override string[] MenuOptions =>
         [
@@ -37,12 +39,11 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "HANTERA BOKNING":
-
+                    //_bookingMenu.ManageBooking();
                     break;
 
                 case "HANTERA KUND":
-                    var customerMenu = new CustomerMenu();
-                    customerMenu.ShowMenu();
+                    _customerMenu.ShowMenu();
                     break;
 
                 case "HANTERA RUM":
@@ -53,6 +54,7 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "FAKTUROR":
+                    
                     break;
 
                 case "STATISTIK":
