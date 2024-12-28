@@ -174,15 +174,15 @@ namespace MyHotelApp.Services
             table.Border = Spectre.Console.TableBorder.Rounded;
 
             table.AddColumn("[bold white]Kunduppgifter[/]");
-            table.AddColumn("[blue]Värde[/]");
+            table.AddColumn("[blue][/]");
 
-            table.AddRow("Förnamn", customer.FirstName);
-            table.AddRow("Efternamn", customer.LastName);
-            table.AddRow("Adress", $"{customer.Address}, {customer.City}, {customer.PostalCode}");
-            table.AddRow("Telefonnummer", customer.Phone);
-            table.AddRow("E-postadress", customer.Email);
-            table.AddRow("VIP", customer.IsVip ? "Ja" : "Nej");
-            table.AddRow("Aktiv", customer.IsActive ? "Ja" : "Nej");
+            table.AddRow("Förnamn:", customer.FirstName);
+            table.AddRow("Efternamn:", customer.LastName);
+            table.AddRow("Adress:", $"{customer.Address}, {customer.City}, {customer.PostalCode}");
+            table.AddRow("Telefonnummer:", customer.Phone);
+            table.AddRow("E-postadress:", customer.Email);
+            table.AddRow("VIP:", customer.IsVip ? "Ja" : "Nej");
+            table.AddRow("Aktiv:", customer.IsActive ? "Ja" : "Nej");
 
             Spectre.Console.AnsiConsole.Write(table);
 

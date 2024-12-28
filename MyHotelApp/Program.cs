@@ -1,9 +1,4 @@
 ﻿using Autofac;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using MyHotelApp.Data;
-using MyHotelApp.Services;
-using MyHotelApp.Utilities.Menus;
 using MyHotelApp.Models;
 
 namespace MyHotelApp
@@ -15,6 +10,7 @@ namespace MyHotelApp
             var container = ContainerConfig.Configure();
             var hotelApp = container.Resolve<App>();
 
+            App.Start();
             hotelApp.Run();
         }
     }

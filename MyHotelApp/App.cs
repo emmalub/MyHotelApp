@@ -25,6 +25,7 @@ namespace MyHotelApp
             {
                 var dbContext = scope.Resolve<HotelDbContext>();
                 dbContext.Database.Migrate();
+                DatabaseSeeder.Seed(dbContext);
             }
         }
 
@@ -41,7 +42,7 @@ namespace MyHotelApp
             Thread.Sleep(1000);
             //Console.ReadKey();
 
-            _roomService.SeedRooms();
+            //_roomService.SeedRooms();
             _mainMenu.ShowMenu();
         }
     }
