@@ -10,14 +10,7 @@ namespace MyHotelApp.Services
         }
         public DateTime GetDate(string prompt)
         {
-            var datePrompt = new DatePrompt()
-                .Prompt(prompt)
-                .UseValue(DateTime.Today)
-                .MinValue(DateTime.Today)
-                .MaxValue(DateTime.Today.AddYears(1));
-
-            var selectedDate = AnsiConsole.Prompt(datePrompt);
-            return selectedDate;
+            return AnsiConsole.Ask<DateTime>($"{prompt}");
         }
         public int GetRoomIdFromUser(string prompt = "Ange rumsnummer: ")
         {

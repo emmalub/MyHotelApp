@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MyHotelApp.Services
 {
-    public class DatePrompt : Prompt<DateTime>
+    public class DatePrompt //: Prompt<DateTime>
     {
-        public DatePrompt Prompt(string label)
-        {
-            _label = label;
-            return _label;
-        }
+        //public DatePrompt Prompt(string label)
+        //{
+        //    _label = label;
+        //    return _label;
+        //}
     }
 }

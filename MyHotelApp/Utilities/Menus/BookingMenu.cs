@@ -15,14 +15,16 @@ namespace MyHotelApp.Utilities.Menus
         private readonly InputService _inputService;
         private readonly CustomerService _customerService;
         private readonly RoomService _roomService;
+        private readonly BookingCalendar _bookingCalendar;
         // private readonly IMessageService _messageService;
 
-        public BookingMenu(BookingService bookingService, InputService inputService, CustomerService customerService, RoomService roomService)
+        public BookingMenu(BookingService bookingService, InputService inputService, CustomerService customerService, RoomService roomService, BookingCalendar bookingCalendar)
         {
             _bookingService = bookingService;
             _inputService = inputService;
             _customerService = customerService;
             _roomService = roomService;
+            _bookingCalendar = bookingCalendar;
             // _messageService = messageService;
         }
         public void ShowMenu()
@@ -30,8 +32,13 @@ namespace MyHotelApp.Utilities.Menus
             int guestId = SelectGuest();
             int roomId = SelectRoom();
 
+            _bookingCalendar.ShowCalendar();
+
             var checkInDate = _inputService.GetDate("Ange incheckningsdatum: ");
             var checkOutDate = _inputService.GetDate("Ange utcheckningsdatum: ");
+
+            //var checkInDate = _bookingCalendar.SelectDate("Ange incheckningsdatum: ");
+            //var checkOutDate = _bookingCalendar.SelectDate("Ange utcheckningsdatum: ");
 
             if (checkOutDate <= checkInDate)
             {

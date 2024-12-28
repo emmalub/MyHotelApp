@@ -1,7 +1,6 @@
 ﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using MyHotelApp.Interfaces;
-using MyHotelApp.Services.Interfaces;
 using Spectre.Console;
 
 namespace MyHotelApp.Services;
