@@ -1,21 +1,16 @@
 ﻿using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyHotelApp.Services
 {
     public class BookingCalendar
     {
+
         private DateTime _currentDate = DateTime.Today;
         private DateTime? _selectedDate = null;
         private List<DateTime> _bookedDates;
         private string _calendarMessage;
 
-        public BookingCalendar() 
+        public BookingCalendar()
         {
             _bookedDates = new List<DateTime>();
         }
@@ -35,6 +30,8 @@ namespace MyHotelApp.Services
             {
                 Console.Clear();
                 RenderCalendar();
+
+                AnsiConsole.MarkupLine($"[bold yellow]{_calendarMessage}[/]");
 
                 var key = Console.ReadKey(true);
 
@@ -75,7 +72,7 @@ namespace MyHotelApp.Services
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
             var grid = new Grid();
-                grid.AddColumns(0);
+            grid.AddColumns(0);
 
             foreach (var day in new[] { "Mån", "Tis", "Ons", "Tors", "Fre", "Lör", "Sön" })
                 grid.AddColumn(new GridColumn().Centered());
@@ -107,10 +104,11 @@ namespace MyHotelApp.Services
 
                 currentDay = currentDay.AddDays(1);
             }
-            AnsiConsole.Write(new Panel(grid).Header($"[bold blue]{_currentDate: MMMM yyyy}[/]"));
+            var panel = new Panel(grid).Header($"[bold blue]{_currentDate: MMMM yyyy}[/]");
+            AnsiConsole.Write(panel);
         }
-    
-           
+
+
         //public void ShowCalendar()
         //{
         //    while (true)
@@ -142,41 +140,41 @@ namespace MyHotelApp.Services
         //    }
         //}
 
-        private void DisplayMonthCalendar(DateTime month)
-        {
-            // Skriv ut månadsrubrik
-            AnsiConsole.MarkupLine($"[bold green]{month.ToString("MMMM yyyy")}[/]");
+        //private void DisplayMonthCalendar(DateTime month)
+        //{
+        //    // Skriv ut månadsrubrik
+        //    AnsiConsole.MarkupLine($"[bold green]{month.ToString("MMMM yyyy")}[/]");
 
-            // Skriv ut veckodagarna
-            AnsiConsole.MarkupLine("[bold]M T W T F S S[/]");
+        //    // Skriv ut veckodagarna
+        //    AnsiConsole.MarkupLine("[bold]M T W T F S S[/]");
 
-            // Hitta första dagen i månaden
-            int daysInMonth = DateTime.DaysInMonth(month.Year, month.Month);
-            DateTime firstDayOfMonth = new DateTime(month.Year, month.Month, 1);
-            int startDay = (int)firstDayOfMonth.DayOfWeek;
+        //    // Hitta första dagen i månaden
+        //    int daysInMonth = DateTime.DaysInMonth(month.Year, month.Month);
+        //    DateTime firstDayOfMonth = new DateTime(month.Year, month.Month, 1);
+        //    int startDay = (int)firstDayOfMonth.DayOfWeek;
 
-            // Fyll i de tomma dagarna före den första dagen
-            string calendarOutput = new string(' ', startDay * 3);
+        //    // Fyll i de tomma dagarna före den första dagen
+        //    string calendarOutput = new string(' ', startDay * 3);
 
-            // Lägg till alla dagar i månaden
-            for (int day = 1; day <= daysInMonth; day++)
-            {
-                // Markera om datumet är bokat
-                DateTime currentDate = new DateTime(month.Year, month.Month, day);
-                string dayDisplay = _bookedDates.Contains(currentDate) ? $"[bold red]{day,2}[/]" : $"{day,2}";
+        //    // Lägg till alla dagar i månaden
+        //    for (int day = 1; day <= daysInMonth; day++)
+        //    {
+        //        // Markera om datumet är bokat
+        //        DateTime currentDate = new DateTime(month.Year, month.Month, day);
+        //        string dayDisplay = _bookedDates.Contains(currentDate) ? $"[bold red]{day,2}[/]" : $"{day,2}";
 
-                calendarOutput += dayDisplay + " "; // Skriv ut dagen
-                startDay++;
+        //        calendarOutput += dayDisplay + " "; // Skriv ut dagen
+        //        startDay++;
 
-                if (startDay > 6) // Om vi når söndag, gå till nästa rad
-                {
-                    calendarOutput += Environment.NewLine;
-                    startDay = 0;
-                }
-            }
+        //        if (startDay > 6) // Om vi når söndag, gå till nästa rad
+        //        {
+        //            calendarOutput += Environment.NewLine;
+        //            startDay = 0;
+        //        }
+        //    }
 
-            // Skriv ut kalendern
-            AnsiConsole.MarkupLine(calendarOutput);
-        }
+        //    // Skriv ut kalendern
+        //    AnsiConsole.MarkupLine(calendarOutput);
+        //}
     }
 }

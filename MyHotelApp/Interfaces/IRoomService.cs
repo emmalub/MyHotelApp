@@ -14,7 +14,7 @@ namespace MyHotelApp.Interfaces
         void CreateRoom();
         Room GetRoomById(int id);
         List<Room> GetAllRooms(bool includeInactive = false);
-        void UpdateRoom(Room room);
+        void UpdateRoom();
         void DeleteRoom(int id);
         void ActivateRoom(int id);
         void DisplayActiveRooms();

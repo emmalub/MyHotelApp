@@ -1,9 +1,4 @@
-﻿using MyHotelApp.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyHotelApp.Data;
 using MyHotelApp.Services;
 using Spectre.Console;
 
@@ -20,13 +15,19 @@ namespace MyHotelApp.Utilities.Menus
 
         public BookingMenu()
         {
-            _inputService = new InputService();
+            _inputService = new InputService(); 
+            var dbContext = new HotelDbContext(); 
+            _customerService = new CustomerService(dbContext); 
+            _roomService = new RoomService(dbContext); 
+            _bookingService = new BookingService(dbContext); 
+            _bookingCalendar = new BookingCalendar(); 
         }
+
         public BookingMenu(
-            BookingService bookingService, 
-            InputService inputService, 
-            CustomerService customerService, 
-            RoomService roomService, 
+            BookingService bookingService,
+            InputService inputService,
+            CustomerService customerService,
+            RoomService roomService,
             BookingCalendar bookingCalendar)
         {
             _bookingService = bookingService;
@@ -34,37 +35,56 @@ namespace MyHotelApp.Utilities.Menus
             _customerService = customerService;
             _roomService = roomService;
             _bookingCalendar = bookingCalendar;
+            var dbContext = new HotelDbContext();
             // _messageService = messageService;
         }
         public void Booking()
         {
+            Console.Clear();
             int guestId = SelectGuest();
-            int roomId = SelectRoom();
 
-            var bookedDates = _bookingService.GetBookedDatesForRoom(roomId);
-            _bookingCalendar = new BookingCalendar(bookedDates);
-            var checkInDate = _bookingCalendar.Show("Välj incheckningsdatum");
+            var checkInDate = SelectCheckInDate();
             if (!checkInDate.HasValue)
             {
                 AnsiConsole.MarkupLine("[bold red]Incheckningsdatum måste vara senare än dagens datum.[/]");
                 return;
             }
+            Console.WriteLine($"Valt datum för incheckning: {checkInDate.Value:yyyy-MM-dd}");
 
-            var checkOutDate = _bookingCalendar.Show("Välj datum för utcheckning");
+            var checkOutDate = SelectCheckOutDate(checkInDate.Value);
             if (!checkOutDate.HasValue)
             {
-                AnsiConsole.MarkupLine("[bold red]Inget giltigt datum valdes.[/]");
+                AnsiConsole.MarkupLine("[bold red]Utcheckningsdatum måste vara efter datum för incheckning.[/]");
                 return;
             }
+            Console.WriteLine($"Valt datum för incheckning: {checkInDate.Value:yyyy-MM-dd}");
+            Console.WriteLine($"Valt datum för utcheckning: {checkOutDate.Value:yyyy-MM-dd}");
 
-            if (checkOutDate <= checkInDate)
-            {
-                AnsiConsole.MarkupLine("[bold red]Utcheckningsdatum måste vara senare än incheckningsdatum.[/]");
-                return;
-            }
+            int roomId = SelectRoom(checkInDate.Value, checkOutDate.Value);
 
-            _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value);
+            _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "");
             AnsiConsole.MarkupLine("[bold green]Bokning skapad![/]");
+        }
+
+        private DateTime? SelectCheckOutDate(DateTime checkOutDate)
+        {
+            var bookedDates = _bookingService.GetBookedDatesForRoom(0);
+            _bookingCalendar = new BookingCalendar(bookedDates);
+
+            var selectedDate = _bookingCalendar.Show("Välj datum för utcheckning");
+          
+            return selectedDate;
+        }
+
+        private DateTime? SelectCheckInDate()
+        {
+            var bookedDates = _bookingService.GetBookedDatesForRoom(0);
+            _bookingCalendar = new BookingCalendar(bookedDates);
+
+            var selectedDate = _bookingCalendar.Show("Välj datum för incheckning");
+            
+            AnsiConsole.MarkupLine("[bold red]Välj datum för utcheckning (måste vara senare än datum för incheckning)[/]");
+            return selectedDate;
         }
 
         private int SelectGuest()
@@ -78,14 +98,10 @@ namespace MyHotelApp.Utilities.Menus
             return _inputService.GetId("Ange gästens ID: ");
         }
 
-        private int SelectRoom()
+        private int SelectRoom(DateTime checkInDate, DateTime checkOutDate)
         {
-            Console.WriteLine("Välj rum:");
-
-            var checkInDate = _inputService.GetDate("Ange incheckningsdatum: ");
-            var checkOutDate = _inputService.GetDate("Ange utcheckningsdatum: ");
-
             var rooms = _roomService.GetAvailableRooms(checkInDate, checkOutDate);
+            Console.WriteLine("Välj rum:");
 
             foreach (var room in rooms)
             {

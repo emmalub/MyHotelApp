@@ -59,19 +59,31 @@ public class RoomService : IRoomService
         };
     }
 
-    public void UpdateRoom(Room room)
+    public void UpdateRoom()
     {
-        var existingRoom = _context.Rooms.Find(room.Id);
-        if (existingRoom != null)
+        DisplayActiveRooms();
+        Console.WriteLine();
+        Console.Write("Ange ID för det rum du vill uppdatera: ");
+        int roomId = int.Parse(Console.ReadLine());
+
+        var room = _context.Rooms.Find(roomId);
+        if (room == null)
         {
-            existingRoom.Price = room.Price;
-            if (existingRoom is DoubleRoom doubleroom && room is DoubleRoom updatedDoubleRoom)
-            {
-                doubleroom.ExtraBeds = updatedDoubleRoom.ExtraBeds;
-                doubleroom.Size = updatedDoubleRoom.Size;
-            }
-            _context.SaveChanges();
+            Console.WriteLine("Rummet finns inte.");
+            return;
         }
+
+        Console.WriteLine($"Uppdaterar rum {room.Id}");
+        Console.Write("Ange nytt pris: (nuvarande pris: " + room.Price + "): ");
+        room.Price = decimal.Parse(Console.ReadLine());
+
+        if (room is DoubleRoom doubleRoom)
+        {
+            Console.Write("Ange ny storlek: (nuvarande storlek: " + doubleRoom.Size + "): ");
+            doubleRoom.Size = double.Parse(Console.ReadLine());
+        }
+        _context.SaveChanges();
+        Console.WriteLine("Rummet har uppdaterats!");
     }
 
     public void DeleteRoom(int roomId)
@@ -145,7 +157,7 @@ public class RoomService : IRoomService
             Console.WriteLine("Aktiva rum: ");
             foreach (var room in activeRooms)
             {
-                Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt, {room.IsActive}");
+                Console.WriteLine($"Rum {room.Id}: {room.RoomType} - {room.Price} SEK per natt");
             }
         }
         else

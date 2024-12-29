@@ -58,7 +58,7 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "REDIGERA RUM":
-
+                    _roomService.UpdateRoom();
                     break;
 
                 case "Tillbaka till huvudmenyn":

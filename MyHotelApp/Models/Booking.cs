@@ -19,7 +19,7 @@ namespace MyHotelApp.Models
         public Invoice Invoice { get; set; }
         public bool IsActive { get; set; }
         public bool IsPaid { get; set; }
-        public string Conditions { get; set; }
+        public string? Conditions { get; set; }
 
 
     }

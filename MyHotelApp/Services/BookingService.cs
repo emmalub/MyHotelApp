@@ -26,7 +26,7 @@ namespace MyHotelApp.Services
         //}
 
 
-        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate)
+        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate, string conditions)
         {
             var booking = new Booking
             {
@@ -34,7 +34,8 @@ namespace MyHotelApp.Services
                 RoomId = roomId,
                 CheckInDate = checkInDate,
                 CheckOutDate = checkOutDate,
-                IsPaid = false
+                IsPaid = false,
+                Conditions = ""
             };
 
             _context.Bookings.Add(booking);
