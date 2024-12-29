@@ -82,14 +82,25 @@ namespace MyHotelApp.Utilities.Menus
             AnsiConsole.MarkupLine("[bold green]Bokning skapad![/]");
         }
 
-        private DateTime? SelectCheckOutDate(DateTime checkOutDate)
+        private DateTime? SelectCheckOutDate(DateTime checkInDate)
         {
             var bookedDates = _bookingService.GetBookedDatesForRoom(0);
             _bookingCalendar = new BookingCalendar(bookedDates);
 
-            var selectedDate = _bookingCalendar.Show("Välj datum för utcheckning");
-          
-            return selectedDate;
+            DateTime? selectedCheckOutDate = null;
+
+            while (selectedCheckOutDate == null || selectedCheckOutDate <= checkInDate)
+            {
+                selectedCheckOutDate = _bookingCalendar.Show("Välj datum för utcheckning");
+
+                if (selectedCheckOutDate.HasValue && selectedCheckOutDate.Value <= checkInDate)
+                {
+                    AnsiConsole.MarkupLine("[bold red]Utcheckningsdatum måste vara efter datum för incheckning.[/]");
+                    Thread.Sleep(1500);
+                }
+
+            }
+            return selectedCheckOutDate;
         }
 
         private DateTime? SelectCheckInDate()
@@ -97,10 +108,26 @@ namespace MyHotelApp.Utilities.Menus
             var bookedDates = _bookingService.GetBookedDatesForRoom(0);
             _bookingCalendar = new BookingCalendar(bookedDates);
 
-            var selectedDate = _bookingCalendar.Show("Välj datum för incheckning");
-            
-            AnsiConsole.MarkupLine("[bold red]Välj datum för utcheckning (måste vara senare än datum för incheckning)[/]");
-            return selectedDate;
+            DateTime? selectedCheckInDate = null;
+
+            while (selectedCheckInDate == null || selectedCheckInDate.Value < DateTime.Today)
+            {
+                selectedCheckInDate = _bookingCalendar.Show("Välj datum för incheckning");
+
+                if (selectedCheckInDate.HasValue)
+                {
+                    if (selectedCheckInDate.Value < DateTime.Today)
+                    {
+                        AnsiConsole.MarkupLine("[bold red]Incheckningsdatum kan inte vara bakåt i tiden.[/]");
+                        Thread.Sleep(1500);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            return selectedCheckInDate;
         }
 
         private int SelectGuest()
@@ -114,7 +141,21 @@ namespace MyHotelApp.Utilities.Menus
             {
                 Console.WriteLine($"{guest.Id}. {guest.FirstName} {guest.LastName}");
             }
-            return _inputService.GetId("\nAnge gästens ID: ");
+
+            int guestId;
+            while (true)
+            {
+                guestId = _inputService.GetId("\nAnge gästens ID: ");
+                if (guests.Any(g => g.Id == guestId))
+                {
+                    break;
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("[bold red]Ogiltigt ID. Försök igen.[/]");
+                }
+            }
+            return guestId;
         }
 
         private int SelectRoom(DateTime checkInDate, DateTime checkOutDate)
@@ -125,7 +166,14 @@ namespace MyHotelApp.Utilities.Menus
 
             foreach (var room in rooms)
             {
-                Console.WriteLine($"{room.Id}. {room.RoomType} - {room.Price} kr/natt");
+                if (room is DoubleRoom doubleRoom)
+                {
+                    Console.WriteLine($"{room.Id}. {room.RoomType} - Extrasängar: {doubleRoom.MaxExtraBeds} - Pris: {room.Price} kr/natt");
+                }
+                else
+                {
+                    Console.WriteLine($"{room.Id}. {room.RoomType} - Pris: {room.Price} kr/natt");
+                }
             }
             return _inputService.GetId("\nAnge rummets ID: ");
         }
@@ -140,8 +188,8 @@ namespace MyHotelApp.Utilities.Menus
                 Console.Write($"Hur många extrasängar vill du lägga till (0-{maxExtraBeds})? ");
                 string input = Console.ReadLine();
 
-                if(int.TryParse(input, out selectedExtraBeds) 
-                    && selectedExtraBeds >= 0 
+                if (int.TryParse(input, out selectedExtraBeds)
+                    && selectedExtraBeds >= 0
                     && selectedExtraBeds <= maxExtraBeds)
                 {
                     if (selectedExtraBeds < 0 || selectedExtraBeds > maxExtraBeds)
