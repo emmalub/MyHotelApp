@@ -1,4 +1,5 @@
 ﻿using MyHotelApp.Data;
+using MyHotelApp.Models;
 using MyHotelApp.Services;
 using Spectre.Console;
 
@@ -43,7 +44,7 @@ namespace MyHotelApp.Utilities.Menus
             var dbContext = new HotelDbContext();
             // _messageService = messageService;
         }
-        public void Booking()
+        public void BookRoom()
         {
             Console.Clear();
             int guestId = SelectGuest();
@@ -67,9 +68,17 @@ namespace MyHotelApp.Utilities.Menus
             Console.WriteLine($"Valt datum för utcheckning: {checkOutDate.Value:yyyy-MM-dd}");
 
             int roomId = SelectRoom(checkInDate.Value, checkOutDate.Value);
+            var room = _roomService.GetRoomById(roomId);
+            int extraBeds = 0;
+
+            if (room is DoubleRoom doubleRoom)
+            {
+                extraBeds = SelectExtraBeds(doubleRoom.MaxExtraBeds);
+            }
+
             decimal pricePerNight = _roomService.GetRoomById(roomId).Price;
 
-            _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "", pricePerNight);
+            _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "", pricePerNight, extraBeds);
             AnsiConsole.MarkupLine("[bold green]Bokning skapad![/]");
         }
 
@@ -119,6 +128,33 @@ namespace MyHotelApp.Utilities.Menus
                 Console.WriteLine($"{room.Id}. {room.RoomType} - {room.Price} kr/natt");
             }
             return _inputService.GetId("\nAnge rummets ID: ");
+        }
+
+        private int SelectExtraBeds(int maxExtraBeds)
+        {
+            Console.WriteLine($"Rummet har plats för upp till {maxExtraBeds} extrasängar.");
+            int selectedExtraBeds = -1;
+
+            while (selectedExtraBeds < 0 || selectedExtraBeds > maxExtraBeds)
+            {
+                Console.Write($"Hur många extrasängar vill du lägga till (0-{maxExtraBeds})? ");
+                string input = Console.ReadLine();
+
+                if(int.TryParse(input, out selectedExtraBeds) 
+                    && selectedExtraBeds >= 0 
+                    && selectedExtraBeds <= maxExtraBeds)
+                {
+                    if (selectedExtraBeds < 0 || selectedExtraBeds > maxExtraBeds)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt antal extrasängar. Försök igen.");
+                }
+            }
+            return selectedExtraBeds;
         }
     }
 }

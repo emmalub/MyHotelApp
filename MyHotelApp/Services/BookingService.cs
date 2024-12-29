@@ -32,7 +32,7 @@ namespace MyHotelApp.Services
         //}
 
 
-        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate, string conditions, decimal pricePerNight)
+        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate, string conditions, decimal pricePerNight, int extraBeds)
         {
             var booking = new Booking
             {
@@ -42,6 +42,7 @@ namespace MyHotelApp.Services
                 CheckOutDate = checkOutDate,
                 TotalPrice = pricePerNight,
                 IsPaid = false,
+                ExtraBeds = extraBeds,
                 Conditions = ""
             };
 

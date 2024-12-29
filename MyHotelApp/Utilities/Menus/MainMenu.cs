@@ -45,7 +45,7 @@ namespace MyHotelApp.Utilities.Menus
             switch (selectedOption)
             {
                 case "BOKA RUM":
-                    _bookingMenu.Booking();
+                    _bookingMenu.BookRoom();
                     break;
 
                 case "HANTERA BOKNING":

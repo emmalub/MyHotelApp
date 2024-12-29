@@ -22,7 +22,7 @@ namespace MyHotelApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MyHotelApp.Models.Booking", b =>
+            modelBuilder.Entity("MyHotelApp.Models.BookRoom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,7 +199,7 @@ namespace MyHotelApp.Migrations
                     b.HasDiscriminator().HasValue("Enkelrum");
                 });
 
-            modelBuilder.Entity("MyHotelApp.Models.Booking", b =>
+            modelBuilder.Entity("MyHotelApp.Models.BookRoom", b =>
                 {
                     b.HasOne("MyHotelApp.Models.Customer", "Guest")
                         .WithMany("Bookings")
@@ -220,7 +220,7 @@ namespace MyHotelApp.Migrations
 
             modelBuilder.Entity("MyHotelApp.Models.Invoice", b =>
                 {
-                    b.HasOne("MyHotelApp.Models.Booking", null)
+                    b.HasOne("MyHotelApp.Models.BookRoom", null)
                         .WithOne("Invoice")
                         .HasForeignKey("MyHotelApp.Models.Invoice", "BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -231,7 +231,7 @@ namespace MyHotelApp.Migrations
                         .HasForeignKey("CustomerId");
                 });
 
-            modelBuilder.Entity("MyHotelApp.Models.Booking", b =>
+            modelBuilder.Entity("MyHotelApp.Models.BookRoom", b =>
                 {
                     b.Navigation("Invoice")
                         .IsRequired();
