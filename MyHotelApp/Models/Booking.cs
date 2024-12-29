@@ -20,6 +20,7 @@ namespace MyHotelApp.Models
         public bool IsActive { get; set; }
         public bool IsPaid { get; set; }
         public string? Conditions { get; set; }
+        public int ExtraBeds { get; set; }
 
 
     }
