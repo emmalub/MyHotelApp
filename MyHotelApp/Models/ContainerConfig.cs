@@ -48,6 +48,8 @@ namespace MyHotelApp.Models
             builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<CustomerMenu>().AsSelf().InstancePerLifetimeScope();
 
+            builder.RegisterType<InvoiceService>().AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterType<MainMenu>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<InputService>().AsSelf().InstancePerLifetimeScope();

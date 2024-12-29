@@ -10,7 +10,9 @@ namespace MyHotelApp.Utilities.Menus
         private readonly InputService _inputService;
         private readonly CustomerService _customerService;
         private readonly RoomService _roomService;
+        private readonly InvoiceService _invoiceService;
         private BookingCalendar _bookingCalendar;
+
         // private readonly IMessageService _messageService;
 
         //public BookingMenu()
@@ -28,13 +30,16 @@ namespace MyHotelApp.Utilities.Menus
             InputService inputService,
             CustomerService customerService,
             RoomService roomService,
-            BookingCalendar bookingCalendar)
+            BookingCalendar bookingCalendar,
+            InvoiceService invoiceService
+            )
         {
             _bookingService = bookingService;
             _inputService = inputService;
             _customerService = customerService;
             _roomService = roomService;
             _bookingCalendar = bookingCalendar;
+            _invoiceService = invoiceService;
             var dbContext = new HotelDbContext();
             // _messageService = messageService;
         }
@@ -62,8 +67,9 @@ namespace MyHotelApp.Utilities.Menus
             Console.WriteLine($"Valt datum för utcheckning: {checkOutDate.Value:yyyy-MM-dd}");
 
             int roomId = SelectRoom(checkInDate.Value, checkOutDate.Value);
+            decimal pricePerNight = _roomService.GetRoomById(roomId).Price;
 
-            _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "");
+            _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "", pricePerNight);
             AnsiConsole.MarkupLine("[bold green]Bokning skapad![/]");
         }
 

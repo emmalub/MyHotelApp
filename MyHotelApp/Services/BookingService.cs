@@ -16,12 +16,14 @@ namespace MyHotelApp.Services
     {
         private readonly HotelDbContext _context;
         private readonly IMessageService _messageService;
+        private readonly InvoiceService _invoiceService;
         private List<Booking> bookings;
 
 
-        public BookingService(HotelDbContext context)
+        public BookingService(HotelDbContext context, InvoiceService invoiceService)
         {
             _context = context;
+            _invoiceService = invoiceService;
         }
 
         //public MessageService(IMessageService messageService)
@@ -30,7 +32,7 @@ namespace MyHotelApp.Services
         //}
 
 
-        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate, string conditions)
+        public void CreateBooking(int guestId, int roomId, DateTime checkInDate, DateTime checkOutDate, string conditions, decimal pricePerNight)
         {
             var booking = new Booking
             {
@@ -38,12 +40,18 @@ namespace MyHotelApp.Services
                 RoomId = roomId,
                 CheckInDate = checkInDate,
                 CheckOutDate = checkOutDate,
+                Price = pricePerNight,
                 IsPaid = false,
                 Conditions = ""
             };
 
             _context.Bookings.Add(booking);
             _context.SaveChanges();
+
+            decimal totalAmount = _invoiceService.CalculateTotalPrice(checkInDate, checkOutDate, pricePerNight);
+            var dueDate = DateTime.Now.AddDays(10);
+
+            _invoiceService.CreateInvoice(booking.Id, totalAmount, dueDate);
         }
 
         public void ConfirmBooking(string customerName, string roomType, DateTime bookingDate)
