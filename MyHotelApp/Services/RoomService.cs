@@ -3,15 +3,18 @@ using MyHotelApp.Models;
 using MyHotelApp.Interfaces;
 using Spectre.Console;
 
+
 namespace MyHotelApp.Services;
 
 public class RoomService : IRoomService
 {
     private readonly HotelDbContext _context;
+    private readonly InputService _inputService; 
 
-    public RoomService(HotelDbContext context)
+    public RoomService(HotelDbContext context, InputService inputService)
     {
         _context = context;
+        _inputService = inputService;
     }
 
     public List<Room> GetActiveRoom() => _context.Rooms
@@ -102,19 +105,18 @@ public class RoomService : IRoomService
         }
     }
 
-    public void ActivateRoom(int roomId)
+    public void ActivateRoom()
     {
-        int id = AnsiConsole.Prompt(
-        new TextPrompt<int>("Ange [green]rumID[/] för att återaktivera rummet:")
-            .PromptStyle("green")
-            .Validate(value => value > 0 ? ValidationResult.Success() : ValidationResult.Error("Ange ett giltigt rumID"))
-    );
+        DisplayActiveRooms();
 
-        var room = _context.Rooms.Find(id);
+        int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
+
+        var room = _context.Rooms.Find(roomId);
         if (room != null)
         {
             room.IsActive = true;
             _context.SaveChanges();
+            AnsiConsole.MarkupLine($"[green]Rum {roomId} har återaktiverats![/]");
         }
         else
         {

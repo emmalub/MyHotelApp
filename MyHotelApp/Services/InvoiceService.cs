@@ -10,32 +10,26 @@ namespace MyHotelApp.Services
 {
     public class InvoiceService
     {
-            private readonly HotelDbContext _context;
+        private readonly HotelDbContext _context;
 
-            public InvoiceService(HotelDbContext context)
-            {
-                _context = context;
-            }
-
-            private readonly List<Invoice> _invoices = new();
-
-        public Invoice CreateInvoice(int bookingId, decimal amount)
+        public InvoiceService(HotelDbContext context)
         {
-            var newInvoice = new Invoice
-            {
-                Id = _invoices.Count + 1,
-                BookingId = bookingId,
-                Amount = amount,
-                IssueDate = DateTime.Now,
-                IsPaid = false,
-                IsCanceled = false
-            };
-            _invoices.Add(newInvoice);
+            _context = context;
+        }
+
+        private readonly List<Invoice> _invoices = new();
+
+        public Invoice CreateInvoice(int bookingId, decimal amount, DateTime dueDate)
+        {
+            var newInvoice = new Invoice(bookingId, amount, dueDate);
+            _context.Invoices.Add(newInvoice);
+            _context.SaveChanges();
+            Console.WriteLine("Faktura skapad!");
             return newInvoice;
         }
         public List<Invoice> GetInvoiceList()
         {
-            return _invoices;
+            return _context.Invoices.ToList();
         }
 
         public Invoice GetInvoiceById(int id)
@@ -45,11 +39,30 @@ namespace MyHotelApp.Services
 
         public void CancelInvoice(int id)
         {
-            var invoice = GetInvoiceById(id);
+            var invoice = _context.Invoices.FirstOrDefault(x => x.Id == id);
             if (invoice != null)
             {
                 invoice.IsCanceled = true;
+                _context.SaveChanges();
             }
         }
+
+        public Invoice CreateInvoiceFromBooking(int bookingId)
+        {
+            var booking = _context.Bookings.FirstOrDefault(b => b.Id == bookingId);
+            if (booking == null) return null;
+            
+            decimal totalAmount = CalculateTotalPrice(booking.CheckInDate, booking.CheckOutDate, booking.Price);
+            var dueDate = booking.CheckOutDate.AddDays(10);
+
+            return CreateInvoice(bookingId, totalAmount, dueDate);
+        }
+
+        public decimal CalculateTotalPrice(DateTime checkInDate, DateTime checkOutDate, decimal price)
+        {
+            var totalDays = (checkOutDate - checkInDate).Days;
+            return totalDays * price;
+        }
+
     }
 }

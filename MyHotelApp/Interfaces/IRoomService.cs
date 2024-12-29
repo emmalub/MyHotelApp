@@ -16,7 +16,7 @@ namespace MyHotelApp.Interfaces
         List<Room> GetAllRooms(bool includeInactive = false);
         void UpdateRoom();
         void DeleteRoom(int id);
-        void ActivateRoom(int id);
+        void ActivateRoom();
         void DisplayActiveRooms();
         void DisplayInactiveRooms();
     }

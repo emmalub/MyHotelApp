@@ -52,9 +52,9 @@ namespace MyHotelApp.Utilities.Menus
                     _roomService.DeleteRoom(deactivateRoomId);
                     break;
 
-                case "AKTIVERA RUM":
-                    int activateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
-                    _roomService.ActivateRoom(activateRoomId);
+                case "ÅTERAKTIVERA RUM":
+                    //int activateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
+                    _roomService.ActivateRoom();
                     break;
 
                 case "REDIGERA RUM":

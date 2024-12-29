@@ -1,6 +1,9 @@
-﻿using MyHotelApp.Data;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MyHotelApp.Data;
 using MyHotelApp.Interfaces;
 using MyHotelApp.Models;
+using Spectre.Console;
+using Spectre.Console.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +16,7 @@ namespace MyHotelApp.Services
     {
         private readonly HotelDbContext _context;
         private readonly IMessageService _messageService;
+        private List<Booking> bookings;
 
 
         public BookingService(HotelDbContext context)
@@ -40,8 +44,6 @@ namespace MyHotelApp.Services
 
             _context.Bookings.Add(booking);
             _context.SaveChanges();
-
-            Console.WriteLine("Bokning gjord!");
         }
 
         public void ConfirmBooking(string customerName, string roomType, DateTime bookingDate)
@@ -52,20 +54,60 @@ namespace MyHotelApp.Services
             _messageService.SendMessage(customerName, confirmationMessage);
         }
 
-        public void DisplayBookings(List<Booking> bookings)
+        public void DisplayBooking()
         {
-            Console.WriteLine("------------------------------------------------------------------------------------");
-            Console.WriteLine("| Bokningsnummer | Gäst  | Rum  | Incheckning  | Utcheckning  | Pris     | Betald  | Noteringar   |");
-            Console.WriteLine("------------------------------------------------------------------------------------");
+            var bookings = _context.Bookings?.ToList();
+            if (bookings == null || !bookings.Any())
+            {
+                Console.WriteLine("Det finns inga bokningar att visa.");
+                return;
+            }
+
+            var table = new Spectre.Console.Table
+            {
+                Border = TableBorder.Rounded
+            };
+
+            table.AddColumn("[bold white]Bokningsnummer[/]");
+            table.AddColumn("[bold white]Gäst[/]");
+            table.AddColumn("[bold white]Rum[/]");
+            table.AddColumn("[bold white]Incheckning[/]");
+            table.AddColumn("[bold white]Utcheckning[/]");
+            table.AddColumn("[bold white]Pris[/]");
+            table.AddColumn("[bold white]Betald[/]");
+            table.AddColumn("[bold white]Noteringar[/]");
 
             foreach (var booking in bookings)
             {
-                Console.WriteLine($"| {booking.Id,-11} | {booking.GuestId,-7} | {booking.Room,-4} | {booking.CheckInDate:yyy-MM-dd} | {booking.CheckOutDate:yyyy-MM-dd} | {booking.Price,-6:C} | {(booking.IsPaid ? "J" : "N"),-6} | {(string
-                    .IsNullOrEmpty(
-                        booking.Conditions) ? "Inga" :
-                        booking.Conditions),-8} |");
+                table.AddRow(
+                    booking.Id.ToString(),
+                    booking.GuestId.ToString(),
+                    booking.RoomId.ToString(),
+                    booking.CheckInDate.ToString("yyyy-MM-dd"),
+                    booking.CheckOutDate.ToString("yyyy-MM-dd"),
+                    booking.Price.ToString("C"),
+                    booking.IsPaid ? "[bold green]Ja[/]" : "[bold red]Nej[/]",
+                    string.IsNullOrEmpty(booking.Conditions) ? "-" : booking.Conditions
+                    );
             }
+            AnsiConsole.Write(table);
         }
+
+        //    bookings.Select(booking =>
+        //    $"| {booking
+        //    .Id,-11} | {booking
+        //    .GuestId,-7} | {booking
+        //    .Room,-4} | {booking
+        //    .CheckInDate:yyy-MM-dd} | {booking
+        //    .CheckOutDate:yyyy-MM-dd} | {booking
+        //    .Price,-6:C} | {(booking
+        //    .IsPaid ? "J" : "N"),-6} | {(string
+        //        .IsNullOrEmpty(
+        //            booking.Conditions) ? "Inga" :
+        //            booking.Conditions),-8} |")
+        //        .ToList()
+        //        .ForEach(Console.WriteLine);
+
 
         public List<DateTime> GetBookedDatesForRoom(int roomId)
         {

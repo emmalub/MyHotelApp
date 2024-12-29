@@ -13,15 +13,15 @@ namespace MyHotelApp.Utilities.Menus
         private BookingCalendar _bookingCalendar;
         // private readonly IMessageService _messageService;
 
-        public BookingMenu()
-        {
-            _inputService = new InputService(); 
-            var dbContext = new HotelDbContext(); 
-            _customerService = new CustomerService(dbContext); 
-            _roomService = new RoomService(dbContext); 
-            _bookingService = new BookingService(dbContext); 
-            _bookingCalendar = new BookingCalendar(); 
-        }
+        //public BookingMenu()
+        //{
+        //    _inputService = new InputService(); 
+        //    var dbContext = new HotelDbContext(); 
+        //    _customerService = new CustomerService(dbContext); 
+        //    _roomService = new RoomService(dbContext); 
+        //    _bookingService = new BookingService(dbContext); 
+        //    _bookingCalendar = new BookingCalendar(); 
+        //}
 
         public BookingMenu(
             BookingService bookingService,
@@ -57,6 +57,7 @@ namespace MyHotelApp.Utilities.Menus
                 AnsiConsole.MarkupLine("[bold red]Utcheckningsdatum måste vara efter datum för incheckning.[/]");
                 return;
             }
+            Console.Clear();
             Console.WriteLine($"Valt datum för incheckning: {checkInDate.Value:yyyy-MM-dd}");
             Console.WriteLine($"Valt datum för utcheckning: {checkOutDate.Value:yyyy-MM-dd}");
 
@@ -89,25 +90,29 @@ namespace MyHotelApp.Utilities.Menus
 
         private int SelectGuest()
         {
+            Console.WriteLine();
             Console.WriteLine("Välj gäst:");
+            Console.WriteLine();
+
             var guests = _customerService.GetCustomers();
             foreach (var guest in guests)
             {
                 Console.WriteLine($"{guest.Id}. {guest.FirstName} {guest.LastName}");
             }
-            return _inputService.GetId("Ange gästens ID: ");
+            return _inputService.GetId("\nAnge gästens ID: ");
         }
 
         private int SelectRoom(DateTime checkInDate, DateTime checkOutDate)
         {
             var rooms = _roomService.GetAvailableRooms(checkInDate, checkOutDate);
+            Console.WriteLine();
             Console.WriteLine("Välj rum:");
 
             foreach (var room in rooms)
             {
                 Console.WriteLine($"{room.Id}. {room.RoomType} - {room.Price} kr/natt");
             }
-            return _inputService.GetId("Ange rummets ID: ");
+            return _inputService.GetId("\nAnge rummets ID: ");
         }
     }
 }
