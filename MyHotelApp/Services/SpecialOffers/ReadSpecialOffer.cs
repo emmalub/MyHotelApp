@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyHotelApp.Services.SpecialOffers.Interfaces;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using MyHotelApp.Services.SpecialOffers.Interfaces;
 
 
-namespace MyHotelApp.Services.SpecialOffers
-{
-    public class ReadSpecialOffer : IReadSpecialOffer
-    {
-        public List<string> GetAllOffers()
-        {
-            return new List<string>(); 
-        }
-    }
-}
+//namespace MyHotelApp.Services.SpecialOffers
+//{
+//    public class ReadSpecialOffer : IReadSpecialOffer
+//    {
+//        public List<string> GetAllOffers()
+//        {
+//            return new List<string>(); 
+//        }
+//    }
+//}

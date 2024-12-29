@@ -52,7 +52,7 @@ namespace MyHotelApp.Services
             var booking = _context.Bookings.FirstOrDefault(b => b.Id == bookingId);
             if (booking == null) return null;
             
-            decimal totalAmount = CalculateTotalPrice(booking.CheckInDate, booking.CheckOutDate, booking.Price);
+            decimal totalAmount = CalculateTotalPrice(booking.CheckInDate, booking.CheckOutDate, booking.TotalPrice);
             var dueDate = booking.CheckOutDate.AddDays(10);
 
             return CreateInvoice(bookingId, totalAmount, dueDate);

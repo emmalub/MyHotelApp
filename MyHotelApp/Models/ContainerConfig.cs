@@ -31,10 +31,10 @@ namespace MyHotelApp.Models
             }).AsSelf().InstancePerLifetimeScope();
 
 
-            builder.RegisterType<CreateSpecialOffer>().As<ICreateSpecialOffer>();
-            builder.RegisterType<ReadSpecialOffer>().As<IReadSpecialOffer>();
-            builder.RegisterType<UpdateSpecialOffer>().As<IUpdateSpecialOffer>();
-            builder.RegisterType<DeleteSpecialOffer>().As<IDeleteSpecialOffer>();
+            //builder.RegisterType<CreateSpecialOffer>().As<ICreateSpecialOffer>();
+            //builder.RegisterType<ReadSpecialOffer>().As<IReadSpecialOffer>();
+            //builder.RegisterType<UpdateSpecialOffer>().As<IUpdateSpecialOffer>();
+            //builder.RegisterType<DeleteSpecialOffer>().As<IDeleteSpecialOffer>();
 
             builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<RoomService>().As<IRoomService>().AsSelf().InstancePerLifetimeScope();

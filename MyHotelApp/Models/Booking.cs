@@ -15,7 +15,7 @@ namespace MyHotelApp.Models
         public virtual Room Room { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
-        public decimal Price { get; set; }
+        public decimal TotalPrice { get; set; }
         public Invoice Invoice { get; set; }
         public bool IsActive { get; set; }
         public bool IsPaid { get; set; }

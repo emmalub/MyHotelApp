@@ -40,7 +40,7 @@ namespace MyHotelApp.Services
                 RoomId = roomId,
                 CheckInDate = checkInDate,
                 CheckOutDate = checkOutDate,
-                Price = pricePerNight,
+                TotalPrice = pricePerNight,
                 IsPaid = false,
                 Conditions = ""
             };
@@ -81,7 +81,7 @@ namespace MyHotelApp.Services
             table.AddColumn("[bold white]Rum[/]");
             table.AddColumn("[bold white]Incheckning[/]");
             table.AddColumn("[bold white]Utcheckning[/]");
-            table.AddColumn("[bold white]Pris[/]");
+            table.AddColumn("[bold white]Totalpris[/]");
             table.AddColumn("[bold white]Betald[/]");
             table.AddColumn("[bold white]Noteringar[/]");
 
@@ -93,7 +93,7 @@ namespace MyHotelApp.Services
                     booking.RoomId.ToString(),
                     booking.CheckInDate.ToString("yyyy-MM-dd"),
                     booking.CheckOutDate.ToString("yyyy-MM-dd"),
-                    booking.Price.ToString("C"),
+                    booking.TotalPrice.ToString("C"),
                     booking.IsPaid ? "[bold green]Ja[/]" : "[bold red]Nej[/]",
                     string.IsNullOrEmpty(booking.Conditions) ? "-" : booking.Conditions
                     );

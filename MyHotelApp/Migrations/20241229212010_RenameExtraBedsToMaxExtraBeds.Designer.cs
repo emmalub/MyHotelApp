@@ -12,8 +12,8 @@ using MyHotelApp.Data;
 namespace MyHotelApp.Migrations
 {
     [DbContext(typeof(HotelDbContext))]
-    [Migration("20241228201702_AddRoomsAndCustomers")]
-    partial class AddRoomsAndCustomers
+    [Migration("20241229212010_RenameExtraBedsToMaxExtraBeds")]
+    partial class RenameExtraBedsToMaxExtraBeds
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,6 @@ namespace MyHotelApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Conditions")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GuestId")
@@ -52,11 +51,11 @@ namespace MyHotelApp.Migrations
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -122,14 +121,14 @@ namespace MyHotelApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsCanceled")
                         .HasColumnType("bit");
@@ -139,6 +138,9 @@ namespace MyHotelApp.Migrations
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -178,50 +180,13 @@ namespace MyHotelApp.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("MyHotelApp.Models.SpecialOffer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("DiscountAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("OfferId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OfferName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OfferType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ValidFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ValidTo")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpecialOffer");
-                });
-
             modelBuilder.Entity("MyHotelApp.Models.DoubleRoom", b =>
                 {
                     b.HasBaseType("MyHotelApp.Models.Room");
 
-                    b.Property<int>("ExtraBeds")
+                    b.Property<int>("MaxExtraBeds")
                         .HasColumnType("int")
-                        .HasColumnName("ExtraBeds");
+                        .HasColumnName("MaxExtraBeds");
 
                     b.Property<double>("Size")
                         .HasColumnType("float")

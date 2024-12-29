@@ -14,7 +14,7 @@ namespace MyHotelApp.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<SpecialOffer> SpecialOffer { get; set; }
+        //public DbSet<SpecialOffer> SpecialOffer { get; set; }
 
         /// <summary>
         /// Tom konstruktor: Denna tomma konstruktor behövs om du vill använda migrations
@@ -70,8 +70,8 @@ namespace MyHotelApp.Data
                 .HasValue<DoubleRoom>("Dubbelrum");
 
             modelBuilder.Entity<DoubleRoom>()
-           .Property(d => d.ExtraBeds)
-           .HasColumnName("ExtraBeds");
+           .Property(d => d.MaxExtraBeds)
+           .HasColumnName("MaxExtraBeds");
 
             modelBuilder.Entity<DoubleRoom>()
                 .Property(d => d.Size)

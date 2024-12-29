@@ -57,13 +57,13 @@ public class RoomService : IRoomService
             return null;
         }
 
-        int extrabeds = (int)(size / 20);
+        int maxExtraBeds = (int)(size / 20);
 
         return new DoubleRoom
         {
             Price = 1000,
             Size = size,
-            ExtraBeds = extrabeds,
+            MaxExtraBeds = maxExtraBeds,
             IsActive = true
         };
     }
@@ -182,7 +182,7 @@ public class RoomService : IRoomService
             Console.WriteLine("Inaktiva rum: ");
             foreach (var room in activeRooms)
             {
-                Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt, {room.IsActive}");
+                Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt");
             }
         }
         else
@@ -198,9 +198,9 @@ public class RoomService : IRoomService
             var rooms = new List<Room>
         {
             new SingleRoom { Price = 600, IsActive = true },
-            new DoubleRoom { Price = 1000, Size = 30, ExtraBeds = 1, IsActive = true },
+            new DoubleRoom { Price = 1000, Size = 30, MaxExtraBeds = 1, IsActive = true },
             new SingleRoom { Price = 500, IsActive = false },
-            new DoubleRoom { Price = 1000, Size = 45, ExtraBeds = 2, IsActive = true }
+            new DoubleRoom { Price = 1000, Size = 45, MaxExtraBeds = 2, IsActive = true }
         };
 
             _context.Rooms.AddRange(rooms);
