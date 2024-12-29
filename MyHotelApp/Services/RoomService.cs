@@ -48,6 +48,12 @@ public class RoomService : IRoomService
         Console.Write("Ange storlek på rummet i kvm: ");
         double size = double.Parse(Console.ReadLine());
 
+        if (size < 10 || size > 120)
+        {
+            Console.WriteLine("Ogiltig storlek. Storleken måste vara mellan 10 och 120 kvm");
+            return null;
+        }
+
         int extrabeds = (int)(size / 20);
 
         return new DoubleRoom
