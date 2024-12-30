@@ -40,7 +40,7 @@ namespace MyHotelApp.Utilities.Menus
         {
             MenuHeader.MainMenuHeader();
         }
-        protected override void HandleUserSelection(string selectedOption)
+        protected override void DisplayRoomMenu(string selectedOption)
         {
             switch (selectedOption)
             {

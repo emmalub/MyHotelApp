@@ -24,7 +24,6 @@ namespace MyHotelApp.Services
             var newInvoice = new Invoice(bookingId, amount, dueDate);
             _context.Invoices.Add(newInvoice);
             _context.SaveChanges();
-            Console.WriteLine("Faktura skapad!");
             return newInvoice;
         }
         public List<Invoice> GetInvoiceList()
@@ -47,21 +46,48 @@ namespace MyHotelApp.Services
             }
         }
 
-        public Invoice CreateInvoiceFromBooking(int bookingId)
-        {
-            var booking = _context.Bookings.FirstOrDefault(b => b.Id == bookingId);
-            if (booking == null) return null;
-            
-            decimal totalAmount = CalculateTotalPrice(booking.CheckInDate, booking.CheckOutDate, booking.TotalPrice);
-            var dueDate = booking.CheckOutDate.AddDays(10);
-
-            return CreateInvoice(bookingId, totalAmount, dueDate);
-        }
-
         public decimal CalculateTotalPrice(DateTime checkInDate, DateTime checkOutDate, decimal price)
         {
             var totalDays = (checkOutDate - checkInDate).Days;
             return totalDays * price;
+        }
+
+        public void PayInvoice(int id)
+        {
+            var invoice = _context.Invoices.FirstOrDefault(x => x.Id == id);
+            if (invoice != null)
+            {
+                invoice.IsPaid = true;
+                _context.SaveChanges();
+            }
+        }
+
+        //public void HandleOvedueInvoices()
+        //{
+        //    var overdueInvoices = _context.Invoices
+        //        .Where(i => i.DueDate < DateTime.Now && !i.IsPaid && !i.IsCanceled)
+        //        .ToList();
+
+        //    foreach (var invoice in overdueInvoices)
+        //    {
+        //        var booking = _context.Bookings.FirstOrDefault(b => b.Id == invoice.BookingId);
+        //        if (booking != null && booking.CheckInDate > DateTime.Now)
+        //        {
+        //            _context.Invoices.Remove(invoice);
+        //            invoice.IsCanceled = true;
+        //        }
+        //    }
+        //    _context.SaveChanges();
+        //}
+        public void UpdateInvoice(int id, decimal? newAmount = null, DateTime? newDueDate = null)
+        {
+            var invoice = _context.Invoices.FirstOrDefault(x => x.Id == id);
+            if (invoice == null && !invoice.IsCanceled && !invoice.IsPaid)
+            {
+                if (newAmount.HasValue) invoice.TotalAmount = newAmount.Value;
+                if (newDueDate.HasValue) invoice.DueDate = newDueDate.Value;
+            _context.SaveChanges();
+            }
         }
 
     }

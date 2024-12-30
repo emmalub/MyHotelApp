@@ -35,7 +35,7 @@ namespace MyHotelApp.Utilities.Menus
             MenuHeader.CustomerMenuHeader();
         }
 
-        protected override void HandleUserSelection(string selectedOption)
+        protected override void DisplayRoomMenu(string selectedOption)
         {
             int customerId = 0;
             switch (selectedOption)

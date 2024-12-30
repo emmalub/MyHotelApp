@@ -1,5 +1,6 @@
 ﻿using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
+using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
 using Spectre.Console;
 
@@ -9,6 +10,7 @@ namespace MyHotelApp.Utilities.Menus
     {
         private readonly IRoomService _roomService;
         private readonly InputService _inputService;
+        private readonly RoomMenuHandler _roomMenuHandler;
 
         public RoomMenu(RoomService roomService, InputService inputService)
         {
@@ -30,17 +32,17 @@ namespace MyHotelApp.Utilities.Menus
             MenuHeader.RoomMenuHeader();
         }
 
-        protected override void HandleUserSelection(string selectedOption)
+        protected override void DisplayRoomMenu(string selectedOption)
         {
             switch (selectedOption)
             {
                 case "VISA ALLA AKTIVA RUM":
                     Console.Clear();
-                    _roomService.DisplayActiveRooms();
+                    _roomMenuHandler.DisplayActiveRooms();
                     break;
 
                 case "VISA EJ AKTIVA RUM":
-                    _roomService.DisplayInactiveRooms();
+                    _roomMenuHandler.DisplayInactiveRooms();
                     break;
 
                 case "LÄGG TILL RUM":
@@ -54,11 +56,11 @@ namespace MyHotelApp.Utilities.Menus
 
                 case "ÅTERAKTIVERA RUM":
                     //int activateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
-                    _roomService.ActivateRoom();
+                    _roomMenuHandler.ActivateRoom();
                     break;
 
                 case "REDIGERA RUM":
-                    _roomService.UpdateRoom();
+                    _roomMenuHandler.HandleUpdateRoom();
                     break;
 
                 case "Tillbaka till huvudmenyn":

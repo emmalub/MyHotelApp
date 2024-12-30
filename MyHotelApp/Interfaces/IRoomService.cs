@@ -9,15 +9,12 @@ namespace MyHotelApp.Interfaces
 {
     internal interface IRoomService
     {
-        void SeedRooms();
         void AddRoom(Room room);
         void CreateRoom();
-        Room GetRoomById(int id);
-        List<Room> GetAllRooms(bool includeInactive = false);
-        void UpdateRoom();
+        void UpdateRoom(int roomId, decimal newPrice, double? newSize = null);
         void DeleteRoom(int id);
-        void ActivateRoom();
-        void DisplayActiveRooms();
-        void DisplayInactiveRooms();
+        List<Room> GetAllRooms(bool includeInactive = false);
+        Room GetRoomById(int id);
+     
     }
 }

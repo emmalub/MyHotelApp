@@ -79,7 +79,7 @@ namespace MyHotelApp.Utilities.Menus
             decimal pricePerNight = _roomService.GetRoomById(roomId).Price;
 
             _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "", pricePerNight, extraBeds);
-            AnsiConsole.MarkupLine("[bold green]Bokning skapad![/]");
+            AnsiConsole.MarkupLine("[bold green]Bokning och faktura skapad![/]");
         }
 
         private DateTime? SelectCheckOutDate(DateTime checkInDate)
@@ -175,7 +175,21 @@ namespace MyHotelApp.Utilities.Menus
                     Console.WriteLine($"{room.Id}. {room.RoomType} - Pris: {room.Price} kr/natt");
                 }
             }
-            return _inputService.GetId("\nAnge rummets ID: ");
+
+            int roomId;
+            while (true)
+            {
+                roomId = _inputService.GetId("\nAnge rummets ID: ");
+                if (rooms.Any(r => r.Id == roomId))
+                {
+                    break;
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("[bold red]Ogiltigt ID. Försök igen[/]");
+                }
+            }
+                return roomId;
         }
 
         private int SelectExtraBeds(int maxExtraBeds)

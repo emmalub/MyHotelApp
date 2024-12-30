@@ -4,19 +4,23 @@ namespace MyHotelApp.Services
 {
     public class InputService
     {
+        private readonly InvoiceService _invoiceService;
+        private readonly InvoiceManagementService _invoiceManagementService;
         public int GetId(string prompt)
         {
-            Console.WriteLine(prompt);
-            string input = Console.ReadLine();
-            int customerId;
+            while (true)
+            {
+                Console.WriteLine(prompt);
+                string input = Console.ReadLine();
 
-            if (int.TryParse(input, out customerId))
-            {
-                return customerId;
-            }
-            else
-            {
-                return 0;
+                if (int.TryParse(input, out int id) && id > 0)
+                {
+                    return id;
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("[bold red]Felaktig inmatning. Ange ett giltigt heltal.[/]");
+                }
             }
         }
         public DateTime GetDate(string prompt)
