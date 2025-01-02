@@ -61,34 +61,5 @@ namespace MyHotelApp.Services
                 _context.SaveChanges();
             }
         }
-
-        //public void HandleOvedueInvoices()
-        //{
-        //    var overdueInvoices = _context.Invoices
-        //        .Where(i => i.DueDate < DateTime.Now && !i.IsPaid && !i.IsCanceled)
-        //        .ToList();
-
-        //    foreach (var invoice in overdueInvoices)
-        //    {
-        //        var booking = _context.Bookings.FirstOrDefault(b => b.Id == invoice.BookingId);
-        //        if (booking != null && booking.CheckInDate > DateTime.Now)
-        //        {
-        //            _context.Invoices.Remove(invoice);
-        //            invoice.IsCanceled = true;
-        //        }
-        //    }
-        //    _context.SaveChanges();
-        //}
-        public void UpdateInvoice(int id, decimal? newAmount = null, DateTime? newDueDate = null)
-        {
-            var invoice = _context.Invoices.FirstOrDefault(x => x.Id == id);
-            if (invoice == null && !invoice.IsCanceled && !invoice.IsPaid)
-            {
-                if (newAmount.HasValue) invoice.TotalAmount = newAmount.Value;
-                if (newDueDate.HasValue) invoice.DueDate = newDueDate.Value;
-            _context.SaveChanges();
-            }
-        }
-
     }
 }

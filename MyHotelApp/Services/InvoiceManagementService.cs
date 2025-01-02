@@ -13,6 +13,8 @@ namespace MyHotelApp.Services
     {
         private readonly HotelDbContext _context;
         private readonly InputService _inputService;
+        private readonly InvoiceManagementService _invoiceManagementService;
+        private readonly InvoiceService _invoiceService;
 
         public InvoiceManagementService(HotelDbContext context)
         {
@@ -119,10 +121,10 @@ namespace MyHotelApp.Services
             var booking = _context.Bookings.FirstOrDefault(b => b.Id == bookingId);
             if (booking == null) return null;
 
-            decimal totalAmount = CalculateTotalPrice(booking.CheckInDate, booking.CheckOutDate, booking.TotalPrice);
+            decimal totalAmount = _invoiceService.CalculateTotalPrice(booking.CheckInDate, booking.CheckOutDate, booking.TotalPrice);
             var dueDate = booking.CheckOutDate.AddDays(10);
 
-            return CreateInvoice(bookingId, totalAmount, dueDate);
+            return _invoiceService.CreateInvoice(bookingId, totalAmount, dueDate);
         }
 
     }

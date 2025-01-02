@@ -1,49 +1,60 @@
 ﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using MyHotelApp.Services;
+using MyHotelApp.Services.MenuHandlers;
 using Spectre.Console;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class BookingMenu
     {
-        private readonly BookingService _bookingService;
-        private readonly InputService _inputService;
-        private readonly CustomerService _customerService;
-        private readonly RoomService _roomService;
-        private readonly InvoiceService _invoiceService;
-        private BookingCalendar _bookingCalendar;
+      private readonly BookingMenuHandler _bookingMenuHandler;
 
-        // private readonly IMessageService _messageService;
-
-        //public BookingMenu()
-        //{
-        //    _inputService = new InputService(); 
-        //    var dbContext = new HotelDbContext(); 
-        //    _customerService = new CustomerService(dbContext); 
-        //    _roomService = new RoomService(dbContext); 
-        //    _bookingService = new BookingService(dbContext); 
-        //    _bookingCalendar = new BookingCalendar(); 
-        //}
-
-        public BookingMenu(
-            BookingService bookingService,
-            InputService inputService,
-            CustomerService customerService,
-            RoomService roomService,
-            BookingCalendar bookingCalendar,
-            InvoiceService invoiceService
-            )
+        public BookingMenu(BookingMenuHandler bookingMenuHandler)
         {
-            _bookingService = bookingService;
-            _inputService = inputService;
-            _customerService = customerService;
-            _roomService = roomService;
-            _bookingCalendar = bookingCalendar;
-            _invoiceService = invoiceService;
-            var dbContext = new HotelDbContext();
-            // _messageService = messageService;
+            _bookingMenuHandler = bookingMenuHandler;
         }
+
+        public void ShowMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                AnsiConsole.Write(
+                    new Panel("[bold yellow]Bokningsmeny[/]")
+                        .Border(BoxBorder.Rounded)
+                        .Expand());
+
+                var choice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("Vad vill du göra?")
+                        .AddChoices(new[]
+                        {
+                        "Boka rum",
+                        "Avboka rum",
+                        "Visa bokningar",
+                        "Tillbaka till huvudmenyn"
+                        }));
+
+                switch (choice)
+                {
+                    case "Boka rum":
+                        _bookingMenuHandler.HandleBookRoom();
+                        break;
+                    case "Avboka rum":
+                        _bookingMenuHandler.HandleDeleteBooking();
+                        break;
+                    case "Visa bokningar":
+                        _bookingMenuHandler.DisplayBooking();
+                        break;
+                    case "Tillbaka till huvudmenyn":
+                        return;
+                }
+            }
+        }
+
+        // FLYTTA ALLT TILL BOOKINGMENYHANDLER OCH BOOKINGSERVICE
+
         public void BookRoom()
         {
             Console.Clear();
