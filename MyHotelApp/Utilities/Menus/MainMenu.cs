@@ -30,7 +30,7 @@ namespace MyHotelApp.Utilities.Menus
         protected override string[] MenuOptions =>
         [
         "BOKA RUM",
-        "HANTERA BOKNING",
+        "HANTERA BOKNINGAR",
         "HANTERA KUND",
         "HANTERA RUM",
         "FAKTUROR",

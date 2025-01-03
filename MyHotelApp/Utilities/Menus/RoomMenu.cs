@@ -55,7 +55,6 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "ÅTERAKTIVERA RUM":
-                    //int activateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
                     _roomMenuHandler.ActivateRoom();
                     break;
 

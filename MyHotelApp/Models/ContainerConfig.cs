@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using MyHotelApp.Data;
 using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
+using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Services.SpecialOffers;
 using MyHotelApp.Services.SpecialOffers.Interfaces;
 using MyHotelApp.Utilities.Graphics;
@@ -30,29 +31,31 @@ namespace MyHotelApp.Models
                 return new HotelDbContext(optionsBuilder.Options);
             }).AsSelf().InstancePerLifetimeScope();
 
-
-            //builder.RegisterType<CreateSpecialOffer>().As<ICreateSpecialOffer>();
-            //builder.RegisterType<ReadSpecialOffer>().As<IReadSpecialOffer>();
-            //builder.RegisterType<UpdateSpecialOffer>().As<IUpdateSpecialOffer>();
-            //builder.RegisterType<DeleteSpecialOffer>().As<IDeleteSpecialOffer>();
-
             builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterType<RoomService>().As<IRoomService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<BookingService>().As<BookingService>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<InputService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<InvoiceService>().AsSelf().InstancePerLifetimeScope();
+
+
+            builder.RegisterType<BookingMenuHandler>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<RoomMenuHandler>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerMenuHandler>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<InvoiceMenuHandler>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<RoomMenu>().AsSelf().InstancePerLifetimeScope();
-
-            builder.RegisterType<BookingService>().As<BookingService>().InstancePerLifetimeScope();
             builder.RegisterType<BookingMenu>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<BookingCalendar>().AsSelf().InstancePerLifetimeScope();
-
-            builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<CustomerMenu>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<InvoiceMenu>().AsSelf().InstancePerLifetimeScope();
 
-            builder.RegisterType<InvoiceService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<InvoiceManagementService>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<MainMenu>().AsSelf().InstancePerLifetimeScope();
 
-            builder.RegisterType<InputService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<BookingCalendar>().AsSelf().InstancePerLifetimeScope();
+
             builder.RegisterType<EmailMessageService>().As<IMessageService>();
             builder.RegisterType<WelcomeScreen>().AsSelf();
 

@@ -20,29 +20,13 @@ namespace MyHotelApp.Services
         {
             _context = context;
         }
-        public void CreateCustomer()
+        public void CreateCustomer(Customer customer)
         {
-            Console.WriteLine("Skapa en ny kund: ");
-
-            var customer = new Customer
-            {
-                FirstName = _inputservice.GetString("Förnamn: "),
-                LastName = _inputservice.GetString("Efternamn: "),
-                Address = _inputservice.GetString("Adress: "),
-                City = _inputservice.GetString("Stad: "),
-                PostalCode = _inputservice.GetString("Postnummer: "),
-                Phone = _inputservice.GetString("Telefonnummer: "),
-                Email = _inputservice.GetString("E-postadress: "),
-                IsVip = _inputservice.GetBool("Är kunden VIP? (Ja/Nej): "),
-                IsActive = true
-            };
-
             _context.Customers.Add(customer);
             _context.SaveChanges();
             Console.WriteLine("Ny kund sparad!");
-            Console.ReadKey();
         }
-
+        
         public List<Customer> GetCustomers()
         {
             return _context.Customers.ToList();
@@ -51,208 +35,49 @@ namespace MyHotelApp.Services
         {
             return _context.Customers.FirstOrDefault(c => c.Id == id);
         }
-        public void ReadCustomers()
+        public void UpdateCustomer(Customer customer)
         {
-            foreach (var customer in _context.Customers.Where(c => c.IsActive))
+            _context.Customers.Update(customer);
+            try
             {
-                Console.WriteLine($"Namn: {customer.Name}");
-                Console.WriteLine($"Ålder: {customer.Name}");
-                Console.WriteLine($"=====================");
+                _context.SaveChanges();
+                Console.WriteLine("Ändringar har sparats!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ett fel uppstod: {ex.Message}");
             }
         }
-        public void DeleteCustomer(int customerId)
+        public void DeactivateCustomer(int customerId)
         {
-            int id = _inputservice.GetId("Ange kundID för att ta bort kund: ");
-
-            if (id == 0)
-            {
-                Console.WriteLine("Ogiltigt ID.");
-                return;
-            }
             var customer = _context.Customers
                 .Include(c => c.Bookings)
-                .First(c => c.Id == id);
+                .FirstOrDefault(c => c.Id == customerId);
 
-            if (customer != null)
-            {
-                if (customer.Bookings != null && customer.Bookings.Any())
-                {
-                    Console.WriteLine("Kunden har aktiva bokningar och kan inte tas bort.");
-                    return;
-                }
-                customer.IsActive = false;
-                _context.Customers.Update(customer);
-                try
-                { 
-                    _context.SaveChanges();
-                    Console.WriteLine("Kund har inaktiverats!");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Ett error uppsotd: {ex.Message}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Kunden finns inte.");
-            }
-        }
-        public bool IsValidEmail(string email)
-        {
-            var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            return regex.IsMatch(email);
-        }
-
-        public void UpdateCustomer(int customerId)
-        {
-            int id = _inputservice.GetId("Ange kundID på kund du vill redigera: ");
-
-            if (id == 0)
-            {
-                Console.WriteLine("Ogiltigt ID.");
-                return;
-            }
-
-
-            var customer = GetCustomerById(id);
             if (customer == null)
             {
                 Console.WriteLine("Kunden finns inte.");
                 return;
             }
-            Console.Clear();
-            Console.WriteLine();
-            customer.FirstName = GetUpdatedValue("Förnamn ", customer.FirstName);
-            customer.LastName = GetUpdatedValue("Efternamn ", customer.LastName);
-            customer.Address = GetUpdatedValue("Adress ", customer.Address);
-            customer.City = GetUpdatedValue("Stad ", customer.City);
-            customer.PostalCode = GetUpdatedValue("Postnummer ", customer.PostalCode);
-            customer.Phone = GetUpdatedValue("Telefonnummer ", customer.Phone);
-            customer.Email = GetUpdatedValue("E-postadress ", customer.Email);
-            customer.IsVip = _inputservice.GetBool($"Är kunden VIP? ({(customer.IsVip ? "Ja" : "Nej")})");
-            customer.IsActive = _inputservice.GetBool($"Är kunden aktiv? ({(customer.IsActive ? "Ja" : "Nej")})");
-           
+
+            if (customer.Bookings != null && customer.Bookings.Any())
+            {
+                Console.WriteLine("Kunden har aktiva bokningar och kan inte tas bort.");
+                return;
+            }
+
+            customer.IsActive = false;
             _context.Customers.Update(customer);
-            _context.SaveChanges();
-            Console.WriteLine("Ändringar har sparats!");
-            Console.ReadKey();
-        }
 
-        private string GetUpdatedValue(string fieldName, string currentValue)
-        {
-            //Console.WriteLine($"{fieldName}: {currentValue}");
-            string newValue = _inputservice.GetOptionalString($"Uppdatera {fieldName} (Tryck ENTER för att behålla '{currentValue}': ");
-            return string.IsNullOrWhiteSpace(newValue) ? currentValue : newValue;
-        }
-
-        public void ShowDeletedCustomers()
-        {
-            var table = new Table();
-
-            table.AddColumn("Kund ID");
-            table.AddColumn("Namn");
-            table.AddColumn("Återaktivera");
-
-            foreach (var customer in _context.Customers.Where(c => !c.IsActive))
+            try
             {
-                var restoreOption = "[bold green]Återaktivera[/]";
-                table.AddRow(customer.Id.ToString(), customer.Name, restoreOption);
-            }
-            AnsiConsole.Write(table);
-
-            var customerIdInput = AnsiConsole.Ask<int>("Ange ID på kund att återaktivera (eller 0 för att avbryta): ");
-            if (customerIdInput == 0)
-            {
-                AnsiConsole.MarkupLine("[bold red]Återaktivering avbruten![/]");
-            }
-                ActivateCustomer(customerIdInput);
-        }
-
-        private void ActivateCustomer(int customerIdInput)
-        {
-            var customerToRestore = _context.Customers.FirstOrDefault(c => c.Id == customerIdInput);
-            if (customerToRestore != null && !customerToRestore.IsActive)
-            {
-                customerToRestore.IsActive = true;
                 _context.SaveChanges();
-                AnsiConsole.MarkupLine($"[bold green]Kunden {customerToRestore.Name} har återaktiverats![/]");
+                Console.WriteLine("Kunden har inaktiverats!");
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("Kunden finns inte eller är redan aktiv.");
+                Console.WriteLine($"Ett fel uppstod: {ex.Message}");
             }
-        }
-
-        public void ShowCustomer()
-        {
-            int id = _inputservice.GetId("Ange kundID på kunden för att visa alla uppgifter: ");
-
-            if (id == 0)
-            {
-                Console.WriteLine("Ogiltigt ID.");
-                return;
-            }
-
-            var customer = GetCustomerById(id);
-
-            if (customer == null)
-            {
-                Console.WriteLine("Kunden finns inte.");
-                return;
-            }
-
-            Console.Clear();
-            var table = new Spectre.Console.Table();
-            table.Border = Spectre.Console.TableBorder.Rounded;
-
-            table.AddColumn("[bold white]Kunduppgifter[/]");
-            table.AddColumn("[blue][/]");
-
-            table.AddRow("Förnamn:", customer.FirstName);
-            table.AddRow("Efternamn:", customer.LastName);
-            table.AddRow("Adress:", $"{customer.Address}, {customer.City}, {customer.PostalCode}");
-            table.AddRow("Telefonnummer:", customer.Phone);
-            table.AddRow("E-postadress:", customer.Email);
-            table.AddRow("VIP:", customer.IsVip ? "Ja" : "Nej");
-            table.AddRow("Aktiv:", customer.IsActive ? "Ja" : "Nej");
-
-            Spectre.Console.AnsiConsole.Write(table);
-
-            //Console.WriteLine($"Förnamn: {customer.FirstName}");
-            //Console.WriteLine($"Efternamn: {customer.LastName}");
-            //Console.WriteLine($"Adress: {customer.Address}");
-            //Console.WriteLine($"Stad: {customer.City}");
-            //Console.WriteLine($"Postnummer: {customer.PostalCode}");
-            //Console.WriteLine($"Telefonnummer: {customer.Phone}");
-            //Console.WriteLine($"E-postadress: {customer.Email}");
-            //Console.WriteLine($"Är kunden VIP? {customer.IsVip}");
-            //Console.WriteLine($"Är kunden aktiv? {customer.IsActive}");
-        }
-
-        public void ShowAllCustomers(List<Customer> myCustomers)
-        {
-            var table = new Spectre.Console.Table();
-            table.Border = Spectre.Console.TableBorder.Rounded;
-
-            table.AddColumn("[bold white]KundID[/]");
-            table.AddColumn("[blue]Namn[/]");
-            table.AddColumn("[blue]Adress[/]");
-            table.AddColumn("[blue]Nummer[/]");
-            table.AddColumn("[blue]VIP[/]");
-            table.AddColumn("[blue]Status[/]");
-
-            foreach (var customer in myCustomers)
-            {
-                table.AddRow(
-                        customer.Id.ToString(),
-                        $"{customer.FirstName} {customer.LastName}",
-                        $"{customer.Address}, {customer.City}",
-                        customer.Phone,
-                        customer.IsVip ? "[bold yellow]Ja[/]" : "Nej",
-                        customer.IsActive ? "[bold green]Aktiv[/]" : "[bold red]Inaktiv[/]"
-                    );
-            }
-            Spectre.Console.AnsiConsole.Write(table);
         }
     }
 }

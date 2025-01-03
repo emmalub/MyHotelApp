@@ -11,12 +11,10 @@ namespace MyHotelApp.Utilities.Menus
     public class CustomerMenu : MenuBase
     {
         private readonly CustomerService _customerService;
-        private readonly InputService _inputService;
 
-        public CustomerMenu(CustomerService customerService, InputService inputService)
+        public CustomerMenu(CustomerService customerService)
         {
             _customerService = customerService;
-            _inputService = inputService;
         }
 
         protected override string[] MenuOptions =>

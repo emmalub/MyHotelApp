@@ -13,7 +13,6 @@ namespace MyHotelApp.Services
     {
         private readonly HotelDbContext _context;
         private readonly InputService _inputService;
-        private readonly InvoiceManagementService _invoiceManagementService;
         private readonly InvoiceService _invoiceService;
 
         public InvoiceManagementService(HotelDbContext context)

@@ -20,49 +20,31 @@ namespace MyHotelApp.Utilities.Menus
            "BOKA RUM",
            "AVBOKA RUM",
            "VISA BOKNINGAR",
-           "Tillbaka till huvudmenyn" ];
+           "Tillbaka till huvudmenyn"
+       ];
         protected override void DisplayMenuHeader()
         {
             MenuHeader.BookingMenuHeader();
         }
         protected override void ShowMenu(string selectedOption)
         {
-            while (true)
+            switch (selectedOption)
             {
-                Console.Clear();
-                AnsiConsole.Write(
-                    new Panel("[bold yellow]Bokningsmeny[/]")
-                        .Border(BoxBorder.Rounded)
-                        .Expand());
-
-                var choice = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("Vad vill du göra?")
-                        .AddChoices(new[]
-                        {
-                        "BOKA RUM",
-                        "AVBOKA RUM",
-                        "VISA BOKNINGAR",
-                        "Tillbaka till huvudmenyn"
-                        }));
-
-                switch (choice)
-                {
-                    case "Boka rum":
-                        _bookingMenuHandler.BookRoom();
-                        break;
-                    case "Avboka rum":
-                        _bookingMenuHandler.HandleDeleteBooking();
-                        break;
-                    case "Visa bokningar":
-                        _bookingMenuHandler.DisplayBooking();
-                        break;
-                    case "Tillbaka till huvudmenyn":
-                        return;
-                }
+                case "BOKA RUM":
+                    _bookingMenuHandler.BookRoom();
+                    break;
+                case "AVBOKA RUM":
+                    _bookingMenuHandler.HandleDeleteBooking();
+                    break;
+                case "VISA BOKNINGAR":
+                    _bookingMenuHandler.DisplayBooking();
+                    break;
+                case "Tillbaka till huvudmenyn":
+                    return;
             }
         }
     }
 }
-      
+
+
 

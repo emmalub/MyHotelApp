@@ -1,4 +1,7 @@
-﻿using Spectre.Console;
+﻿using Microsoft.EntityFrameworkCore;
+using MyHotelApp.Models;
+using Spectre.Console;
+using System.Text.RegularExpressions;
 
 namespace MyHotelApp.Services
 {
@@ -81,6 +84,35 @@ namespace MyHotelApp.Services
                     .PageSize(10)
                     .AddChoices(options)
             );
+        }
+
+        public Customer GetCustomerDetails()
+        {
+            Console.WriteLine("Skapa en ny kund: ");
+
+            return new Customer
+            {
+                FirstName = GetString("Förnamn: "),
+                LastName = GetString("Efternamn: "),
+                Address = GetString("Adress: "),
+                City = GetString("Stad: "),
+                PostalCode = GetString("Postnummer: "),
+                Phone = GetString("Telefonnummer: "),
+                Email = GetString("E-postadress: "),
+                IsVip = GetBool("Är kunden VIP? (Ja/Nej): "),
+                IsActive = true
+            };
+        }
+        public string GetUpdatedValue(string fieldName, string currentValue)
+        {
+            Console.WriteLine($"{fieldName}: {currentValue}");
+            string input = Console.ReadLine();
+            return string.IsNullOrWhiteSpace(input) ? currentValue : input;
+        }
+        public bool IsValidEmail(string email)
+        {
+            var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            return regex.IsMatch(email);
         }
     }
 }

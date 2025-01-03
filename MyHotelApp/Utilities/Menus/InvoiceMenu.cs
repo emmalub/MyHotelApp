@@ -8,13 +8,11 @@ namespace MyHotelApp.Utilities.Menus
 {
     public class InvoiceMenu : MenuBase
     {
-        private readonly InvoiceService _invoiceService;
         private readonly InvoiceManagementService _invoiceManagementService;
         private readonly InvoiceMenuHandler _invoiceMenuHandler;
 
-        public InvoiceMenu(InvoiceService invoiceService, InvoiceManagementService invoiceManagementService, InvoiceMenuHandler invoiceMenuHandler)
+        public InvoiceMenu(InvoiceManagementService invoiceManagementService, InvoiceMenuHandler invoiceMenuHandler)
         {
-            _invoiceService = invoiceService;
             _invoiceManagementService = invoiceManagementService;
             _invoiceMenuHandler = invoiceMenuHandler;
         }
