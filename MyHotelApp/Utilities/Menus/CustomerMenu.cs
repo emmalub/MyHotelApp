@@ -70,13 +70,11 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "Tillbaka till huvudmenyn":
-                    //var mainMenu = new MainMenu();
-                    //mainMenu.ShowMenu();
+                    menuActive = false;
                     break;
 
                 default:
                     break;
-
             }
         }
     }

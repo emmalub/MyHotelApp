@@ -40,6 +40,7 @@ namespace MyHotelApp.Utilities.Menus
                     _bookingMenuHandler.DisplayBooking();
                     break;
                 case "Tillbaka till huvudmenyn":
+                    menuActive = false;
                     return;
             }
         }

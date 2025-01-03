@@ -63,6 +63,7 @@ namespace MyHotelApp.Utilities.Menus
                         _invoiceMenuHandler.HandleOverdueInvoices();
                         break;
                     case "Tillbaka till huvudmenyn":
+                        menuActive = false;
                         return;
                 }
             }

@@ -34,7 +34,6 @@ namespace MyHotelApp.Utilities.Menus
         "HANTERA KUND",
         "HANTERA RUM",
         "FAKTUROR",
-        "STATISTIK",
         "Logga ut"
         ];
         protected override void DisplayMenuHeader()
@@ -65,12 +64,9 @@ namespace MyHotelApp.Utilities.Menus
                     _invoiceMenu.ShowMenu();
                     break;
 
-                case "STATISTIK":
-                    break;
-
-                case "Logga ut": // Avsluta
-                    Console.SetCursorPosition(0, 40);
+                case "Logga ut":
                     Console.WriteLine("Avslutar...");
+                    menuActive = false;
                     break;
 
                 default:

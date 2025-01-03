@@ -16,11 +16,20 @@ namespace MyHotelApp.Services.MenuHandlers
         private readonly InputService _inputservice = new InputService();
         private readonly CustomerService _customerService;
 
+        public CustomerMenuHandler(
+            HotelDbContext context, 
+            CustomerService customerService,
+            InputService inputService)
+        {
+            _context = context;
+            _customerService = customerService;
+            _inputservice = inputService;
+        }
+
         public void CreateNewCustomer()
         {
            var newCustomer = _inputservice.GetCustomerDetails();
             _customerService.CreateCustomer(newCustomer);
-            Console.WriteLine("Kund skapad!");
             Console.ReadKey();
         }
         public void DeleteCustomer(int customerId)
@@ -115,6 +124,12 @@ namespace MyHotelApp.Services.MenuHandlers
 
         public void ShowCustomer()
         {
+            if (_customerService == null)
+            {
+                Console.WriteLine("Customer service is not avalible");
+                return;
+            }
+            
             int id = _inputservice.GetId("Ange kundID på kunden för att visa alla uppgifter: ");
 
             if (id == 0)

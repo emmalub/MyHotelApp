@@ -4,7 +4,6 @@ namespace MyHotelApp.Utilities.Menus
 {
     public abstract class MenuBase
     {
-        protected int selectedOption = 0;
         protected bool menuActive = true;
         protected abstract string[] MenuOptions { get; }
 
@@ -24,16 +23,17 @@ namespace MyHotelApp.Utilities.Menus
                         );
 
                     ShowMenu(selectedOption);
+
+                if (selectedOption == "Tillbaka till huvudmenyn")
+                {
+                    menuActive = false;
+                }
+
                 }
                 catch (Exception ex)
                 {
                     AnsiConsole.MarkupLine($"[bold red]Ett fel uppstod: {ex.Message}[/]");
                     AnsiConsole.WriteLine("Försök igen.");
-                }
-
-                if (AnsiConsole.Confirm("Vill du lämna menyn?"))
-                {
-                    menuActive = true;
                 }
             }
         }
