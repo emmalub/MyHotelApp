@@ -5,8 +5,6 @@ using MyHotelApp.Data;
 using MyHotelApp.Interfaces;
 using MyHotelApp.Services;
 using MyHotelApp.Services.MenuHandlers;
-using MyHotelApp.Services.SpecialOffers;
-using MyHotelApp.Services.SpecialOffers.Interfaces;
 using MyHotelApp.Utilities.Graphics;
 using MyHotelApp.Utilities.Menus;
 
