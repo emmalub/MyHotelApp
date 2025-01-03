@@ -15,9 +15,11 @@ namespace MyHotelApp.Services
         private readonly InputService _inputService;
         private readonly InvoiceService _invoiceService;
 
-        public InvoiceManagementService(HotelDbContext context)
+        public InvoiceManagementService(HotelDbContext context, InputService inputService, InvoiceService invoiceService)
         {
             _context = context;
+            _inputService = inputService;
+            _invoiceService = invoiceService;
         }
 
         public void DisplayInvoices()
@@ -79,6 +81,8 @@ namespace MyHotelApp.Services
 
         public void EditInvoice()
         {
+            DisplayInvoices();
+
             int invoiceId = _inputService.GetId("Ange fakturanummer att redigera: ");
             var invoice = _context.Invoices.FirstOrDefault(x => x.Id == invoiceId);
            
@@ -100,6 +104,8 @@ namespace MyHotelApp.Services
 
         public void CancelInvoice()
         {
+            DisplayInvoices();
+
             int invoiceId = _inputService.GetId("Ange fakturanummer att makulera: ");
             var invoice = _context.Invoices.FirstOrDefault(x => x.Id == invoiceId);
 
