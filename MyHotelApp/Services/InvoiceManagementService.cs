@@ -24,7 +24,6 @@ namespace MyHotelApp.Services
 
         public void DisplayInvoices()
         {
-            Console.WriteLine("Visar alla fakturor..");
             var invoices = _context.Invoices.ToList();
 
             if (invoices.Count == 0)
