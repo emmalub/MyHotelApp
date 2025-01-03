@@ -19,6 +19,7 @@ namespace MyHotelApp.Services.MenuHandlers
         private readonly CustomerService _customerService;
         private readonly InputService _inputService;
         private readonly HotelDbContext _context;
+        private readonly RoomManagementService _roomManagementService;
         public void DisplayBooking()
         {
             var bookings = _context.Bookings?.ToList();
@@ -82,7 +83,7 @@ namespace MyHotelApp.Services.MenuHandlers
             Console.WriteLine($"Valt datum för utcheckning: {checkOutDate.Value:yyyy-MM-dd}");
 
             int roomId = SelectRoom(checkInDate.Value, checkOutDate.Value);
-            var room = _roomService.GetRoomById(roomId);
+            var room = _roomManagementService.GetRoomById(roomId);
             int extraBeds = 0;
 
             if (room is DoubleRoom doubleRoom)
@@ -90,7 +91,7 @@ namespace MyHotelApp.Services.MenuHandlers
                 extraBeds = SelectExtraBeds(doubleRoom.MaxExtraBeds);
             }
 
-            decimal pricePerNight = _roomService.GetRoomById(roomId).Price;
+            decimal pricePerNight = _roomManagementService.GetRoomById(roomId).Price;
 
             _bookingService.CreateBooking(guestId, roomId, checkInDate.Value, checkOutDate.Value, "", pricePerNight, extraBeds);
             AnsiConsole.MarkupLine("[bold green]Bokning och faktura skapad![/]");
@@ -179,7 +180,7 @@ namespace MyHotelApp.Services.MenuHandlers
 
         private int SelectRoom(DateTime checkInDate, DateTime checkOutDate)
         {
-            var rooms = _roomService.GetAvailableRooms(checkInDate, checkOutDate);
+            var rooms = _roomManagementService.GetAvailableRooms(checkInDate, checkOutDate);
             Console.WriteLine();
             Console.WriteLine("Välj rum:");
 

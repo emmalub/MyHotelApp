@@ -72,6 +72,20 @@ namespace MyHotelApp.Services
                 }
             }
         }
+
+        public decimal GetDecimal(string fieldName, decimal currentValue)
+        {
+            Console.WriteLine($"{fieldName}: {currentValue}");
+            string input = Console.ReadLine();
+            return string.IsNullOrWhiteSpace(input) ? currentValue : decimal.Parse(input);
+        }
+        
+        public double GetDouble(string fieldName, double currentValue)
+        {
+            Console.WriteLine($"{fieldName}: {currentValue}");
+            string input = Console.ReadLine();
+            return string.IsNullOrWhiteSpace(input) ? currentValue : double.Parse(input);
+        }
         public int GetRoomIdFromUser(string prompt = "Ange rumsnummer: ")
         {
             return AnsiConsole.Ask<int>($"{prompt}");
@@ -103,11 +117,24 @@ namespace MyHotelApp.Services
                 IsActive = true
             };
         }
-        public string GetUpdatedValue(string fieldName, string currentValue)
+
+        public T GetUpdatedValue<T>(string fieldName, T currentValue)
         {
             Console.WriteLine($"{fieldName}: {currentValue}");
             string input = Console.ReadLine();
-            return string.IsNullOrWhiteSpace(input) ? currentValue : input;
+            if (string.IsNullOrEmpty(input))
+            {
+                return currentValue;
+            }
+            try
+            {
+                return (T)Convert.ChangeType(input, typeof(T));
+            }
+            catch
+            {
+                Console.WriteLine("Felaktig inmatning. Försök igen.");
+                return currentValue;
+            }
         }
         public bool IsValidEmail(string email)
         {

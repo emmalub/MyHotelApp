@@ -7,15 +7,13 @@ using MyHotelApp.Services.MenuHandlers;
 
 namespace MyHotelApp.Services;
 
-public class RoomService
+public class RoomService : IRoomService
 {
     private readonly HotelDbContext _context;
-    private readonly RoomMenuHandler _roomMenuHandler;
 
-    public RoomService(HotelDbContext context, RoomMenuHandler roomMenuHandler)
+    public RoomService(HotelDbContext context)
     {
         _context = context;
-        _roomMenuHandler = roomMenuHandler;
     }
 
     public void AddRoom(Room room)
@@ -27,9 +25,6 @@ public class RoomService
         .Where(r => r.IsActive)
         .ToList();
 
-    public List<Room> GetInactiveRoom() => _context.Rooms
-        .Where(r => !r.IsActive)
-        .ToList();
 
     public void CreateRoom()
     {
@@ -98,21 +93,6 @@ public class RoomService
             ? _context.Rooms.ToList()
             : _context.Rooms.Where(r => r.IsActive).ToList();
     }
-    public List<Room> GetAvailableRooms(DateTime checkInDate, DateTime checkOutDate)
-    {
-        var allRooms = _context.Rooms.ToList();
-        var availableRooms = new List<Room>();
-        foreach (var room in allRooms)
-        {
-            if (_roomMenuHandler.IsRoomAvalible(room.Id, checkInDate, checkOutDate))
-            {
-                availableRooms.Add(room);
-            }
-        }
-        return availableRooms;
-    }
-    public Room GetRoomById(int roomId)
-    {
-        return _context.Rooms.Find(roomId);
-    }
+
+    
 }

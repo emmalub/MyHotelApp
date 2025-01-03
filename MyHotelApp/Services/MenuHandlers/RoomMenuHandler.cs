@@ -7,37 +7,58 @@ namespace MyHotelApp.Services.MenuHandlers
 {
     public class RoomMenuHandler
     {
-        private readonly IRoomService _roomService;
         private readonly InputService _inputService;
-        private readonly HotelDbContext _context;
+        private readonly RoomManagementService _roomManagementService;
+        private readonly IRoomService _roomService;
 
-        public RoomMenuHandler(IRoomService roomService, InputService inputService, HotelDbContext context)
+        public RoomMenuHandler(
+            InputService inputService, 
+            RoomManagementService roomManagementService,
+            IRoomService roomService)
         {
-            _roomService = roomService;
             _inputService = inputService;
-            _context = context;
+            _roomManagementService = roomManagementService;
+            _roomService = roomService;
         }
 
-        public void DisplayActiveRooms()
+        public void HandleActiveRoom()
         {
-            var activeRooms = _roomService.GetActiveRoom();
+            int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att återaktivera rummet:");
+            _roomManagementService.DisplayActiveRooms();
+        }
 
-            if (activeRooms.Any())
+        public void HandleDeactiveRoom()
+        {
+            int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att avaktivera rummet:");
+            _roomManagementService.DisplayInactiveRooms();
+        }
+
+        public void HandleUpdateRoom()
+        {
+            _roomManagementService.DisplayActiveRooms();
+            int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att uppdatera rummet:");
+            var room = _roomService.GetAllRooms().FirstOrDefault(r => r.Id == roomId);
+
+            if (room == null)
             {
-                Console.WriteLine("Aktiva rum: ");
-                foreach (var room in activeRooms)
+                decimal newPrice = _inputService.GetDecimal("Ange nytt pris: ", room.Price);
+                double? newSize = null;
+                if (room is DoubleRoom doubleRoom)
                 {
-                    Console.WriteLine($"Rum {room.Id}: {room.RoomType} - {room.Price} SEK per natt");
+                    newSize = _inputService.GetDouble("Ange ny storlek: ", doubleRoom.Size);
                 }
+                
+                _roomService.UpdateRoom(roomId, newPrice, newSize);
+                Console.WriteLine("Rummet har uppdaterats!");
             }
             else
             {
-                Console.WriteLine("Inga aktiva rum hittades");
+                Console.WriteLine("Rummet finns inte.");
             }
         }
         public void DisplayInactiveRooms()
         {
-            var activeRooms = _roomService.GetInactiveRoom();
+            var activeRooms = _roomManagementService.GetInactiveRooms();
 
             if (activeRooms.Any())
             {
@@ -51,65 +72,6 @@ namespace MyHotelApp.Services.MenuHandlers
             {
                 Console.WriteLine("Inga inaktiva rum hittades");
             }
-        }
-        public bool IsRoomAvalible(int roomId, DateTime checkInDate, DateTime checkOutDate)
-        {
-            if (checkInDate >= checkOutDate)
-                throw new ArgumentException("Startdatum måste vara tidigare än slutdatum");
-
-            return !_context.Bookings.Any(b =>
-                b.RoomId == roomId &&
-                b.IsActive &&
-                b.CheckInDate <= checkOutDate && b.CheckOutDate >= checkInDate);
-        }
-        public void ActivateRoom()
-        {
-            DisplayActiveRooms();
-
-            int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
-
-            var room = _context.Rooms.Find(roomId);
-            if (room != null)
-            {
-                room.IsActive = true;
-                _context.SaveChanges();
-                AnsiConsole.MarkupLine($"[green]Rum {roomId} har återaktiverats![/]");
-            }
-            else
-            {
-                AnsiConsole.MarkupLine("[red]Ingen åtgärd utfördes.[/]");
-            }
-        }
-        public void HandleUpdateRoom()
-        {
-            DisplayActiveRooms();
-            Console.WriteLine();
-            Console.Write("Ange ID för det rum du vill uppdatera: ");
-            int roomId = int.Parse(Console.ReadLine());
-
-            var room = _roomService.GetRoomById(roomId);
-            if (room == null)
-            {
-                Console.WriteLine("Rummet finns inte.");
-                return;
-            }
-
-            Console.WriteLine($"Uppdaterar rum {room.Id}");
-            Console.Write("Ange nytt pris: (nuvarande pris: " + room.Price + "): ");
-            var newPrice = decimal.Parse(Console.ReadLine());
-
-            double? newSize = null;
-            if (room is DoubleRoom doubleRoom)
-            {
-                Console.Write("Ange ny storlek: (nuvarande storlek: " + doubleRoom.Size + "): ");
-                string input = Console.ReadLine();
-                if (!string.IsNullOrEmpty(input))
-                {
-                    newSize = double.Parse(input);
-                }
-            }
-            _roomService.UpdateRoom(roomId, newPrice, newSize ?? null);
-            Console.WriteLine("Rummet har uppdaterats!");
         }
     }
 }

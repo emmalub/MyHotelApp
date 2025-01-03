@@ -33,15 +33,18 @@ namespace MyHotelApp.Models
 
             builder.RegisterType<HotelDbContext>().AsSelf().InstancePerLifetimeScope();
 
-            builder.RegisterType<RoomService>().As<IRoomService>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<BookingService>().As<BookingService>().InstancePerLifetimeScope();
-            builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<RoomService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<RoomService>().As<IRoomService>().InstancePerLifetimeScope();
             builder.RegisterType<InputService>().AsSelf().InstancePerLifetimeScope();
+
+            builder.RegisterType<BookingService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerService>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<InvoiceService>().AsSelf().InstancePerLifetimeScope();
 
+            builder.RegisterType<RoomManagementService>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<RoomMenuHandler>().AsSelf().InstancePerLifetimeScope();
 
             builder.RegisterType<BookingMenuHandler>().AsSelf().InstancePerLifetimeScope();
-            builder.RegisterType<RoomMenuHandler>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<CustomerMenuHandler>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<InvoiceMenuHandler>().AsSelf().InstancePerLifetimeScope();
 
@@ -60,7 +63,10 @@ namespace MyHotelApp.Models
             builder.RegisterType<WelcomeScreen>().AsSelf();
 
             builder.RegisterType<App>().AsSelf().InstancePerLifetimeScope();
+
+
             return builder.Build();
+
         }
 
     }

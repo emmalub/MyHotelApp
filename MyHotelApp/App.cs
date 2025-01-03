@@ -11,11 +11,9 @@ namespace MyHotelApp
 {
     internal class App
     {
-        private readonly RoomService _roomService;
         private readonly MainMenu _mainMenu;
-        public App(RoomService roomService, MainMenu mainMenu)
+        public App(MainMenu mainMenu)
         {
-            _roomService = roomService;
             _mainMenu = mainMenu;
         }
 
@@ -40,9 +38,7 @@ namespace MyHotelApp
             Console.ResetColor();
 
             Thread.Sleep(1000);
-            //Console.ReadKey();
-
-            //_roomService.SeedRooms();
+            
             _mainMenu.ShowMenu();
         }
     }

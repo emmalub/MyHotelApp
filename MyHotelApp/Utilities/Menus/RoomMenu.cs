@@ -11,12 +11,18 @@ namespace MyHotelApp.Utilities.Menus
         private readonly RoomService _roomService;
         private readonly InputService _inputService;
         private readonly RoomMenuHandler _roomMenuHandler;
+        private readonly RoomManagementService _roomManagementService;
 
-        public RoomMenu(RoomService roomService, InputService inputService, RoomMenuHandler roomMenuHandler)
+        public RoomMenu(
+            RoomService roomService, 
+            InputService inputService, 
+            RoomMenuHandler roomMenuHandler, 
+            RoomManagementService roomManagementService)
         {
             _roomService = roomService;
             _inputService = inputService;
             _roomMenuHandler = roomMenuHandler;
+            _roomManagementService = roomManagementService;
         }
         protected override string[] MenuOptions =>
        [
@@ -39,7 +45,7 @@ namespace MyHotelApp.Utilities.Menus
             {
                 case "VISA ALLA AKTIVA RUM":
                     Console.Clear();
-                    _roomMenuHandler.DisplayActiveRooms();
+                    _roomManagementService.DisplayActiveRooms();
                     break;
 
                 case "VISA EJ AKTIVA RUM":
@@ -56,7 +62,7 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "ÅTERAKTIVERA RUM":
-                    _roomMenuHandler.ActivateRoom();
+                    _roomManagementService.ActivateRoom();
                     break;
 
                 case "REDIGERA RUM":
