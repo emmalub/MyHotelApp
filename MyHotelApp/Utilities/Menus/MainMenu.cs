@@ -1,6 +1,4 @@
-﻿using MyHotelApp.Data;
-using MyHotelApp.Services;
-using MyHotelApp.Services.MenuHandlers;
+﻿using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
 
 namespace MyHotelApp.Utilities.Menus

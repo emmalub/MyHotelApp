@@ -1,9 +1,5 @@
-﻿using MyHotelApp.Data;
-using MyHotelApp.Models;
-using MyHotelApp.Services;
-using MyHotelApp.Services.MenuHandlers;
+﻿using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
-using Spectre.Console;
 
 namespace MyHotelApp.Utilities.Menus
 {

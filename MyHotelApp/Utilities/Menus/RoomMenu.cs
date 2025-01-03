@@ -1,5 +1,4 @@
-﻿using MyHotelApp.Interfaces;
-using MyHotelApp.Services;
+﻿using MyHotelApp.Services;
 using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
 using Spectre.Console;
@@ -14,9 +13,9 @@ namespace MyHotelApp.Utilities.Menus
         private readonly RoomManagementService _roomManagementService;
 
         public RoomMenu(
-            RoomService roomService, 
-            InputService inputService, 
-            RoomMenuHandler roomMenuHandler, 
+            RoomService roomService,
+            InputService inputService,
+            RoomMenuHandler roomMenuHandler,
             RoomManagementService roomManagementService)
         {
             _roomService = roomService;

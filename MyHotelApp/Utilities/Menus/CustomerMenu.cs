@@ -1,11 +1,6 @@
 ﻿using MyHotelApp.Services;
 using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyHotelApp.Utilities.Menus
 {
