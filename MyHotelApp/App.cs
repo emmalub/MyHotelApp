@@ -11,9 +11,9 @@ namespace MyHotelApp
 {
     internal class App
     {
-        private readonly IRoomService _roomService;
+        private readonly RoomService _roomService;
         private readonly MainMenu _mainMenu;
-        public App(IRoomService roomService, MainMenu mainMenu)
+        public App(RoomService roomService, MainMenu mainMenu)
         {
             _roomService = roomService;
             _mainMenu = mainMenu;

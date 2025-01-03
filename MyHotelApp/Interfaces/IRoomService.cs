@@ -17,6 +17,6 @@ namespace MyHotelApp.Interfaces
         List<Room> GetActiveRoom();
         List<Room> GetInactiveRoom();
         Room GetRoomById(int id);
-     
+
     }
 }

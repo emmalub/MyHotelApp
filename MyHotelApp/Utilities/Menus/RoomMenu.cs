@@ -8,7 +8,7 @@ namespace MyHotelApp.Utilities.Menus
 {
     public class RoomMenu : MenuBase
     {
-        private readonly IRoomService _roomService;
+        private readonly RoomService _roomService;
         private readonly InputService _inputService;
         private readonly RoomMenuHandler _roomMenuHandler;
 

@@ -7,7 +7,7 @@ using MyHotelApp.Services.MenuHandlers;
 
 namespace MyHotelApp.Services;
 
-public class RoomService : IRoomService
+public class RoomService
 {
     private readonly HotelDbContext _context;
     private readonly RoomMenuHandler _roomMenuHandler;
