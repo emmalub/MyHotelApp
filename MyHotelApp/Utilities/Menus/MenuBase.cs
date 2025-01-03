@@ -20,14 +20,20 @@ namespace MyHotelApp.Utilities.Menus
                         new SelectionPrompt<string>()
                             .PageSize(10)
                             .AddChoices(MenuOptions)
-                        );
+                    );
+
+                    if (selectedOption == "Tillbaka till huvudmenyn")
+                    {
+                        menuActive = false;
+                        return;
+                    }
 
                     ShowMenu(selectedOption);
 
-                if (selectedOption == "Tillbaka till huvudmenyn")
-                {
-                    menuActive = false;
-                }
+                    if (menuActive)
+                    {
+                        ShowBackPrompt();
+                    }
 
                 }
                 catch (Exception ex)
@@ -36,6 +42,14 @@ namespace MyHotelApp.Utilities.Menus
                     AnsiConsole.WriteLine("Försök igen.");
                 }
             }
+        }
+        private void ShowBackPrompt()
+        {
+            var backOption = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[bold yellow][/]")
+                    .AddChoices("Tillbaka")
+                );
         }
         protected abstract void DisplayMenuHeader();
         protected abstract void ShowMenu(string selectedOption);

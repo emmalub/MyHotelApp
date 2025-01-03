@@ -28,44 +28,28 @@ namespace MyHotelApp.Utilities.Menus
         {
             MenuHeader.InvoiceMenuHeader();
         }
-        protected override void ShowMenu(string SelectedOption)
+        protected override void ShowMenu(string selectedOption)
         {
-            while (true)
+            switch (selectedOption)
             {
-                var choice = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("[bold yellow]Välj ett alternativ för att hantera fakturor:[/]")
-                        .PageSize(6)
-                        .AddChoices(new[]
-                        {
-                    "VISA ALLA FAKTUROR",
-                    "BETALA FAKTURA",
-                    "REDIGERA FAKTURA",
-                    "MAKULERA FAKTURA",
-                    "KONTROLLERA FÖRFALLNA FAKTUROR",
-                    "Tillbaka till huvudmenyn"
-                        }));
-                switch (choice)
-                {
-                    case "Visa alla fakturor":
-                        _invoiceManagementService.DisplayInvoices();
-                        break;
-                    case "Betala faktura":
-                        _invoiceManagementService.PayInvoice();
-                        break;
-                    case "Redigera faktura":
-                        _invoiceManagementService.EditInvoice();
-                        break;
-                    case "Makulera faktura":
-                        _invoiceManagementService.CancelInvoice();
-                        break;
-                    case "Kontrollera förfallna fakturor":
-                        _invoiceMenuHandler.HandleOverdueInvoices();
-                        break;
-                    case "Tillbaka till huvudmenyn":
-                        menuActive = false;
-                        return;
-                }
+                case "VISA ALLA FAKTUROR":
+                    _invoiceManagementService.DisplayInvoices();
+                    break;
+                case "BETALA FAKTURA":
+                    _invoiceManagementService.PayInvoice();
+                    break;
+                case "REDIGERA FAKTURA":
+                    _invoiceManagementService.EditInvoice();
+                    break;
+                case "MAKULERA FAKTURA":
+                    _invoiceManagementService.CancelInvoice();
+                    break;
+                case "KONTROLLERA FÖRFALLNA FAKTUROR":
+                    _invoiceMenuHandler.HandleOverdueInvoices();
+                    break;
+                case "Tillbaka till huvudmenyn":
+                    menuActive = false;
+                    return;
             }
         }
     }

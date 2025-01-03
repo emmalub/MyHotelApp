@@ -20,6 +20,26 @@ namespace MyHotelApp.Services.MenuHandlers
         private readonly InputService _inputService;
         private readonly HotelDbContext _context;
         private readonly RoomManagementService _roomManagementService;
+        private readonly CustomerMenuHandler _customerMenuHandler;
+
+        public BookingMenuHandler(
+            BookingService bookingService,
+            RoomService roomService,
+            CustomerService customerService,
+            InputService inputService,
+            HotelDbContext context,
+            RoomManagementService roomManagementService,
+            CustomerMenuHandler customerMenuHandler
+            )
+        {
+            _bookingService = bookingService;
+            _roomService = roomService;
+            _customerService = customerService;
+            _inputService = inputService;
+            _context = context;
+            _roomManagementService = roomManagementService;
+            _customerMenuHandler = customerMenuHandler;
+        }
         public void DisplayBooking()
         {
             var bookings = _context.Bookings?.ToList();
@@ -99,6 +119,7 @@ namespace MyHotelApp.Services.MenuHandlers
 
         public void HandleDeleteBooking()
         {
+            DisplayBooking();
             int bookingId = _inputService.GetId("Ange bokningsnummer att ta bort: ");
             _bookingService.DeleteBooking(bookingId);
         }

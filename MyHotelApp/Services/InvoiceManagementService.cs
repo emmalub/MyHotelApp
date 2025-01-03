@@ -22,6 +22,7 @@ namespace MyHotelApp.Services
 
         public void DisplayInvoices()
         {
+            Console.WriteLine("Visar alla fakturor..");
             var invoices = _context.Invoices.ToList();
 
             if (invoices.Count == 0)
@@ -36,8 +37,7 @@ namespace MyHotelApp.Services
                 Expand = true
             };
 
-            table.AddColumn("[bold]Fakturanummer[/]");
-            table.AddColumn("[boldBokningsnummer[/]");
+            table.AddColumn("[bold]Fakturanr.[/]");
             table.AddColumn("[bold]Summa[/]");
             table.AddColumn("[bold]Skapad[/]");
             table.AddColumn("[bold]Förfallodatum[/]");
@@ -48,12 +48,11 @@ namespace MyHotelApp.Services
             {
                 table.AddRow(
                     invoice.Id.ToString(),
-                    invoice.BookingId.ToString(),
                     $"{invoice.TotalAmount:C}",
                     invoice.IssueDate.ToString("yyyy-MM-dd"),
                     invoice.DueDate.ToString("yyyy-MM-dd"),
-                    invoice.IsPaid ? "[green]Yes[/]" : "[red]No[/]",
-                    invoice.IsCanceled ? "[red]Yes[/]" : "[green]No[/]"
+                    invoice.IsPaid ? "[green]Ja[/]" : "[red]Nej[/]",
+                    invoice.IsCanceled ? "[red]Ja[/]" : "[green]Nej[/]"
                 );
             }
 
@@ -61,6 +60,8 @@ namespace MyHotelApp.Services
         }
         public void PayInvoice()
         {
+            DisplayInvoices();
+
             int invoiceId = AnsiConsole.Ask<int>("Ange fakturanummer att betala: ");
             var invoice = _context.Invoices.FirstOrDefault(x => x.Id == invoiceId);
             

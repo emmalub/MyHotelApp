@@ -21,18 +21,6 @@ namespace MyHotelApp.Services.MenuHandlers
             _roomService = roomService;
         }
 
-        public void HandleActiveRoom()
-        {
-            int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att återaktivera rummet:");
-            _roomManagementService.DisplayActiveRooms();
-        }
-
-        public void HandleDeactiveRoom()
-        {
-            int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att avaktivera rummet:");
-            _roomManagementService.DisplayInactiveRooms();
-        }
-
         public void HandleUpdateRoom()
         {
             _roomManagementService.DisplayActiveRooms();
@@ -54,23 +42,6 @@ namespace MyHotelApp.Services.MenuHandlers
             else
             {
                 Console.WriteLine("Rummet finns inte.");
-            }
-        }
-        public void DisplayInactiveRooms()
-        {
-            var activeRooms = _roomManagementService.GetInactiveRooms();
-
-            if (activeRooms.Any())
-            {
-                Console.WriteLine("Inaktiva rum: ");
-                foreach (var room in activeRooms)
-                {
-                    Console.WriteLine($"Rum {room.Id}: {room.Price} SEK per natt");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Inga inaktiva rum hittades");
             }
         }
     }

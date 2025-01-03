@@ -38,6 +38,7 @@ namespace MyHotelApp.Services
             }
         }
 
+        
         public void DisplayInactiveRooms()
         {
             var activeRooms = _context.Rooms.Where(r => !r.IsActive).ToList();
@@ -57,7 +58,7 @@ namespace MyHotelApp.Services
 
         public void ActivateRoom()
         {
-            DisplayActiveRooms();
+            DisplayInactiveRooms();
 
             int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att aktivera rummet:");
 
@@ -77,6 +78,7 @@ namespace MyHotelApp.Services
         public void DeactivateRoom()
         {
             DisplayActiveRooms();
+
             int roomId = _inputService.GetRoomIdFromUser("Ange rumID för att inaktivera rummet:");
             var room = _context.Rooms.Find(roomId);
             if (room != null)

@@ -44,12 +44,11 @@ namespace MyHotelApp.Utilities.Menus
             switch (selectedOption)
             {
                 case "VISA ALLA AKTIVA RUM":
-                    Console.Clear();
                     _roomManagementService.DisplayActiveRooms();
                     break;
 
                 case "VISA EJ AKTIVA RUM":
-                    _roomMenuHandler.DisplayInactiveRooms();
+                    _roomManagementService.DisplayInactiveRooms();
                     break;
 
                 case "LÄGG TILL RUM":
@@ -57,8 +56,7 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "AVAKTIVERA RUM":
-                    int deactivateRoomId = _inputService.GetRoomIdFromUser("Ange rumID för att avaktivera rummet:");
-                    _roomService.DeleteRoom(deactivateRoomId);
+                    _roomManagementService.DeactivateRoom();
                     break;
 
                 case "ÅTERAKTIVERA RUM":
