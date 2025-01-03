@@ -1,4 +1,5 @@
 ﻿using MyHotelApp.Services;
+using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace MyHotelApp.Utilities.Menus
     public class CustomerMenu : MenuBase
     {
         private readonly CustomerService _customerService;
+        private readonly CustomerMenuHandler _customerMenuHandler;
 
-        public CustomerMenu(CustomerService customerService)
+        public CustomerMenu(CustomerService customerService, CustomerMenuHandler customerMenuHandler)
         {
             _customerService = customerService;
+            _customerMenuHandler = customerMenuHandler;
         }
 
         protected override string[] MenuOptions =>
@@ -39,31 +42,31 @@ namespace MyHotelApp.Utilities.Menus
             switch (selectedOption)
             {
                 case "VISA KUNDUPPGIFTER":
-                    _customerService.ShowAllCustomers(_customerService.GetCustomers());
-                    _customerService.ShowCustomer();
+                    _customerMenuHandler.ShowAllCustomers(_customerService.GetCustomers());
+                    _customerMenuHandler.ShowCustomer();
                     break;
 
                 case "VISA ALLA KUNDER":
                     var myCustomers = _customerService.GetCustomers();
-                    _customerService.ShowAllCustomers(myCustomers);
+                    _customerMenuHandler.ShowAllCustomers(myCustomers);
                     break;
 
                 case "VISA BORTTAGNA KUNDER":
-                    _customerService.ShowDeletedCustomers();
+                    _customerMenuHandler.ShowDeletedCustomers();
                     break;
 
                 case "LÄGG TILL KUND":
-                    _customerService.CreateCustomer();
+                    _customerMenuHandler.CreateNewCustomer();
                     break;
 
                 case "TA BORT KUND":
-                    _customerService.ShowAllCustomers(_customerService.GetCustomers());
-                    _customerService.DeleteCustomer(customerId);
+                    _customerMenuHandler.ShowAllCustomers(_customerService.GetCustomers());
+                    _customerMenuHandler.DeleteCustomer(customerId);
                     break;
 
                 case "ÄNDRA KUNDUPPGIFTER":
-                    _customerService.ShowAllCustomers(_customerService.GetCustomers());
-                    _customerService.UpdateCustomer(customerId);
+                    _customerMenuHandler.ShowAllCustomers(_customerService.GetCustomers());
+                    _customerMenuHandler.UpdateCustomer();
                     break;
 
                 case "Tillbaka till huvudmenyn":

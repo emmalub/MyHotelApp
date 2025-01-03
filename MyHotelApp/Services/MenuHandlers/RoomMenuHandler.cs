@@ -1,20 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyHotelApp.Data;
+﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyHotelApp.Interfaces;
 
 namespace MyHotelApp.Services.MenuHandlers
 {
     public class RoomMenuHandler
     {
-        private readonly RoomService _roomService;
+        private readonly IRoomService _roomService;
         private readonly InputService _inputService;
         private readonly HotelDbContext _context;
+
+        public RoomMenuHandler(IRoomService roomService, InputService inputService, HotelDbContext context)
+        {
+            _roomService = roomService;
+            _inputService = inputService;
+            _context = context;
+        }
 
         public void DisplayActiveRooms()
         {

@@ -12,10 +12,11 @@ namespace MyHotelApp.Utilities.Menus
         private readonly InputService _inputService;
         private readonly RoomMenuHandler _roomMenuHandler;
 
-        public RoomMenu(RoomService roomService, InputService inputService)
+        public RoomMenu(RoomService roomService, InputService inputService, RoomMenuHandler roomMenuHandler)
         {
             _roomService = roomService;
             _inputService = inputService;
+            _roomMenuHandler = roomMenuHandler;
         }
         protected override string[] MenuOptions =>
        [

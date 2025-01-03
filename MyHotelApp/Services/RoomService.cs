@@ -10,13 +10,12 @@ namespace MyHotelApp.Services;
 public class RoomService : IRoomService
 {
     private readonly HotelDbContext _context;
-    private readonly InputService _inputService; 
     private readonly RoomMenuHandler _roomMenuHandler;
 
-    public RoomService(HotelDbContext context, InputService inputService)
+    public RoomService(HotelDbContext context, RoomMenuHandler roomMenuHandler)
     {
         _context = context;
-        _inputService = inputService;
+        _roomMenuHandler = roomMenuHandler;
     }
 
     public void AddRoom(Room room)

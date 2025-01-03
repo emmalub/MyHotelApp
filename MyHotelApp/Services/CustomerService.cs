@@ -15,7 +15,7 @@ namespace MyHotelApp.Services
     public class CustomerService
     {
         private readonly HotelDbContext _context;
-        private readonly InputService _inputservice = new InputService();
+
         public CustomerService(HotelDbContext context)
         {
             _context = context;
@@ -29,7 +29,15 @@ namespace MyHotelApp.Services
         
         public List<Customer> GetCustomers()
         {
-            return _context.Customers.ToList();
+            try
+            {
+                return _context.Customers.ToList();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ett fel uppstod: {ex.Message}");
+                return new List<Customer>();
+            }
         }
         public Customer GetCustomerById(int id)
         {

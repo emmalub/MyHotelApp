@@ -15,7 +15,7 @@ namespace MyHotelApp.Services
     public class BookingService
     {
         private readonly HotelDbContext _context;
-        private readonly IMessageService _messageService;
+        private readonly MessageService _messageService;
         private readonly InvoiceService _invoiceService;
         private List<Booking> bookings;
 

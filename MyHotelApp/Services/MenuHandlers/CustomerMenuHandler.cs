@@ -36,7 +36,7 @@ namespace MyHotelApp.Services.MenuHandlers
             _customerService.DeactivateCustomer(id);
             Console.ReadKey();
         }
-        public void UpdateCustomer(int customerId)
+        public void UpdateCustomer()
         {
             int id = _inputservice.GetId("Ange kundID på kund du vill redigera: ");
 
@@ -47,7 +47,7 @@ namespace MyHotelApp.Services.MenuHandlers
             }
 
 
-            var customer = GetCustomerById(id);
+            var customer = _customerService.GetCustomerById(id);
             if (customer == null)
             {
                 Console.WriteLine("Kunden finns inte.");
@@ -65,10 +65,7 @@ namespace MyHotelApp.Services.MenuHandlers
             customer.IsVip = _inputservice.GetBool($"Är kunden VIP? ({(customer.IsVip ? "Ja" : "Nej")})");
             customer.IsActive = _inputservice.GetBool($"Är kunden aktiv? ({(customer.IsActive ? "Ja" : "Nej")})");
 
-            _context.Customers.Update(customer);
-            _context.SaveChanges();
-            Console.WriteLine("Ändringar har sparats!");
-            Console.ReadKey();
+            _customerService.UpdateCustomer(customer);
         }
 
         private string GetUpdatedValue(string fieldName, string currentValue)
@@ -126,7 +123,7 @@ namespace MyHotelApp.Services.MenuHandlers
                 return;
             }
 
-            var customer = GetCustomerById(id);
+            var customer = _customerService.GetCustomerById(id);
 
             if (customer == null)
             {

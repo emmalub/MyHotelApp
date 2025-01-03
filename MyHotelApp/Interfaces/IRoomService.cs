@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace MyHotelApp.Interfaces
 {
-    internal interface IRoomService
+    public interface IRoomService
     {
         void AddRoom(Room room);
         void CreateRoom();
         void UpdateRoom(int roomId, decimal newPrice, double? newSize = null);
         void DeleteRoom(int id);
         List<Room> GetAllRooms(bool includeInactive = false);
+        List<Room> GetActiveRoom();
+        List<Room> GetInactiveRoom();
         Room GetRoomById(int id);
      
     }

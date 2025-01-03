@@ -7,7 +7,7 @@ using MyHotelApp.Interfaces;
 
 namespace MyHotelApp.Services
 {
-    public class EmailMessageService : IMessageService
+    public class MessageService
     {
         public void SendMessage(string recipient, string message)
         {
