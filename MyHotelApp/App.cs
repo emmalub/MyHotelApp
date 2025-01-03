@@ -12,9 +12,11 @@ namespace MyHotelApp
     internal class App
     {
         private readonly MainMenu _mainMenu;
-        public App(MainMenu mainMenu)
+        private readonly InvoiceManagementService _invoiceManagementService;
+        public App(MainMenu mainMenu, InvoiceManagementService invoiceManagementService)
         {
             _mainMenu = mainMenu;
+            _invoiceManagementService = invoiceManagementService;
         }
 
         public static void Start()
@@ -29,6 +31,7 @@ namespace MyHotelApp
 
         public void Run()
         {
+            _invoiceManagementService.HandleOverdueInvoices();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.SetCursorPosition(20, 16);
             WelcomeScreen.PrintStartScreenViking1();
@@ -37,7 +40,7 @@ namespace MyHotelApp
             WelcomeScreen.PrintStartScreenHotel4();
             Console.ResetColor();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(3500);
             
             _mainMenu.ShowMenu();
         }

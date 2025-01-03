@@ -32,22 +32,6 @@ namespace MyHotelApp.Services.MenuHandlers
             int invoiceId = _inputService.GetId("Ange fakturanummer att makulera: ");
             _invoiceManagementService.CancelInvoice();
         }
-        public void HandleOverdueInvoices()
-        {
-            var overdueInvoices = _context.Invoices
-                .Where(i => i.DueDate < DateTime.Now && !i.IsPaid && !i.IsCanceled)
-                .ToList();
-
-            foreach (var invoice in overdueInvoices)
-            {
-                var booking = _context.Bookings.FirstOrDefault(b => b.Id == invoice.BookingId);
-                if (booking != null && booking.CheckInDate > DateTime.Now)
-                {
-                    _context.Invoices.Remove(invoice);
-                    invoice.IsCanceled = true;
-                }
-            }
-            _context.SaveChanges();
-        }
+       
     }
 }
