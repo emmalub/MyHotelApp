@@ -44,5 +44,28 @@ namespace MyHotelApp.Utilities.Graphics
 
             Console.ResetColor();
         }
+
+        public static void BookingMenuHeader()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(@"
+  ___  ___  _  ___  _ ___ _  _  ___ ___ __  __ ___ _  ___   __
+ | _ )/ _ \| |/ / \| |_ _| \| |/ __/ __|  \/  | __| \| \ \ / /
+ | _ \ (_) | ' <| .` || || .` | (_ \__ \ |\/| | _|| .` |\ V / 
+ |___/\___/|_|\_\_|\_|___|_|\_|\___|___/_|  |_|___|_|\_| |_|  
+");
+            Console.ResetColor();
+        }
+        public static void InvoiceMenuHeader()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(@"
+  ___ _   _  _______ _   _ ___    _   __  __ ___ _  ___   __
+ | __/_\ | |/ /_   _| | | | _ \  /_\ |  \/  | __| \| \ \ / /
+ | _/ _ \| ' <  | | | |_| |   / / _ \| |\/| | _|| .` |\ V / 
+ |_/_/ \_\_|\_\ |_|  \___/|_|_\/_/ \_\_|  |_|___|_|\_| |_|  
+");
+            Console.ResetColor();
+        }
     }
 }

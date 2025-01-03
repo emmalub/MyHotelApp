@@ -71,45 +71,6 @@ namespace MyHotelApp.Services
             AnsiConsole.MarkupLine("[bold green]Bokningen har tagits bort.[/]");
         }
 
-        //public void DisplayBooking()
-        //{
-        //    var bookings = _context.Bookings?.ToList();
-        //    if (bookings == null || !bookings.Any())
-        //    {
-        //        Console.WriteLine("Det finns inga bokningar att visa.");
-        //        return;
-        //    }
-
-        //    var table = new Spectre.Console.Table
-        //    {
-        //        Border = TableBorder.Rounded
-        //    };
-
-        //    table.AddColumn("[bold white]Bokningsnummer[/]");
-        //    table.AddColumn("[bold white]Gäst[/]");
-        //    table.AddColumn("[bold white]Rum[/]");
-        //    table.AddColumn("[bold white]Incheckning[/]");
-        //    table.AddColumn("[bold white]Utcheckning[/]");
-        //    table.AddColumn("[bold white]Totalpris[/]");
-        //    table.AddColumn("[bold white]Betald[/]");
-        //    table.AddColumn("[bold white]Noteringar[/]");
-
-        //    foreach (var booking in bookings)
-        //    {
-        //        table.AddRow(
-        //            booking.Id.ToString(),
-        //            booking.GuestId.ToString(),
-        //            booking.RoomId.ToString(),
-        //            booking.CheckInDate.ToString("yyyy-MM-dd"),
-        //            booking.CheckOutDate.ToString("yyyy-MM-dd"),
-        //            booking.TotalPrice.ToString("C"),
-        //            booking.IsPaid ? "[bold green]Ja[/]" : "[bold red]Nej[/]",
-        //            string.IsNullOrEmpty(booking.Conditions) ? "-" : booking.Conditions
-        //            );
-        //    }
-        //    AnsiConsole.Write(table);
-        //}
-
         public List<DateTime> GetBookedDatesForRoom(int roomId)
         {
             var bookings = _context.Bookings

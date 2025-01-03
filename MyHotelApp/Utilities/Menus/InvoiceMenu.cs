@@ -1,11 +1,12 @@
 ﻿using MyHotelApp.Services;
 using MyHotelApp.Services.MenuHandlers;
+using MyHotelApp.Utilities.Graphics;
 using Spectre.Console;
 using System;
 
 namespace MyHotelApp.Utilities.Menus
 {
-    public class InvoiceMenu
+    public class InvoiceMenu : MenuBase
     {
         private readonly InvoiceService _invoiceService;
         private readonly InvoiceManagementService _invoiceManagementService;
@@ -17,7 +18,19 @@ namespace MyHotelApp.Utilities.Menus
             _invoiceManagementService = invoiceManagementService;
             _invoiceMenuHandler = invoiceMenuHandler;
         }
-        void DisplayInvoiceMenu()
+        protected override string[] MenuOptions =>
+      [
+          "VISA ALLA FAKTUROR",
+          "BETALA FAKTURA",
+          "REDIGERA FAKTURA",
+          "MAKULERA FAKTURA",
+          "KONTROLLERA FÖRFALLNA FAKTUROR",
+          "Tillbaka till huvudmenyn"];
+        protected override void DisplayMenuHeader()
+        {
+            MenuHeader.InvoiceMenuHeader();
+        }
+        protected override void ShowMenu(string SelectedOption)
         {
             while (true)
             {
@@ -27,11 +40,11 @@ namespace MyHotelApp.Utilities.Menus
                         .PageSize(6)
                         .AddChoices(new[]
                         {
-                    "Visa alla fakturor",
-                    "Betala faktura",
-                    "Redigera faktura",
-                    "Makulera faktura",
-                    "Kontrollera förfallna fakturor",
+                    "VISA ALLA FAKTUROR",
+                    "BETALA FAKTURA",
+                    "REDIGERA FAKTURA",
+                    "MAKULERA FAKTURA",
+                    "KONTROLLERA FÖRFALLNA FAKTUROR",
                     "Tillbaka till huvudmenyn"
                         }));
                 switch (choice)

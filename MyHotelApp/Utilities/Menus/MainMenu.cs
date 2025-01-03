@@ -1,30 +1,31 @@
 ﻿using MyHotelApp.Data;
 using MyHotelApp.Services;
+using MyHotelApp.Services.MenuHandlers;
 using MyHotelApp.Utilities.Graphics;
 
 namespace MyHotelApp.Utilities.Menus
 {
     public class MainMenu : MenuBase
     {
-        private readonly InputService _inputService;
-        private readonly BookingMenu _bookingMenu;
         private readonly CustomerMenu _customerMenu;
         private readonly RoomMenu _roomMenu;
-        private readonly BookingService _bookingService;
+        private readonly BookingMenu _bookingMenu;
+        private readonly BookingMenuHandler _bookingMenuHandler;
+        private readonly InvoiceMenu _invoiceMenu;
 
         public MainMenu(
-            InputService inputService, 
-            BookingMenu bookingMenu, 
+            BookingMenu bookingMenu,
             CustomerMenu customerMenu,
             RoomMenu roomMenu,
-            BookingService bookingService
+            BookingMenuHandler bookingMenuHandler,
+            InvoiceMenu invoiceMenu
             )
         {
-            _inputService = inputService;
             _bookingMenu = bookingMenu;
             _customerMenu = customerMenu;
             _roomMenu = roomMenu;
-            _bookingService = bookingService;
+            _bookingMenuHandler = bookingMenuHandler;
+            _invoiceMenu = invoiceMenu;
         }
         protected override string[] MenuOptions =>
         [
@@ -40,16 +41,16 @@ namespace MyHotelApp.Utilities.Menus
         {
             MenuHeader.MainMenuHeader();
         }
-        protected override void DisplayRoomMenu(string selectedOption)
+        protected override void ShowMenu(string selectedOption)
         {
             switch (selectedOption)
             {
                 case "BOKA RUM":
-                    _bookingMenu.BookRoom();
+                    _bookingMenuHandler.BookRoom();
                     break;
 
-                case "HANTERA BOKNING":
-                    _bookingService.DisplayBooking();
+                case "HANTERA BOKNINGAR":
+                    _bookingMenu.ShowMenu();
                     break;
 
                 case "HANTERA KUND":
@@ -61,7 +62,7 @@ namespace MyHotelApp.Utilities.Menus
                     break;
 
                 case "FAKTUROR":
-                    
+                    _invoiceMenu.ShowMenu();
                     break;
 
                 case "STATISTIK":

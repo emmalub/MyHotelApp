@@ -32,7 +32,7 @@ namespace MyHotelApp.Services.MenuHandlers
             int invoiceId = _inputService.GetId("Ange fakturanummer att makulera: ");
             _invoiceManagementService.CancelInvoice();
         }
-        public void HandleOvedueInvoices()
+        public void HandleOverdueInvoices()
         {
             var overdueInvoices = _context.Invoices
                 .Where(i => i.DueDate < DateTime.Now && !i.IsPaid && !i.IsCanceled)

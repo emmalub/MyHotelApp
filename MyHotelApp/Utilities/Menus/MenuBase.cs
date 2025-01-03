@@ -23,7 +23,7 @@ namespace MyHotelApp.Utilities.Menus
                             .AddChoices(MenuOptions)
                         );
 
-                    DisplayRoomMenu(selectedOption);
+                    ShowMenu(selectedOption);
                 }
                 catch (Exception ex)
                 {
@@ -38,7 +38,7 @@ namespace MyHotelApp.Utilities.Menus
             }
         }
         protected abstract void DisplayMenuHeader();
-        protected abstract void DisplayRoomMenu(string selectedOption);
+        protected abstract void ShowMenu(string selectedOption);
 
     }
 }
