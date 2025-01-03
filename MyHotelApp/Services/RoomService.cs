@@ -1,8 +1,6 @@
 ﻿using MyHotelApp.Data;
-using MyHotelApp.Models;
 using MyHotelApp.Interfaces;
-using Spectre.Console;
-using MyHotelApp.Services.MenuHandlers;
+using MyHotelApp.Models;
 
 
 namespace MyHotelApp.Services;
@@ -94,5 +92,5 @@ public class RoomService : IRoomService
             : _context.Rooms.Where(r => r.IsActive).ToList();
     }
 
-    
+
 }

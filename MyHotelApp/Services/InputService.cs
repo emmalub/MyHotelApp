@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyHotelApp.Models;
+﻿using MyHotelApp.Models;
 using Spectre.Console;
 using System.Text.RegularExpressions;
 
@@ -32,7 +31,7 @@ namespace MyHotelApp.Services
         }
         public string GetString(string prompt)
         {
-            while(true)
+            while (true)
             {
                 Console.Write(prompt);
                 string input = Console.ReadLine();
@@ -79,7 +78,7 @@ namespace MyHotelApp.Services
             string input = Console.ReadLine();
             return string.IsNullOrWhiteSpace(input) ? currentValue : decimal.Parse(input);
         }
-        
+
         public double GetDouble(string fieldName, double currentValue)
         {
             Console.WriteLine($"{fieldName}: {currentValue}");

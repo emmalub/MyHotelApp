@@ -1,11 +1,6 @@
 ﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyHotelApp.Services
 {
@@ -65,7 +60,7 @@ namespace MyHotelApp.Services
 
             int invoiceId = AnsiConsole.Ask<int>("Ange fakturanummer att betala: ");
             var invoice = _context.Invoices.FirstOrDefault(x => x.Id == invoiceId);
-            
+
             if (invoice != null)
             {
                 invoice.IsPaid = true;
@@ -84,7 +79,7 @@ namespace MyHotelApp.Services
 
             int invoiceId = _inputService.GetId("Ange fakturanummer att redigera: ");
             var invoice = _context.Invoices.FirstOrDefault(x => x.Id == invoiceId);
-           
+
             if (invoice != null)
             {
                 decimal newAmount = AnsiConsole.Ask<decimal>("Ange ett nytt belopp: ");

@@ -1,7 +1,5 @@
 ﻿using MyHotelApp.Data;
-using MyHotelApp.Interfaces;
 using MyHotelApp.Models;
-using MyHotelApp.Services.MenuHandlers;
 using Spectre.Console;
 
 namespace MyHotelApp.Services
@@ -38,7 +36,7 @@ namespace MyHotelApp.Services
             }
         }
 
-        
+
         public void DisplayInactiveRooms()
         {
             var activeRooms = _context.Rooms.Where(r => !r.IsActive).ToList();

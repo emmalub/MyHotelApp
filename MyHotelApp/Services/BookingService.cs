@@ -1,14 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MyHotelApp.Data;
-using MyHotelApp.Interfaces;
+﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using Spectre.Console;
-using Spectre.Console.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyHotelApp.Services
 {
@@ -56,7 +48,7 @@ namespace MyHotelApp.Services
 
             _messageService.SendMessage(customerName, confirmationMessage);
         }
-        
+
         public void DeleteBooking(int bookingId)
         {
             var booking = _context.Bookings.FirstOrDefault(b => b.Id == bookingId);

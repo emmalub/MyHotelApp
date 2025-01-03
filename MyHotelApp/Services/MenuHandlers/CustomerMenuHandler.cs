@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyHotelApp.Data;
+﻿using MyHotelApp.Data;
 using MyHotelApp.Models;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyHotelApp.Services.MenuHandlers
 {
@@ -17,7 +11,7 @@ namespace MyHotelApp.Services.MenuHandlers
         private readonly CustomerService _customerService;
 
         public CustomerMenuHandler(
-            HotelDbContext context, 
+            HotelDbContext context,
             CustomerService customerService,
             InputService inputService)
         {
@@ -28,7 +22,7 @@ namespace MyHotelApp.Services.MenuHandlers
 
         public void CreateNewCustomer()
         {
-           var newCustomer = _inputservice.GetCustomerDetails();
+            var newCustomer = _inputservice.GetCustomerDetails();
             _customerService.CreateCustomer(newCustomer);
             Console.ReadKey();
         }
@@ -41,7 +35,7 @@ namespace MyHotelApp.Services.MenuHandlers
                 Console.WriteLine("Ogiltigt ID.");
                 return;
             }
-            
+
             _customerService.DeactivateCustomer(id);
             Console.ReadKey();
         }
@@ -129,7 +123,7 @@ namespace MyHotelApp.Services.MenuHandlers
                 Console.WriteLine("Customer service is not avalible");
                 return;
             }
-            
+
             int id = _inputservice.GetId("Ange kundID på kunden för att visa alla uppgifter: ");
 
             if (id == 0)

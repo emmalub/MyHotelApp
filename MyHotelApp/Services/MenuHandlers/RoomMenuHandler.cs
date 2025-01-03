@@ -1,7 +1,5 @@
-﻿using MyHotelApp.Data;
+﻿using MyHotelApp.Interfaces;
 using MyHotelApp.Models;
-using Spectre.Console;
-using MyHotelApp.Interfaces;
 
 namespace MyHotelApp.Services.MenuHandlers
 {
@@ -12,7 +10,7 @@ namespace MyHotelApp.Services.MenuHandlers
         private readonly IRoomService _roomService;
 
         public RoomMenuHandler(
-            InputService inputService, 
+            InputService inputService,
             RoomManagementService roomManagementService,
             IRoomService roomService)
         {
@@ -35,7 +33,7 @@ namespace MyHotelApp.Services.MenuHandlers
                 {
                     newSize = _inputService.GetDouble("Ange ny storlek: ", doubleRoom.Size);
                 }
-                
+
                 _roomService.UpdateRoom(roomId, newPrice, newSize);
                 Console.WriteLine("Rummet har uppdaterats!");
             }

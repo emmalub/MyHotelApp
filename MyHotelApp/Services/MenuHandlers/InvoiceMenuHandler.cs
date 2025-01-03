@@ -1,11 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyHotelApp.Data;
+﻿using MyHotelApp.Data;
 using Spectre.Console;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyHotelApp.Services.MenuHandlers
 {
@@ -32,6 +26,6 @@ namespace MyHotelApp.Services.MenuHandlers
             int invoiceId = _inputService.GetId("Ange fakturanummer att makulera: ");
             _invoiceManagementService.CancelInvoice();
         }
-       
+
     }
 }

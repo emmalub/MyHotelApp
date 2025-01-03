@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
 using MyHotelApp.Data;
 using MyHotelApp.Models;
-using Spectre.Console;
 
 namespace MyHotelApp.Services
 {
@@ -26,7 +18,7 @@ namespace MyHotelApp.Services
             _context.SaveChanges();
             Console.WriteLine("Ny kund sparad!");
         }
-        
+
         public List<Customer> GetCustomers()
         {
             try
